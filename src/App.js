@@ -1,22 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect } from "react";
+import Login from "./components/Login";
+import { StreamChat } from "stream-chat";
+import "./App.css";
+
+const apiKey = process.env["REACT_APP_API_KEY"];
 
 function App() {
+  const client = StreamChat.getInstance(apiKey);
+
+  const [activeChannel, setActiveChannel] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    setActiveChannel(client.connecting);
+  }, [client]);
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        {isLoggedIn ? (
+          "Welcome"
+        ) : (
+          <Login client={client} setIsLoggedIn={setIsLoggedIn} />
+        )}
       </header>
     </div>
   );
