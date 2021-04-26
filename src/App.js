@@ -19,10 +19,10 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        {view === 'users' ? (
+        {view === "users" ? (
           <Fragment>
             <h1>{`Welcome ${client.userID}`}</h1>
-            <UserList client={client} />
+            <UserList client={client} setView={setView} />
           </Fragment>
         ) : (
           <Login client={client} setView={setView} />

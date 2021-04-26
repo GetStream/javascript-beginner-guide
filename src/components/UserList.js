@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import User from "./User";
 
-export default function UserList({ client }) {
+export default function UserList({ client, setView }) {
   const [users, setUsers] = useState(null);
 
   useEffect(() => {
@@ -15,14 +15,12 @@ export default function UserList({ client }) {
   }, [client]);
 
   return (
-    <div>
-      Select a user to chat with from this list of users
-      <ul>
+    <ul>
+        Select a user to chat with from this list of users
         {users &&
           users.users.map((user) => {
-            return <User user={user} />;
+            return <User user={user} setView={setView} />;
           })}
       </ul>
-    </div>
   );
 }

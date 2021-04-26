@@ -12,3 +12,12 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
+.User {
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  border: 1px solid white;
+  margin: .5rem;
+  padding: .5rem;
+}
