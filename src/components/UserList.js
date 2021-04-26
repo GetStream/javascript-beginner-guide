@@ -16,11 +16,11 @@ export default function UserList({ client, setView }) {
 
   return (
     <ul>
-        Select a user to chat with from this list of users
-        {users &&
-          users.users.map((user) => {
-            return <User user={user} setView={setView} />;
-          })}
-      </ul>
+      Select a user to chat with from this list of users
+      {users &&
+        users.users.map((user) => (
+          <User key={user.created_at} client={client} user={user} setView={setView} />
+        ))}
+    </ul>
   );
 }

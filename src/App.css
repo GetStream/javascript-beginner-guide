@@ -20,4 +20,5 @@
   border: 1px solid white;
   margin: .5rem;
   padding: .5rem;
+  cursor: pointer;
 }
