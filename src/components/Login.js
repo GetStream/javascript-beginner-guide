@@ -1,16 +1,16 @@
 import React, { useState, Fragment } from "react";
 import axios from "axios";
 
-export default function Login({ client, setIsLoggedIn }) {
+export default function Login({ client, setView }) {
   const [userID, setUserID] = useState("");
 
   const handleUserIDSubmit = (e) => {
     e.preventDefault();
-    console.log(client, 'client');
+    // console.log(client, 'client');
     axios
       .post("http://localhost:8080/token", { userID })
       .then((res) => client.connectUser({ id: userID }, res.data))
-      .then(() => setIsLoggedIn(true))
+      .then(() => setView('users'))
       .catch((err) => console.error("ERROR", err));
   };
 
