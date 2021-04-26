@@ -1,6 +1,6 @@
 import { useState, useEffect, Fragment } from "react";
 import Login from "./components/Login";
-import UserList from './components/UserList';
+import UserList from "./components/UserList";
 import Channel from "./components/Channel";
 import { StreamChat } from "stream-chat";
 import "./App.css";
@@ -8,14 +8,9 @@ import "./App.css";
 const apiKey = process.env["REACT_APP_API_KEY"];
 
 function App() {
+  const [view, setView] = useState("login");
+  const [channel, setChannel] = useState(null);
   const client = StreamChat.getInstance(apiKey);
-
-  // const [activeChannel, setActiveChannel] = useState("");
-  const [view, setView] = useState('login');
-
-  // useEffect(() => {
-  //   setActiveChannel(client.connecting);
-  // }, [client]);
 
   return (
     <div className="App">
@@ -25,10 +20,14 @@ function App() {
         ) : view === "users" ? (
           <Fragment>
             <h1>{`Welcome ${client.userID}`}</h1>
-            <UserList client={client} setView={setView} />
+            <UserList
+              client={client}
+              setView={setView}
+              setChannel={setChannel}
+            />
           </Fragment>
         ) : (
-          <Channel />
+          <Channel view={view} client={client} channel={channel} />
         )}
       </header>
     </div>
