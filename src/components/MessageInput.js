@@ -1,15 +1,16 @@
-import { useState, useEffect, Fragment } from 'react'
+import { useState, Fragment } from "react";
 
-export default function MessageInput({ view, channel }) {
-  const [message, setMessage] = useState('');
+export default function MessageInput({ view, channel, client }) {
+  const [message, setMessage] = useState("");
 
   const handleSubmitMessage = async (e) => {
     e.preventDefault();
-    // channel.sendMessage({ text: message })
-    // .then(() => setMessage(''))
-    // .catch((err) => console.error(err));
-    const destroy = await channel.delete();
-    console.log(destroy, 'DESTROY');
+    channel
+      .sendMessage({ text: message })
+      .then(() => setMessage(""))
+      .catch((err) => console.error(err));
+    // const destroy = await channel.delete();
+    // console.log(destroy, 'DESTROY');
   };
 
   return (
@@ -19,9 +20,11 @@ export default function MessageInput({ view, channel }) {
           value={message}
           type="text"
           onChange={(e) => setMessage(e.target.value)}
-          placeholder={`Message ${view.split('-')[1]}`}
+          placeholder={`Message ${Object.keys(channel.state.members).filter(
+            (user) => user !== client.userID
+          )}`}
         />
       </form>
     </Fragment>
-  )
+  );
 }

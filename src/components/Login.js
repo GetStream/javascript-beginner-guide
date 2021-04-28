@@ -9,6 +9,7 @@ export default function Login({ client, setView }) {
     // console.log(client, 'client');
     axios
       .post("http://localhost:8080/token", { userID })
+      // .then((response) => console.log(response))
       .then((res) => client.connectUser({ id: userID }, res.data))
       .then(() => setView('users'))
       .catch((err) => console.error("ERROR", err));

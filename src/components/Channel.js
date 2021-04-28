@@ -18,14 +18,14 @@ export default function Channel({ client, view, channel }) {
   return (
     <Fragment>
       <ul>
-        {messages && `This is the start of your 1:1 message history`}
+        {!messages.length ? `This is the start of your 1:1 message history` : channel.data.name}
         {messages.map((message) => (
           <li key={message.id} className="message">
             {message.text}
           </li>
         ))}
       </ul>
-      <MessageInput view={view} channel={channel} />
+      <MessageInput view={view} channel={channel} client={client} />
     </Fragment>
   );
 }
