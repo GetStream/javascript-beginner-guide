@@ -11,13 +11,13 @@ export default function Login({ client, setView }) {
       .post("http://localhost:8080/token", { userID })
       // .then((response) => console.log(response))
       .then((res) => client.connectUser({ id: userID }, res.data))
-      .then(() => setView('users'))
+      .then(() => setView("users"))
       .catch((err) => console.error("ERROR", err));
   };
 
   return (
     <Fragment>
-      <form onSubmit={handleUserIDSubmit}>
+      <form className="user-input" onSubmit={handleUserIDSubmit}>
         <label>Enter a UserID </label>
         <input
           autoFocus

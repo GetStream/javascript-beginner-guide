@@ -12,9 +12,14 @@ function App() {
   const [channel, setChannel] = useState(null);
   const client = StreamChat.getInstance(apiKey);
 
+  const handleLogoutClick = async () => {
+    await client.disconnectUser();
+    setView("login");
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
+      {/* <header className="App-header"> */}
         {view === "login" ? (
           <Login client={client} setView={setView} />
         ) : view === "users" ? (
@@ -29,7 +34,10 @@ function App() {
         ) : (
           <Channel view={view} client={client} channel={channel} />
         )}
-      </header>
+        {view !== "login" && (
+          <button onClick={handleLogoutClick} className='logout'>Logout</button>
+        )}
+      {/* </header> */}
     </div>
   );
 }

@@ -7,7 +7,8 @@ export default function UserList({ client, setView, setChannel }) {
   useEffect(() => {
     const getUsers = async () => {
       const filter = { id: { $ne: client.userID } };
-      const response = await client.queryUsers(filter);
+      const sort = { last_message_at: 1 };
+      const response = await client.queryUsers(filter, sort);
       setUsers(response);
     };
     getUsers();

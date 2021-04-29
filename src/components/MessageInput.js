@@ -9,8 +9,6 @@ export default function MessageInput({ view, channel, client }) {
       .sendMessage({ text: message })
       .then(() => setMessage(""))
       .catch((err) => console.error(err));
-    // const destroy = await channel.delete();
-    // console.log(destroy, 'DESTROY');
   };
 
   return (
@@ -19,6 +17,7 @@ export default function MessageInput({ view, channel, client }) {
         <input
           value={message}
           type="text"
+          className="message-input"
           onChange={(e) => setMessage(e.target.value)}
           placeholder={`Message ${Object.keys(channel.state.members).filter(
             (user) => user !== client.userID

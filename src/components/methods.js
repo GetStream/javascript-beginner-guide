@@ -4,6 +4,7 @@ require("dotenv").config({ path: ".env" });
 
 const apiKey = process.env.REACT_APP_API_KEY;
 const zacheryToken = process.env.REACT_APP_ZACHERY_TOKEN;
+const codyToken = process.env.REACT_APP_CODY_TOKEN;
 // // const secret = process.env.REACT_APP_SECRET;
 const userID = "Zachery";
 // const channelName = "!members-_fyCsJ3J7Mc51W36qIE6HlC8zrpvIAq_DIJSkongGUY";
@@ -15,13 +16,13 @@ const getChannels = async () => {
     .connectUser({ id: userID }, zacheryToken)
     .catch((error) => console.log("connect"));
 
-    const filter = {
-        type: "messaging",
-        members: { $eq: ['Zachery', 'Cody'] },
-      };
-      const response = await client.queryChannels(filter);
-      console.log(response[0]?.id, "response", response);
-    }
+  const filter = {
+    type: "messaging",
+    members: { $eq: ["Zachery", "Cody"] },
+  };
+  const response = await client.queryChannels(filter);
+  console.log(response[0]?.id, "response", response);
+};
 
 //     // console.log(channel);
 
@@ -64,7 +65,7 @@ const getChannels = async () => {
 // const connect = client.connectUser({ id: userId, extraData }, token);
 // client.connectUser({ id: userID }, zacheryToken);
 
-const cid = "!members-_fyCsJ3J7Mc51W36qIE6HlC8zrpvIAq_DIJSkongGUY";
+// const cid = "!members-_fyCsJ3J7Mc51W36qIE6HlC8zrpvIAq_DIJSkongGUY";
 // const channel = client.channel("messaging", cid);
 // await channel.create();
 
@@ -95,27 +96,25 @@ const cid = "!members-_fyCsJ3J7Mc51W36qIE6HlC8zrpvIAq_DIJSkongGUY";
 //   return message.message.id;
 // };
 
-// const deleteMessage = async (messageId) => {
-//   await client.connectUser({ id: "adminUser" }, createToken("adminUser"));
-//   return await client.deleteMessage(messageId);
-// };
-
-const deleteChannel = async () => {
-  await client
-    .connectUser({ id: userID }, zacheryToken)
-    .catch((error) => console.log("connect"));
-  const channel = client.channel("messaging", cid);
-  await channel.watch().catch((error) => console.log("watch"));
-  const destroy = await channel
-    .delete()
-    .catch((error) => console.log("delete"));
-  console.log("DESTROY", destroy);
+const deleteMessage = async (messageId) => {
+  await client.connectUser({ id: 'Zachery' }, zacheryToken);
+  return await client.deleteMessage(messageId, true);
 };
 
-getChannels();
+const deleteChannel = async (channelName) => {
+  await client
+    .connectUser({ id: userID }, codyToken)
+    .catch((error) => console.log("connect"));
+  const channel = client.channel("messaging", channelName);
+  await channel.watch().catch((error) => console.log("watch"));
+  return await channel.delete().catch((error) => console.log("delete", error));
+};
 
-// deleteChannel();
+// getChannels();
 
-// deleteMessage("75f0633b-8c87-4bae-9aa2-974ea0ac8f94")
-//   .then((res) => console.log("RESULT: ", res))
-//   .catch((err) => console.log("Error: ", err));
+// deleteChannel("!members-fnjmEdAjuz77kKRWoiI4628fCByF4E6ftvi21a2Ev9s")
+// return "Destroyed";
+
+deleteMessage("c75a421e-ad25-40a5-b457-96a3bf4c8a68")
+  .then((res) => console.log("RESULT: ", res))
+  .catch((err) => console.log("Error: ", err));
