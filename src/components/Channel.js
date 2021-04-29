@@ -24,6 +24,8 @@ export default function Channel({ client, view, channel }) {
   const getClassNames = (message) => {
     let classNames = "";
     classNames += message.user.id === client.userID ? "me" : "not-me";
+    // the API will recognize when it can enrich the message object with attachments
+    // https://getstream.io/chat/docs/javascript/message_format/?language=javascript
     classNames += message.attachments.length ? "-thumbnail" : "-text-message";
     return classNames;
   };
@@ -32,18 +34,24 @@ export default function Channel({ client, view, channel }) {
     <Fragment>
       <Header client={client} channel={channel} messages={messages} />
       <ul className="channel">
-        {messages.map((message) => (
-          <li key={message.id} className={`message ${getClassNames(message)}`}>
-            {message.attachments.length ? (
-              <img
-                src={message.attachments[0].thumb_url}
-                alt={message.attachments[0].title}
-              />
-            ) : (
-              message.type === "regular" && message.text
-            )}
-          </li>
-        ))}
+        {messages.map(
+          (message) =>
+            message.type !== "deleted" && (
+              <li
+                key={message.id}
+                className={`message ${getClassNames(message)}`}
+              >
+                {message.attachments.length ? (
+                  <img
+                    src={message.attachments[0].thumb_url}
+                    alt={message.attachments[0].title}
+                  />
+                ) : (
+                  message.text
+                )}
+              </li>
+            )
+        )}
       </ul>
       <div ref={messagesEndRef}></div>
       <MessageInput view={view} channel={channel} client={client} />

@@ -27,6 +27,10 @@ ul {
   padding: 0;
 }
 
+p {
+  margin: 0;
+}
+
 .user-input {
   font-size: 1rem;
 }
@@ -59,7 +63,6 @@ ul {
   border-radius: .8rem;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
-  /* text-align: center; */
 }
 
 .to {
@@ -101,6 +104,24 @@ input:focus {
   font-size: .9rem;
 }
 
+.lobby-time {
+  font-size: .8rem;
+  clear: both;
+  float: left;
+}
+
+.lobby {
+  background-color: #909093;
+  border-radius: 0.9rem;
+  border-bottom-left-radius: 0;
+  list-style-type: none;
+  padding: .2rem .6rem;
+  margin: .3rem;
+  font-size: .9rem;
+  clear: both;
+  float: left;
+}
+
 .me-text-message {
   background-color: #1a8afd;
   border-bottom-right-radius: 0;
@@ -132,7 +153,7 @@ img {
   float: left;
 }
 
-.logout {
+.logoutOrDM {
   cursor: pointer;
   margin: 0.4rem;
   border: none;

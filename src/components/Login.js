@@ -12,7 +12,8 @@ export default function Login({ client, setView }) {
       // token exists on result.data
       // https://getstream.io/chat/docs/javascript/init_and_users/?language=javascript
       .then((res) => client.connectUser({ id: userID }, res.data))
-      .then(() => setView("users"))
+      .then(() => setView("lobby"))
+      // .then(() => setView("users"))
       .catch((err) => console.error("ERROR", err));
   };
 
