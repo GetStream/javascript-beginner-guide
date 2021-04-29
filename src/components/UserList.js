@@ -18,7 +18,7 @@ export default function UserList({ client, setView, setChannel }) {
       setUsers(response);
     };
     getUsers();
-    setTimeout(() => setLoading(false), 300);
+    setTimeout(() => setLoading(false), 500);
   }, [client]);
 
   return (

@@ -1,4 +1,3 @@
-// import { StreamChat } from "stream-chat";
 const StreamChat = require("stream-chat").StreamChat;
 require("dotenv").config({ path: ".env" });
 
