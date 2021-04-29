@@ -17,7 +17,7 @@ body {
   font-size: calc(10px + 2vmin);
   color: white;
   border: 1px solid black;
-  border-radius: 0.5rem;
+  border-radius: 0.8rem;
   box-shadow: 5px 5px 4px 1px rgba(1, 95, 255, 0.5),
     0.3em 0.3em 1em rgba(0, 0, 0, 0.8);
   margin: 2vh;
@@ -45,7 +45,7 @@ ul {
   display: flex;
   flex-direction: row;
   border: 1px solid white;
-  border-radius: 0.6rem;
+  border-radius: 0.2rem;
   margin: 0.5rem;
   padding: 0.5rem;
   cursor: pointer;
@@ -56,7 +56,7 @@ ul {
   font-size: 1em;
   margin-bottom: auto;
   width: 65vw;
-  border-radius: .6rem;
+  border-radius: .8rem;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
   /* text-align: center; */
@@ -83,7 +83,7 @@ ul {
 .message-input {
   width: 60vw;
   height: 5vh;
-  border-radius: 6rem;
+  border-radius: 2rem;
   padding-left: 1rem;
   border: none;
 }
@@ -94,24 +94,25 @@ input:focus {
 
 .message {
   list-style-type: none;
-  display: flex;
-  flex-direction: row;
   max-width: 30vw;
-  border-radius: 0.6rem;
-  padding: 0 0.3rem;
-  margin: 0.3rem;
-  font-size: 1.125rem;
+  border-radius: 0.9rem;
+  padding: .2rem .6rem;
+  margin: .3rem;
+  font-size: .9rem;
 }
 
 .me-text-message {
   background-color: #1a8afd;
   border-bottom-right-radius: 0;
-  margin-left: auto;
+  clear: both;
+  float: right;
 }
 
 .not-me-text-message {
   background-color: #909093;
   border-bottom-left-radius: 0;
+  clear: both;
+  float: left;
 }
 
 img {
@@ -121,15 +122,21 @@ img {
 }
 
 .me-thumbnail {
-  margin-left: auto;
   max-width: 20vw;
+  clear: both;
+  float: right;
+}
+
+.not-me-thumbnail {
+  clear: both;
+  float: left;
 }
 
 .logout {
   cursor: pointer;
   margin: 0.4rem;
   border: none;
-  border-radius: 6rem;
+  border-radius: 1rem;
   background-color: #909093;
   height: 5vh;
   min-width: 30vw;

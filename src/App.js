@@ -1,16 +1,20 @@
-import { useState, Fragment } from "react";
+import { useState } from "react";
 import Login from "./components/Login";
 import UserList from "./components/UserList";
 import Channel from "./components/Channel";
 import { StreamChat } from "stream-chat";
 import "./App.css";
 
-const apiKey = process.env["REACT_APP_API_KEY"];
+// the key (and secret) exist in the Dashboard
+// Dashboard - https://getstream.io/accounts/login/
+const appKey = process.env["REACT_APP_API_KEY"];
 
-function App() {
+export default function App() {
   const [view, setView] = useState("login");
   const [channel, setChannel] = useState(null);
-  const client = StreamChat.getInstance(apiKey);
+  // instantiate client on client-side with app key
+  // https://getstream.io/chat/docs/javascript/?language=javascript
+  const client = StreamChat.getInstance(appKey);
 
   const handleLogoutClick = async () => {
     await client.disconnectUser();
@@ -22,10 +26,7 @@ function App() {
       {view === "login" ? (
         <Login client={client} setView={setView} />
       ) : view === "users" ? (
-        <Fragment>
-          <h1 className='welcome'>{`Welcome ${client.userID}`}</h1>
-          <UserList client={client} setView={setView} setChannel={setChannel} />
-        </Fragment>
+        <UserList client={client} setView={setView} setChannel={setChannel} />
       ) : (
         <Channel view={view} client={client} channel={channel} />
       )}
@@ -37,5 +38,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

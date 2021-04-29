@@ -11,18 +11,15 @@ export default function Channel({ client, view, channel }) {
   };
 
   useEffect(() => {
-    const fetchMessages = async () => {
-      const response = await channel.watch();
-      setMessages(response.messages);
-      channel.on("message.new", () => {
-        setMessages(channel.state.messages);
-        scrollToBottom();
-      });
-    };
-    fetchMessages();
+    setMessages(channel.state.messages);
+    setTimeout(() => scrollToBottom(), 500);
+  }, [channel.state.messages]);
+  // listen to channel events for new messages in channel state
+  // https://getstream.io/chat/docs/javascript/event_listening/?language=javascript
+  channel.on("message.new", () => {
+    setMessages(channel.state.messages);
     scrollToBottom();
-    console.log('hi');
-  }, [channel]);
+  });
 
   const getClassNames = (message) => {
     let classNames = "";

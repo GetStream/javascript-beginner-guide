@@ -1,41 +1,55 @@
 import { useState, useEffect, Fragment } from "react";
 import User from "./User";
+import { List } from "react-content-loader";
 
 export default function UserList({ client, setView, setChannel }) {
   const [users, setUsers] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getUsers = async () => {
+      // return users with id 'Not Equal' ($ne) to me
+      // https://getstream.io/chat/docs/javascript/query_syntax/?language=javascript
       const filter = { id: { $ne: client.userID } };
-      const sort = { last_message_at: 1 };
+      // how to sort the response - optional
+      const sort = { last_active: -1 };
+      // https://getstream.io/chat/docs/javascript/query_users/?language=javascript
       const response = await client.queryUsers(filter, sort);
       setUsers(response);
     };
     getUsers();
+    setTimeout(() => setLoading(false), 300);
   }, [client]);
 
   return (
-    <ul>
-      {users ? (
-        <Fragment>
-          <p>Select a user to chat with</p>
-          {users &&
-            users.users.map((user) => (
-              <User
-                key={user.created_at}
-                client={client}
-                user={user}
-                setView={setView}
-                setChannel={setChannel}
-              />
-            ))}
-        </Fragment>
+    <Fragment>
+      <h1 className="welcome">{`Welcome ${client.userID}`}</h1>
+      {loading ? (
+        <List style={{ margin: "4rem" }} />
       ) : (
-        <p className="instructions">
-          "Looks like you are the only user - Logout and Log back in as another
-          user to view a list of users"
-        </p>
+        <ul>
+          {users ? (
+            <Fragment>
+              <p>Select a user to chat with</p>
+              {users &&
+                users.users.map((user) => (
+                  <User
+                    key={user.created_at}
+                    client={client}
+                    user={user}
+                    setView={setView}
+                    setChannel={setChannel}
+                  />
+                ))}
+            </Fragment>
+          ) : (
+            <p className="instructions">
+              "It looks like you are the only user - Logout and Log back in as
+              another user to view a list of users to choose from"
+            </p>
+          )}
+        </ul>
       )}
-    </ul>
+    </Fragment>
   );
 }

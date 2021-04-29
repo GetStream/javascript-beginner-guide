@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import { useState, Fragment } from "react";
 import axios from "axios";
 
 export default function Login({ client, setView }) {
@@ -6,10 +6,11 @@ export default function Login({ client, setView }) {
 
   const handleUserIDSubmit = (e) => {
     e.preventDefault();
-    // console.log(client, 'client');
     axios
+      // trigger a call to server which calls createToken(userID)
       .post("http://localhost:8080/token", { userID })
-      // .then((response) => console.log(response))
+      // token exists on result.data
+      // https://getstream.io/chat/docs/javascript/init_and_users/?language=javascript
       .then((res) => client.connectUser({ id: userID }, res.data))
       .then(() => setView("users"))
       .catch((err) => console.error("ERROR", err));
