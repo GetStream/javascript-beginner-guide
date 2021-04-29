@@ -19,25 +19,21 @@ function App() {
 
   return (
     <div className="App">
-      {/* <header className="App-header"> */}
-        {view === "login" ? (
-          <Login client={client} setView={setView} />
-        ) : view === "users" ? (
-          <Fragment>
-            <h1>{`Welcome ${client.userID}`}</h1>
-            <UserList
-              client={client}
-              setView={setView}
-              setChannel={setChannel}
-            />
-          </Fragment>
-        ) : (
-          <Channel view={view} client={client} channel={channel} />
-        )}
-        {view !== "login" && (
-          <button onClick={handleLogoutClick} className='logout'>Logout</button>
-        )}
-      {/* </header> */}
+      {view === "login" ? (
+        <Login client={client} setView={setView} />
+      ) : view === "users" ? (
+        <Fragment>
+          <h1 className='welcome'>{`Welcome ${client.userID}`}</h1>
+          <UserList client={client} setView={setView} setChannel={setChannel} />
+        </Fragment>
+      ) : (
+        <Channel view={view} client={client} channel={channel} />
+      )}
+      {view !== "login" && (
+        <button onClick={handleLogoutClick} className="logout">
+          Logout
+        </button>
+      )}
     </div>
   );
 }

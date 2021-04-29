@@ -1,10 +1,14 @@
-import { useState, useEffect, Fragment } from "react";
+import { useState, useEffect, useRef, Fragment } from "react";
 import Header from "./Header";
 import MessageInput from "./MessageInput";
-// import parse from 'html-react-parser';
 
 export default function Channel({ client, view, channel }) {
   const [messages, setMessages] = useState([]);
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -12,9 +16,12 @@ export default function Channel({ client, view, channel }) {
       setMessages(response.messages);
       channel.on("message.new", () => {
         setMessages(channel.state.messages);
+        scrollToBottom();
       });
     };
     fetchMessages();
+    scrollToBottom();
+    console.log('hi');
   }, [channel]);
 
   const getClassNames = (message) => {
@@ -41,6 +48,7 @@ export default function Channel({ client, view, channel }) {
           </li>
         ))}
       </ul>
+      <div ref={messagesEndRef}></div>
       <MessageInput view={view} channel={channel} client={client} />
     </Fragment>
   );

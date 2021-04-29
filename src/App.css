@@ -1,14 +1,11 @@
 body {
-  text-align: center;
   background-color: #282c34;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
 }
 
 .App {
-  text-align: center;
   background-color: #282c34;
   min-height: 94vh;
   min-width: 50vw;
@@ -24,7 +21,6 @@ body {
   box-shadow: 5px 5px 4px 1px rgba(1, 95, 255, 0.5),
     0.3em 0.3em 1em rgba(0, 0, 0, 0.8);
   margin: 2vh;
-  /* overflow: scroll; */
 }
 
 ul {
@@ -35,11 +31,21 @@ ul {
   font-size: 1rem;
 }
 
+.welcome {
+  margin: 1rem;
+  font-size: 2rem;
+}
+
+.instructions {
+  margin: 1rem;
+}
+
 .User {
   list-style-type: none;
   display: flex;
   flex-direction: row;
   border: 1px solid white;
+  border-radius: 0.6rem;
   margin: 0.5rem;
   padding: 0.5rem;
   cursor: pointer;
@@ -53,17 +59,20 @@ ul {
   border-radius: .6rem;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
-  /* position: fixed; */
+  /* text-align: center; */
 }
 
 .to {
   font-size: 1em;
   margin: 0.2rem;
+  margin-left: 20px;
+  color: #909093;
 }
 
 .extra-channel-data {
   font-size: 0.7em;
   margin: 0.4rem;
+  margin-left: 20px;
 }
 
 .channel {
@@ -79,14 +88,8 @@ ul {
   border: none;
 }
 
-.logout {
-  cursor: pointer;
-  margin: 0.4rem;
-  border: none;
-  border-radius: 6rem;
-  background-color: #909093;
-  height: 5vh;
-  min-width: 30vw;
+input:focus {
+  outline: none;
 }
 
 .message {
@@ -112,11 +115,22 @@ ul {
 }
 
 img {
-  max-width: 30vw;
+  max-width: 20vw;
   max-height: 20vh;
   border-radius: 0.6rem;
 }
 
 .me-thumbnail {
   margin-left: auto;
+  max-width: 20vw;
+}
+
+.logout {
+  cursor: pointer;
+  margin: 0.4rem;
+  border: none;
+  border-radius: 6rem;
+  background-color: #909093;
+  height: 5vh;
+  min-width: 30vw;
 }
