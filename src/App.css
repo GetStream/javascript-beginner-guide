@@ -78,7 +78,7 @@ p {
   padding: 0.8rem;
   width: 40vw;
   background-color: #EFEFEF;
-  color: #909093;
+  color: #797979;
 }
 
 .login_input:hover {
@@ -102,7 +102,7 @@ p {
   align-items: center;
   margin-top: 1rem;
   cursor: pointer;
-  color: #909093;
+  color: #797979;
 }
 
 .login_button:hover {
