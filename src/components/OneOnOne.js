@@ -1,9 +1,11 @@
 import { useState, useEffect, useRef, Fragment } from "react";
+import { List } from "react-content-loader";
 import Header from "./Header";
 import MessageInput from "./MessageInput";
 
 export default function Channel({ client, view, channel }) {
   const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(true);
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -12,7 +14,10 @@ export default function Channel({ client, view, channel }) {
 
   useEffect(() => {
     setMessages(channel.state.messages);
-    setTimeout(() => scrollToBottom(), 500);
+    setTimeout(() => {
+      setLoading(false);
+      scrollToBottom();
+    }, 500);
   }, [channel.state.messages]);
   // listen to channel events for new messages in channel state
   // https://getstream.io/chat/docs/javascript/event_listening/?language=javascript
@@ -49,28 +54,32 @@ export default function Channel({ client, view, channel }) {
   return (
     <Fragment>
       <Header client={client} channel={channel} messages={messages} />
-      <ul className="channel">
-        {messages.map(
-          (message) =>
-            message.type !== "deleted" && (
-              <Fragment key={message.id}>
-                <li className={`message ${getClassNames(message)}`}>
-                  {message.attachments.length ? (
-                    <img
-                      src={message.attachments[0].thumb_url}
-                      alt={message.attachments[0].title}
-                    />
-                  ) : (
-                    message.text
-                  )}
-                </li>
-                <p className={`${isMe(message)}-dm-time`}>
-                  {getFormattedTime(message.created_at)}
-                </p>
-              </Fragment>
-            )
-        )}
-      </ul>
+      {loading ? (
+        <List className="loading" />
+      ) : (
+        <ul className="channel">
+          {messages.map(
+            (message) =>
+              message.type !== "deleted" && (
+                <Fragment key={message.id}>
+                  <li className={`message ${getClassNames(message)}`}>
+                    {message.attachments.length ? (
+                      <img
+                        src={message.attachments[0].thumb_url}
+                        alt={message.attachments[0].title}
+                      />
+                    ) : (
+                      message.text
+                    )}
+                  </li>
+                  <p className={`${isMe(message)}-dm-time`}>
+                    {getFormattedTime(message.created_at)}
+                  </p>
+                </Fragment>
+              )
+          )}
+        </ul>
+      )}
       <div ref={messagesEndRef}></div>
       <MessageInput view={view} channel={channel} client={client} />
     </Fragment>

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { StreamChat } from "stream-chat";
 import Login from "./components/Login";
 import UserList from "./components/UserList";
-import Channel from "./components/Channel";
+import OneOnOne from "./components/OneOnOne";
 import Lobby from "./components/Lobby";
 import "./App.css";
 
@@ -17,9 +17,9 @@ export default function App() {
   // https://getstream.io/chat/docs/javascript/?language=javascript
   const client = StreamChat.getInstance(appKey);
 
-  const handleLogoutClick = async () => {
-    await client.disconnectUser();
-    setView("login");
+  const handleViewClick = async (room) => {
+    setView(room);
+    room === "login" && (await client.disconnectUser());
   };
 
   return (
@@ -31,16 +31,30 @@ export default function App() {
       ) : view === "lobby" ? (
         <Lobby client={client} setView={setView} setChannel={setChannel} />
       ) : (
-        <Channel view={view} client={client} channel={channel} />
+        <OneOnOne view={view} client={client} channel={channel} />
       )}
       {view !== "login" && (
         <div>
-          <button onClick={handleLogoutClick} className="logout-or-dm">
+          <button
+            onClick={() => handleViewClick("login")}
+            className="lobby-logout-users"
+          >
             Logout
           </button>
           {view !== "users" && (
-            <button onClick={() => setView("users")} className="logout-or-dm">
+            <button
+              onClick={() => handleViewClick("users")}
+              className="lobby-logout-users"
+            >
               Users
+            </button>
+          )}
+          {view !== "lobby" && (
+            <button
+              onClick={() => handleViewClick("lobby")}
+              className="lobby-logout-users"
+            >
+              Lobby
             </button>
           )}
         </div>

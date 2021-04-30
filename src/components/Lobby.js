@@ -1,9 +1,11 @@
 import { useState, useEffect, useRef, Fragment } from "react";
+import { List } from "react-content-loader";
 import MessageInput from "./MessageInput";
 import Header from "./Header";
 
 export default function Lobby({ client }) {
   const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(true);
   const messagesEndRef = useRef(null);
   // client.channel() instantiates a channel - channel type is the only mandatory argument
   // if no id is passed, the id will be generated for you - does not call API
@@ -19,7 +21,10 @@ export default function Lobby({ client }) {
       // https://getstream.io/chat/docs/javascript/watch_channel/?language=javascript
       await channel.watch();
       setMessages(channel.state.messages);
-      setTimeout(() => scrollToBottom(), 500);
+      setLoading(false);
+      setTimeout(() => {
+        scrollToBottom();
+      }, 500);
     };
     getMessagesAndWatchChannel();
   }, [channel]);
@@ -49,29 +54,33 @@ export default function Lobby({ client }) {
   return (
     <Fragment>
       <Header channel={channel} client={client} messages={messages} />
-      <ul className="channel">
-        {messages.map(
-          (message) =>
-            message.type !== "deleted" && (
-              <Fragment key={message.id}>
-                <li className={`lobby${isImage(message)}`}>
-                  <b className="lobby-user">{`${message.user.id} `}</b>
-                  {message.attachments.length ? (
-                    <img
-                      src={message.attachments[0].thumb_url}
-                      alt={message.attachments[0].title}
-                    />
-                  ) : (
-                    message.text
-                  )}
-                </li>
-                <p className="lobby-time">
-                  {getFormattedTime(message.created_at)}
-                </p>
-              </Fragment>
-            )
-        )}
-      </ul>
+      {loading ? (
+        <List className='loading' />
+      ) : (
+        <ul className="channel">
+          {messages.map(
+            (message) =>
+              message.type !== "deleted" && (
+                <Fragment key={message.id}>
+                  <li className={`lobby${isImage(message)}`}>
+                    <b className="lobby-user">{`${message.user.id} `}</b>
+                    {message.attachments.length ? (
+                      <img
+                        src={message.attachments[0].thumb_url}
+                        alt={message.attachments[0].title}
+                      />
+                    ) : (
+                      message.text
+                    )}
+                  </li>
+                  <p className="lobby-time">
+                    {getFormattedTime(message.created_at)}
+                  </p>
+                </Fragment>
+              )
+          )}
+        </ul>
+      )}
       <div ref={messagesEndRef}></div>
       <MessageInput channel={channel} client={client} />
     </Fragment>

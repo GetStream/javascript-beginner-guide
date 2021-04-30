@@ -29,7 +29,7 @@ export default function User({ client, user, setView, setChannel }) {
       const channel = client.channel("messaging", channelID);
       // no need to call channel.watch() because queryChannels() watches all the channels it returns
       setChannel(channel);
-      setView("");
+      setView(channelID);
       // if a channel id is not returned from getChannelID, we need to create a new channel
     } else {
       createNewChannel(userID, `${client.userID}-${userID}`);

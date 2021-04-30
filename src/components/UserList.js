@@ -1,6 +1,6 @@
 import { useState, useEffect, Fragment } from "react";
-import User from "./User";
 import { List } from "react-content-loader";
+import User from "./User";
 
 export default function UserList({ client, setView, setChannel }) {
   const [users, setUsers] = useState(null);
@@ -25,7 +25,7 @@ export default function UserList({ client, setView, setChannel }) {
     <Fragment>
       <h1 className="welcome">{`Welcome ${client.userID}`}</h1>
       {loading ? (
-        <List style={{ margin: "4rem" }} />
+        <List className="loading" />
       ) : (
         <ul>
           {users ? (
