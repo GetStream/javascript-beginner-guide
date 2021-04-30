@@ -16,6 +16,8 @@ export default function Login({ client, setView }) {
       .then(() => setView("lobby"))
       .catch((err) => {
         console.error(err);
+        // use client.disconnect() before trying to connect as a different user
+        client.disconnectUser();
         setErrorMessage(
           "user_details.id is not a valid user id. a-z, 0-9, @, _ and - are allowed."
         );
