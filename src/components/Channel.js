@@ -64,7 +64,9 @@ export default function Channel({ client, view, channel }) {
                     message.text
                   )}
                 </li>
-                <p className={`${isMe(message)}-dm-time`}>{getFormattedTime(message.created_at)}</p>
+                <p className={`${isMe(message)}-dm-time`}>
+                  {getFormattedTime(message.created_at)}
+                </p>
               </Fragment>
             )
         )}

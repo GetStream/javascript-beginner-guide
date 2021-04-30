@@ -11,6 +11,8 @@ export default function User({ client, user, setView, setChannel }) {
       members: { $eq: [client.userID, userID] },
     };
 
+    // queryChannels() will only return channels that the user can read
+    // be default, queryChannels() will start watching all channels it returns
     // https://getstream.io/chat/docs/javascript/query_channels/?language=javascript
     const channels = await client.queryChannels(filter);
     // return the channel id if it exists - otherwise return undefined
@@ -20,15 +22,15 @@ export default function User({ client, user, setView, setChannel }) {
   const handleUserClick = async (userID) => {
     // check if a 1:1 channel exists already between you and the other user
     let channelID = await getChannelID(userID);
-    // if a 1:1 channel exists already
+    // if a channel exists already
     if (channelID) {
-      // instantiates a channel to use - does not call API
+      // client.channel() instantiates a channel - channel type is the only mandatory argument
+      // if no id is passed, the id will be generated for you - does not call API
       const channel = client.channel("messaging", channelID);
-      // no need to call channel.watch() because queryChannels() watches all the channels
-      // it returns
+      // no need to call channel.watch() because queryChannels() watches all the channels it returns
       setChannel(channel);
-      setView('');
-    // otherwise, we need to create a new channel
+      setView("");
+      // if a channel id is not returned from getChannelID, we need to create a new channel
     } else {
       createNewChannel(userID, `${client.userID}-${userID}`);
     }

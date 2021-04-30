@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef, Fragment } from "react";
+import MessageInput from "./MessageInput";
+import Header from "./Header";
 
 export default function Lobby({ client }) {
   const [messages, setMessages] = useState([]);
-  const [message, setMessage] = useState("");
   const messagesEndRef = useRef(null);
-
+  // client.channel() instantiates a channel - channel type is the only mandatory argument
+  // if no id is passed, the id will be generated for you - does not call API
   const channel = client.channel("livestream", "lobby");
 
   const scrollToBottom = () => {
@@ -13,23 +15,14 @@ export default function Lobby({ client }) {
 
   useEffect(() => {
     const getMessagesAndWatchChannel = async () => {
+      // calling channel.watch() allows you to listen for events when anything in the channel changes
+      // https://getstream.io/chat/docs/javascript/watch_channel/?language=javascript
       await channel.watch();
       setMessages(channel.state.messages);
       setTimeout(() => scrollToBottom(), 500);
     };
     getMessagesAndWatchChannel();
   }, [channel]);
-
-  const handleSubmitMessage = async (e) => {
-    e.preventDefault();
-    // there are many possible fields to include with channel.sendMessage()
-    // we will simply send a text field
-    // https://getstream.io/chat/docs/javascript/send_message/?language=javascript
-    channel
-      .sendMessage({ text: message })
-      .then(() => setMessage(""))
-      .catch((err) => console.error(err));
-  };
 
   // listen to channel events for new messages in channel state
   // https://getstream.io/chat/docs/javascript/event_listening/?language=javascript
@@ -55,20 +48,14 @@ export default function Lobby({ client }) {
 
   return (
     <Fragment>
-      <div className="channel-header">
-        <h1 className="to">Lobby</h1>
-        <h2 className="extra-channel-data">
-          This is a Livestream Channel Type - every user has read and write
-          permissions by default
-        </h2>
-      </div>
+      <Header channel={channel} client={client} messages={messages} />
       <ul className="channel">
         {messages.map(
           (message) =>
             message.type !== "deleted" && (
               <Fragment key={message.id}>
                 <li className={`lobby${isImage(message)}`}>
-                  <b className='lobby-user'>{`${message.user.id} `}</b>
+                  <b className="lobby-user">{`${message.user.id} `}</b>
                   {message.attachments.length ? (
                     <img
                       src={message.attachments[0].thumb_url}
@@ -86,17 +73,7 @@ export default function Lobby({ client }) {
         )}
       </ul>
       <div ref={messagesEndRef}></div>
-      <form onSubmit={handleSubmitMessage}>
-        <input
-          autoFocus
-          value={message}
-          type="text"
-          className="message-input"
-          onChange={(e) => setMessage(e.target.value)}
-          // there are many useful properties on channel.state
-          placeholder="Message everyone..."
-        />
-      </form>
+      <MessageInput channel={channel} client={client} />
     </Fragment>
   );
 }
