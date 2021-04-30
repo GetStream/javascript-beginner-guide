@@ -33,14 +33,16 @@ export default function App() {
       ) : (
         <Channel view={view} client={client} channel={channel} />
       )}
-      {(!view || view === "lobby") && (
+      {view !== "login" && (
         <div>
-          <button onClick={handleLogoutClick} className="logoutOrDM">
+          <button onClick={handleLogoutClick} className="logout-or-dm">
             Logout
           </button>
-          <button onClick={() => setView("users")} className="logoutOrDM">
-            Direct Message a user
-          </button>
+          {view !== "users" && (
+            <button onClick={() => setView("users")} className="logout-or-dm">
+              Users
+            </button>
+          )}
         </div>
       )}
     </div>

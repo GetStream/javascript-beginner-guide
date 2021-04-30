@@ -30,7 +30,7 @@ export default function UserList({ client, setView, setChannel }) {
         <ul>
           {users ? (
             <Fragment>
-              <p>Select a user to chat with</p>
+              <p className="select">Select a user to chat with</p>
               {users &&
                 users.users.map((user) => (
                   <User

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, Fragment } from "react";
 
-export default function Lobby({ client, view, setChannel }) {
+export default function Lobby({ client }) {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
   const messagesEndRef = useRef(null);
@@ -38,20 +38,20 @@ export default function Lobby({ client, view, setChannel }) {
     scrollToBottom();
   });
 
-  function getFormattedDate(date) {
-    let year = date.getFullYear();
-    let month = (1 + date.getMonth()).toString().padStart(2, "0");
-    let day = date.getDate().toString().padStart(2, "0");
+  function getFormattedTime(date) {
     let hour = date.getHours();
     let minutes = date.getMinutes().toString().padStart(2, "0");
-    let amOrPm = 'AM';
+    let amOrPm = "AM";
     if (hour > 12) {
-      amOrPm = 'PM'
+      amOrPm = "PM";
       hour = (hour % 12).toString().padStart(2, "0");
     }
-    // return month + "/" + day + "/" + year;
-    return `${hour}:${minutes} ${amOrPm}`
+    return `${hour}:${minutes} ${amOrPm}`;
   }
+
+  const isImage = (message) => {
+    return message.attachments.length ? "-thumbnail" : "";
+  };
 
   return (
     <Fragment>
@@ -67,21 +67,19 @@ export default function Lobby({ client, view, setChannel }) {
           (message) =>
             message.type !== "deleted" && (
               <Fragment key={message.id}>
-                <li className="lobby">
+                <li className={`lobby${isImage(message)}`}>
+                  <b className='lobby-user'>{`${message.user.id} `}</b>
                   {message.attachments.length ? (
                     <img
                       src={message.attachments[0].thumb_url}
                       alt={message.attachments[0].title}
                     />
                   ) : (
-                    <Fragment>
-                      <b>{`${message.user.id} `}</b>
-                      {message.text}
-                    </Fragment>
+                    message.text
                   )}
                 </li>
                 <p className="lobby-time">
-                  {getFormattedDate(message.created_at)}
+                  {getFormattedTime(message.created_at)}
                 </p>
               </Fragment>
             )
