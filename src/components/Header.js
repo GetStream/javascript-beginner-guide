@@ -13,10 +13,10 @@ export default function Header({ messages, channel, client }) {
           !messages.length && channel.data.name
             ? `This is the start of your 1:1 message history with ${member}`
             : channel.id === "lobby"
-            ? "This is a Livestream Channel Type - every user has read and write permissions by default"
+            ? "This is a 'Livestream' Channel Type. Every 'user' role has read & write permissions by default"
             : channel.data.name
           // channel.data.name is the extra data we added to the 1:1 channel on
-          // creation -> channel.watch()
+          // creation -> channel.watch() in User.js
         }
       </h2>
     </div>

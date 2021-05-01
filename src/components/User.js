@@ -1,5 +1,4 @@
 export default function User({ client, user, setView, setChannel }) {
-
   const getChannelID = async (userID) => {
     // there are 4 built-in Channel Types. We will query messaging Type
     // https://getstream.io/chat/docs/javascript/channel_features/?language=javascript
@@ -42,7 +41,7 @@ export default function User({ client, user, setView, setChannel }) {
     // https://getstream.io/chat/docs/javascript/creating_channels/?language=javascript
     const channel = client.channel("messaging", channelID, {
       members: [client.userID, userID],
-      name: `A private 1:1 channel between ${client.userID} & ${userID}`,
+      name: `This is a 'Messaging' Channel Type. ${client.userID} & ${userID} have role 'member' which has read & write permissions by default`,
     });
     // calling channel.watch() creates a channel, returns channel.state, and tells the
     // server to send events when anything in the channel changes

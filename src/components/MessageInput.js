@@ -1,4 +1,4 @@
-import { useState, Fragment } from "react";
+import { useState } from "react";
 
 export default function MessageInput({ channel, client }) {
   const [message, setMessage] = useState("");
@@ -26,17 +26,15 @@ export default function MessageInput({ channel, client }) {
   };
 
   return (
-    <Fragment>
-      <form onSubmit={handleSubmitMessage}>
-        <input
-          autoFocus
-          value={message}
-          type="text"
-          className="message-input"
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder={`Message ${getOtherMember(channel, client)}...`}
-        />
-      </form>
-    </Fragment>
+    <form onSubmit={handleSubmitMessage}>
+      <input
+        autoFocus
+        value={message}
+        type="text"
+        className="message-input"
+        onChange={(e) => setMessage(e.target.value)}
+        placeholder={`Message ${getOtherMember(channel, client)}...`}
+      />
+    </form>
   );
 }

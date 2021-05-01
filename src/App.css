@@ -273,6 +273,10 @@ img {
   color: #EFEFEF;
 }
 
+/* .message-input {
+  position: fixed;
+} */
+
 .lobby-logout-users {
   cursor: pointer;
   margin: 0.4rem;
@@ -281,4 +285,8 @@ img {
   background-color: #909093;
   height: 5vh;
   min-width: 20vw;
+}
+
+.lobby-logout-users:hover {
+  background-color: #FFFFFF;
 }
