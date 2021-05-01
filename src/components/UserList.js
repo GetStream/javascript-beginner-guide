@@ -13,14 +13,25 @@ export default function UserList({ client, setView, setChannel }) {
       const filter = { id: { $ne: client.userID } };
       // how to sort the response - optional
       const sort = { last_active: -1 };
+      const options = { limit: 10 };
       // https://getstream.io/chat/docs/javascript/query_users/?language=javascript
-      const response = await client.queryUsers(filter, sort, { limit: 10 });
+      const response = await client.queryUsers(filter, sort, options);
       // add note options
       setUsers(response);
     };
     getUsers();
     setTimeout(() => setLoading(false), 500);
   }, [client]);
+
+  let offset = 10;
+  const handleGetMoreUsersClick = async () => {
+    const filter = { id: { $ne: client.userID } };
+    const sort = { last_active: -1 };
+    const options = { offset: offset, limit: 10 };
+    offset += 10;
+    const response = await client.queryUsers(filter, sort, options);
+    setUsers(response);
+  };
 
   return (
     <div className="User-list">
@@ -49,6 +60,7 @@ export default function UserList({ client, setView, setChannel }) {
               another user to view a list of users to choose from"
             </p>
           )}
+          <button onClick={handleGetMoreUsersClick} className="get-more-users">Get More Users</button>
         </ul>
       )}
     </div>

@@ -96,6 +96,26 @@ p {
   max-width: 50vw;
 }
 
+.login_button {
+  font-size: 1rem;
+  border: 3px solid #909093;
+  border-radius: 0.6rem;
+  padding: 0.8rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1rem;
+  cursor: pointer;
+  color: #797979;
+}
+
+.login_button:hover {
+  border: 3px solid #282c34;
+  background-color: #909093;
+  color: #EFEFEF;
+}
+
 .loading {
   margin: 4rem;
 }
@@ -251,26 +271,6 @@ img {
   font-size: 0.8rem;
   clear: both;
   float: left;
-}
-
-.login_button {
-  font-size: 1rem;
-  border: 3px solid #909093;
-  border-radius: 0.6rem;
-  padding: 0.8rem;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 1rem;
-  cursor: pointer;
-  color: #797979;
-}
-
-.login_button:hover {
-  border: 3px solid #282c34;
-  background-color: #909093;
-  color: #EFEFEF;
 }
 
 /* .message-input {
