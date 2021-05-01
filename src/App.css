@@ -1,8 +1,21 @@
+html {
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
 body {
-  background-color: #282c34;
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: #282c34;
+  margin: 0;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
 }
 
 ul {
@@ -14,7 +27,6 @@ p {
 }
 
 .App {
-  background-color: #282c34;
   min-height: 94vh;
   min-width: 50vw;
   max-width: 70vw;
@@ -32,43 +44,36 @@ p {
 }
 
 .Login {
-  font-size: calc(10px + 2vmin);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  overflow: scroll;
+  color: #909093;
+  margin: .4rem;
 }
 
 .login_header {
   display: flex;
   flex-direction: column;
-  margin: 1rem;
+  align-items: flex-end;
+  color: #909093;
 }
 
 .login_title {
   font-size: 2rem;
   margin-bottom: 0;
-  color: #909093;
 }
 
 .login_infrastructure {
   font-size: 1rem;
   margin-bottom: 10rem;
-  align-self: flex-end;
-  color: #909093;
 }
 
 .login_form {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  width: 45vw;
+  width: 100%;
 }
 
 .login_label {
   align-self: flex-start;
   margin-left: 0.5rem;
-  color: #909093;
 }
 
 .login_input {
@@ -76,7 +81,7 @@ p {
   border: 3px solid #909093;
   border-radius: 0.6rem;
   padding: 0.8rem;
-  width: 40vw;
+  width: 100%;
   background-color: #EFEFEF;
   color: #797979;
 }
@@ -88,31 +93,17 @@ p {
 .login_error {
   color: red;
   font-size: 1rem;
-  max-width: 40vw;;
-}
-
-.login_button {
-  font-size: 1rem;
-  border: 3px solid #909093;
-  border-radius: 0.6rem;
-  padding: 0.8rem;
-  width: 42vw;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 1rem;
-  cursor: pointer;
-  color: #797979;
-}
-
-.login_button:hover {
-  border: 3px solid #282c34;
-  background-color: #909093;
-  color: #EFEFEF;
+  max-width: 50vw;
 }
 
 .loading {
   margin: 4rem;
+}
+
+.User-list {
+  width: 100%;
+  text-align: center;
+  overflow: hidden;
 }
 
 .welcome {
@@ -125,11 +116,7 @@ p {
 }
 
 .select {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   border-bottom: 1px solid rgba(1, 95, 255, 0.5);
-  width: 60vw;
   padding-bottom: 1rem;
 }
 
@@ -137,10 +124,13 @@ p {
   list-style-type: none;
   display: flex;
   flex-direction: row;
-  border-radius: 0.2rem;
   border-bottom: 1px solid rgba(1, 95, 255, 0.5);
   padding: 0.5rem 3rem;
   cursor: pointer;
+}
+
+.User:hover {
+  background-color: rgba(1, 95, 255, 0.5);
 }
 
 .channel-header {
@@ -261,6 +251,26 @@ img {
   font-size: 0.8rem;
   clear: both;
   float: left;
+}
+
+.login_button {
+  font-size: 1rem;
+  border: 3px solid #909093;
+  border-radius: 0.6rem;
+  padding: 0.8rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1rem;
+  cursor: pointer;
+  color: #797979;
+}
+
+.login_button:hover {
+  border: 3px solid #282c34;
+  background-color: #909093;
+  color: #EFEFEF;
 }
 
 .lobby-logout-users {

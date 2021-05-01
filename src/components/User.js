@@ -36,11 +36,11 @@ export default function User({ client, user, setView, setChannel }) {
     }
   };
 
-  const createNewChannel = async (userID, id) => {
+  const createNewChannel = async (userID, channelID) => {
     // instantiate a channel to use, passing a new id and adding 2 members
     // the name property is custom extra data
     // https://getstream.io/chat/docs/javascript/creating_channels/?language=javascript
-    const channel = client.channel("messaging", id, {
+    const channel = client.channel("messaging", channelID, {
       members: [client.userID, userID],
       name: `A private 1:1 channel between ${client.userID} & ${userID}`,
     });

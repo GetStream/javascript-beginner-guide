@@ -14,7 +14,8 @@ export default function UserList({ client, setView, setChannel }) {
       // how to sort the response - optional
       const sort = { last_active: -1 };
       // https://getstream.io/chat/docs/javascript/query_users/?language=javascript
-      const response = await client.queryUsers(filter, sort);
+      const response = await client.queryUsers(filter, sort, { limit: 10 });
+      // add note options
       setUsers(response);
     };
     getUsers();
@@ -22,7 +23,7 @@ export default function UserList({ client, setView, setChannel }) {
   }, [client]);
 
   return (
-    <Fragment>
+    <div className="User-list">
       <h1 className="welcome">{`Welcome ${client.userID}`}</h1>
       {loading ? (
         <List className="loading" />
@@ -50,6 +51,6 @@ export default function UserList({ client, setView, setChannel }) {
           )}
         </ul>
       )}
-    </Fragment>
+    </div>
   );
 }

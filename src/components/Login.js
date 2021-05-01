@@ -39,7 +39,7 @@ export default function Login({ client, setView }) {
           name="userID"
           value={userID}
           placeholder="Enter UserID..."
-          onChange={(e) => setUserID(e.target.value)}
+          onChange={(e) => { setUserID(e.target.value); setErrorMessage('') }}
         ></input>
         <p className="login_error">{errorMessage}</p>
         <button className="login_button">Login</button>
