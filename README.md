@@ -50,6 +50,8 @@ REACT_APP_SECRET=your-app-secret
 npm run dev
 ```
 
+- Navigate to https://localhost:3000
+
 ## Docs
 
 Review our [JS chat API docs](https://getstream.io/chat/docs/js/).
