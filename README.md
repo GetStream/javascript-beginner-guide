@@ -51,7 +51,7 @@ npm install
 - Add your app key to the root .env file:\
 REACT_APP_KEY=your-app-key
 - Add your app key and secret to the .env file you created in the server folder:\
-REACT_APP_KEY=your-app-key
+REACT_APP_KEY=your-app-key\
 REACT_APP_SECRET=your-app-secret
 - Then run:
 
@@ -67,10 +67,6 @@ Review our [JS chat API docs](https://getstream.io/chat/docs/js/).
 ## Typescript
 
 **Note:** The [stream-chat-js](https://github.com/getstream/stream-chat-js) library allows for fully typed responses using generics.
-
-## Commands
-
-- npm run dev
 
 ## We are hiring!
 We've recently closed a [$38 million Series B funding round](https://techcrunch.com/2021/03/04/stream-raises-38m-as-its-chat-and-activity-feed-apis-power-communications-for-1b-users/) and we keep actively growing.
