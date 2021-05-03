@@ -36,15 +36,26 @@ For complete pricing details visit our [Chat Pricing Page](https://getstream.io/
 
 `yarn add react react-dom stream-chat stream-chat-react`
 
-## Example Apps
+## Example App
 
-This repo includes 4 example apps. You can try them out like this:
+This repo includes an example app. You can try it out like this:
 
 ```
 git clone https://github.com/zacheryconverse/basic-chat.git
-cd examples/messaging
-yarn
-yarn start
+npm install
+```
+
+- Create a .env file at root level and in the server folder
+- Create an account on [Stream](https://getstream.io/try-for-free/)
+- Go to your Stream [Dashboard](https://dashboard.getstream.io/dashboard/v2/)
+- Add your app key to the root .env file: REACT_APP_KEY=your-app-key
+- Add your app key and secret to the .env file you created in the server folder:
+REACT_APP_KEY=your-app-key
+REACT_APP_SECRET=your-app-secret
+
+
+```
+npm run dev
 ```
 
 ## Docs
