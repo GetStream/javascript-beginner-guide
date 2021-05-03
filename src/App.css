@@ -44,7 +44,7 @@ p {
 
 .Login {
   color: #909093;
-  margin: .4rem;
+  margin: 0.4rem;
 }
 
 .login_header {
@@ -82,7 +82,7 @@ p {
   border-radius: 0.6rem;
   padding: 0.8rem;
   width: 100%;
-  background-color: #EFEFEF;
+  background-color: #efefef;
 }
 
 .login_input:hover {
@@ -112,7 +112,7 @@ p {
 .login_button:hover {
   border: 3px solid #282c34;
   background-color: #909093;
-  color: #EFEFEF;
+  color: #efefef;
 }
 
 .loading {
@@ -146,10 +146,21 @@ p {
   border-bottom: 1px solid rgba(1, 95, 255, 0.5);
   padding: 0.5rem 3rem;
   cursor: pointer;
+  margin-left: -1rem;
 }
 
 .User:hover {
   background-color: rgba(1, 95, 255, 0.5);
+}
+
+.avatar {
+  min-width: 2rem;
+  min-height: 2rem;
+  border-radius: 2rem;
+  margin-right: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .channel-header {
@@ -283,5 +294,5 @@ img {
 }
 
 .lobby-logout-users:hover {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }

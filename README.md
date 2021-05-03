@@ -50,7 +50,7 @@ REACT_APP_SECRET=your-app-secret
 npm run dev
 ```
 
-- Navigate to https://localhost:3000
+- Navigate to http://localhost:3000/
 
 ## Docs
 

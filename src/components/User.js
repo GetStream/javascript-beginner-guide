@@ -1,5 +1,6 @@
-export default function User({ client, user, setView, setChannel }) {
+import Avatar from "./Avatar";
 
+export default function User({ client, user, setView, setChannel }) {
   const handleUserClick = async (userID) => {
     // check if a 1:1 channel exists already between you and the other user
     let channelID = await getChannelID(userID);
@@ -54,6 +55,7 @@ export default function User({ client, user, setView, setChannel }) {
 
   return (
     <li className="User" onClick={() => handleUserClick(user.id)}>
+      <Avatar user={user} />
       {user.id}
     </li>
   );
