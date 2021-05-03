@@ -8,12 +8,8 @@
 
 - [Register](https://getstream.io/chat/trial/) to get an API key for Stream Chat
 - [React Chat Tutorial](https://getstream.io/chat/react-chat/tutorial/)
-- [Chat UI Kit](https://getstream.io/chat/ui-kit/)
-- [Example Apps](#example-apps)
-- [Component Docs](https://getstream.github.io/stream-chat-react/)
-- [Internationalisation](#internationalisation)
 
-With these chat components, you can support any chat use case:
+With Stream chat components, you can support any chat use case:
 
 - Livestreams like Twitch or Youtube
 - In-Game chat like Overwatch or Fortnite
