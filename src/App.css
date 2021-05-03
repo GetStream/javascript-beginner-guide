@@ -28,8 +28,7 @@ p {
 
 .App {
   min-height: 94vh;
-  min-width: 50vw;
-  max-width: 70vw;
+  width: 65vw;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -74,6 +73,7 @@ p {
 .login_label {
   align-self: flex-start;
   margin-left: 0.5rem;
+  font-size: 1rem;
 }
 
 .login_input {
@@ -157,7 +157,7 @@ p {
   background-color: #373639;
   font-size: 1em;
   margin-bottom: auto;
-  width: 65vw;
+  width: 100%;
   border-radius: 0.8rem;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
@@ -272,10 +272,6 @@ img {
   clear: both;
   float: left;
 }
-
-/* .message-input {
-  position: fixed;
-} */
 
 .lobby-logout-users {
   cursor: pointer;

@@ -3,17 +3,17 @@ export default function Header({ messages, channel, client }) {
   const otherMember = Object.keys(channel.state.members).filter(
     (user) => user !== client.userID
   );
-  const member = otherMember.length ? otherMember : "Lobby";
+  const to = otherMember.length ? otherMember : "Lobby";
 
   return (
     <div className="channel-header">
-      <h1 className="to">{`To: ${member}`}</h1>
+      <h1 className="to">{`To: ${to}`}</h1>
       <h2 className="extra-channel-data">
         {
           !messages.length && channel.data.name
-            ? `This is the start of your 1:1 message history with ${member}`
+            ? `This is the start of your 1:1 message history with ${to}`
             : channel.id === "lobby"
-            ? "This is a 'Livestream' Channel Type. Every 'user' role has read & write permissions by default"
+            ? "This is a 'Livestream' Channel Type. All 'roles' have read permissions by default"
             : channel.data.name
           // channel.data.name is the extra data we added to the 1:1 channel on
           // creation -> channel.watch() in User.js

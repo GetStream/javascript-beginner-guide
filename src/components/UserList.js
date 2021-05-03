@@ -17,7 +17,7 @@ export default function UserList({ client, setView, setChannel }) {
       // https://getstream.io/chat/docs/javascript/query_users/?language=javascript
       const response = await client.queryUsers(filter, sort, options);
       // add note options
-      setUsers(response);
+      setUsers(response.users);
     };
     getUsers();
     setTimeout(() => setLoading(false), 500);
@@ -27,10 +27,16 @@ export default function UserList({ client, setView, setChannel }) {
   const handleGetMoreUsersClick = async () => {
     const filter = { id: { $ne: client.userID } };
     const sort = { last_active: -1 };
+    // offset can be used for pagination
     const options = { offset: offset, limit: 10 };
     offset += 10;
     const response = await client.queryUsers(filter, sort, options);
-    setUsers(response);
+    if (users.length === 10) setUsers([...users, ...response.users]);
+    if (
+      users[users.length - 1]?.id !==
+      response.users[response.users.length - 1]?.id
+    )
+      setUsers([...users, ...response.users]);
   };
 
   return (
@@ -44,7 +50,7 @@ export default function UserList({ client, setView, setChannel }) {
             <Fragment>
               <p className="select">Select a user to chat with</p>
               {users &&
-                users.users.map((user) => (
+                users.map((user) => (
                   <User
                     key={user.created_at}
                     client={client}
@@ -60,7 +66,12 @@ export default function UserList({ client, setView, setChannel }) {
               another user to view a list of users to choose from"
             </p>
           )}
-          <button onClick={handleGetMoreUsersClick} className="get-more-users">Get More Users</button>
+          <button
+            onClick={handleGetMoreUsersClick}
+            className="lobby-logout-users"
+          >
+            Get More Users
+          </button>
         </ul>
       )}
     </div>

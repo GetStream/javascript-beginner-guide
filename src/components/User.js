@@ -1,4 +1,22 @@
 export default function User({ client, user, setView, setChannel }) {
+
+  const handleUserClick = async (userID) => {
+    // check if a 1:1 channel exists already between you and the other user
+    let channelID = await getChannelID(userID);
+    // if a channel exists already
+    if (channelID) {
+      // client.channel() instantiates a channel - channel type is the only mandatory argument
+      // if no id is passed, the id will be generated for you - does not call API
+      const channel = client.channel("messaging", channelID);
+      // no need to call channel.watch() because queryChannels() watches all the channels it returns
+      setChannel(channel);
+      setView(channelID);
+      // if a channel id is not returned from getChannelID, we need to create a new channel
+    } else {
+      createNewChannel(userID, `${client.userID}-${userID}`);
+    }
+  };
+
   const getChannelID = async (userID) => {
     // there are 4 built-in Channel Types. We will query messaging Type
     // https://getstream.io/chat/docs/javascript/channel_features/?language=javascript
@@ -16,23 +34,6 @@ export default function User({ client, user, setView, setChannel }) {
     const channels = await client.queryChannels(filter);
     // return the channel id if it exists - otherwise return undefined
     return channels[0]?.id;
-  };
-
-  const handleUserClick = async (userID) => {
-    // check if a 1:1 channel exists already between you and the other user
-    let channelID = await getChannelID(userID);
-    // if a channel exists already
-    if (channelID) {
-      // client.channel() instantiates a channel - channel type is the only mandatory argument
-      // if no id is passed, the id will be generated for you - does not call API
-      const channel = client.channel("messaging", channelID);
-      // no need to call channel.watch() because queryChannels() watches all the channels it returns
-      setChannel(channel);
-      setView(channelID);
-      // if a channel id is not returned from getChannelID, we need to create a new channel
-    } else {
-      createNewChannel(userID, `${client.userID}-${userID}`);
-    }
   };
 
   const createNewChannel = async (userID, channelID) => {
