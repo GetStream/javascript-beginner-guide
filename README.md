@@ -26,19 +26,9 @@ The best place to start is the [React Chat Tutorial](https://getstream.io/chat/r
 Stream is free for most side and hobby projects. To qualify your project/company needs to have < 5 team members and < $10k in monthly revenue.
 For complete pricing details visit our [Chat Pricing Page](https://getstream.io/chat/pricing/)
 
-## Installation
+## Install Example App
 
-### Install with NPM
-
-`npm install --save react react-dom stream-chat`
-
-### Install with Yarn
-
-`yarn add react react-dom stream-chat stream-chat-react`
-
-## Example App
-
-This repo includes an example app. You can try it out like this:
+This repo is a simple example app. You can try it out like this:
 
 ```
 git clone https://github.com/zacheryconverse/basic-chat.git
