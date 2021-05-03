@@ -1,6 +1,21 @@
+import { useEffect, useState } from "react";
 import Avatar from "./Avatar";
 
 export default function User({ client, user, setView, setChannel }) {
+  const [channelInfo, setChannelInfo] = useState(null);
+
+  useEffect(() => {
+    const filter = { members: { $eq: [client.userID, user.id] } };
+    const options = { limit: 1 };
+    const getChannels = async () => {
+      await client.queryChannels(filter, {}, options).then((r) => {
+        setChannelInfo(r);
+        console.log(r);
+      });
+    };
+    getChannels();
+  }, [client, user.id]);
+
   const handleUserClick = async (userID) => {
     // check if a 1:1 channel exists already between you and the other user
     let channelID = await getChannelID(userID);
@@ -34,6 +49,7 @@ export default function User({ client, user, setView, setChannel }) {
     // https://getstream.io/chat/docs/javascript/query_channels/?language=javascript
     const channels = await client.queryChannels(filter);
     // return the channel id if it exists - otherwise return undefined
+    console.log(channels);
     return channels[0]?.id;
   };
 
@@ -52,13 +68,17 @@ export default function User({ client, user, setView, setChannel }) {
     setChannel(channel);
     setView("");
   };
-
   return (
     <li className="User" onClick={() => handleUserClick(user.id)}>
-      <Avatar user={user} />
       <div className="user_info">
-        <div>{user.id}</div>
-        <div className="user_arrow">→</div>
+        <Avatar user={user} />
+        <div className="user_id">
+          <div>{user.id}</div>
+          <div className="user_arrow">→</div>
+        </div>
+      </div>
+      <div className="user_channel-info">
+        {channelInfo?.length ? "info" : "No message history"}
       </div>
     </li>
   );

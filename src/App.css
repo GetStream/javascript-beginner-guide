@@ -142,6 +142,7 @@ p {
 .User {
   list-style-type: none;
   display: flex;
+  flex-direction: column;
   border-bottom: 1px solid rgba(1, 95, 255, 0.5);
   padding: 0.5rem 3rem;
   cursor: pointer;
@@ -158,10 +159,6 @@ p {
   width: 100%;
 }
 
-.user_arrow {
-  color: rgba(1, 95, 255);
-}
-
 .avatar {
   min-width: 2rem;
   min-height: 2rem;
@@ -170,6 +167,23 @@ p {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.user_id {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.user_arrow {
+  color: rgba(1, 95, 255);
+}
+
+.user_channel-info {
+    display: flex;
+    margin-left: 4rem;
+    font-size: 1rem;
+    color: #909093;
 }
 
 .channel-header {
