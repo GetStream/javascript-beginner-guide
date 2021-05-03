@@ -83,7 +83,6 @@ p {
   padding: 0.8rem;
   width: 100%;
   background-color: #EFEFEF;
-  color: #797979;
 }
 
 .login_input:hover {
@@ -280,7 +279,7 @@ img {
   border-radius: 1rem;
   background-color: #909093;
   height: 5vh;
-  min-width: 20vw;
+  min-width: 16vw;
 }
 
 .lobby-logout-users:hover {
