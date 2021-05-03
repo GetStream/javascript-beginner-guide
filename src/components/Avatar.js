@@ -14,7 +14,7 @@ export default function Avatar({ user }) {
     <div
       className="avatar"
       style={{
-        backgroundColor: stringToHslColor(user.id, 30, 80),
+        backgroundColor: stringToHslColor(user.id, 50, 40),
       }}
     >
       {user?.id[0].toUpperCase()}

@@ -56,7 +56,10 @@ export default function User({ client, user, setView, setChannel }) {
   return (
     <li className="User" onClick={() => handleUserClick(user.id)}>
       <Avatar user={user} />
-      {user.id}
+      <div className="user_info">
+        <div>{user.id}</div>
+        <div className="user_arrow">→</div>
+      </div>
     </li>
   );
 }

@@ -142,7 +142,6 @@ p {
 .User {
   list-style-type: none;
   display: flex;
-  flex-direction: row;
   border-bottom: 1px solid rgba(1, 95, 255, 0.5);
   padding: 0.5rem 3rem;
   cursor: pointer;
@@ -153,6 +152,16 @@ p {
   background-color: rgba(1, 95, 255, 0.5);
 }
 
+.user_info {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.user_arrow {
+  color: rgba(1, 95, 255);
+}
+
 .avatar {
   min-width: 2rem;
   min-height: 2rem;
@@ -161,7 +170,6 @@ p {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  border: 1px solid rgba(1, 95, 255, 0.5);
 }
 
 .channel-header {
