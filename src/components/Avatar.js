@@ -1,14 +1,20 @@
-import React from "react";
-
 export default function Avatar({ user }) {
-  const color = `#${Math.floor(Math.random() * 16777215).toString(
-          16
-        )}`
+
+  function stringToHslColor(str, s, l) {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    const h = hash % 360;
+    return "hsl(" + h + ", " + s + "%, " + l + "%)";
+  }
+
   return (
     <div
       className="avatar"
       style={{
-        backgroundColor: color,
+        backgroundColor: stringToHslColor(user.id, 30, 80),
       }}
     >
       {user?.id[0].toUpperCase()}
