@@ -45,13 +45,15 @@ git clone https://github.com/zacheryconverse/basic-chat.git
 npm install
 ```
 
-- Create a .env file at root level and in the server folder
+- Create a .env file at root level and another in the server folder
 - Create an account on [Stream](https://getstream.io/try-for-free/)
 - Go to your Stream [Dashboard](https://dashboard.getstream.io/dashboard/v2/)
-- Add your app key to the root .env file: REACT_APP_KEY=your-app-key
-- Add your app key and secret to the .env file you created in the server folder:
+- Add your app key to the root .env file:\
+REACT_APP_KEY=your-app-key
+- Add your app key and secret to the .env file you created in the server folder:\
 REACT_APP_KEY=your-app-key
 REACT_APP_SECRET=your-app-secret
+- Then run:
 
 
 ```
