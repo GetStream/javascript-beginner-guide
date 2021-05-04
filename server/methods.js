@@ -1,52 +1,60 @@
 const StreamChat = require("stream-chat").StreamChat;
 require("dotenv").config({ path: "server/.env" });
 
-
 const appKey = process.env.REACT_APP_KEY;
 const secret = process.env.REACT_APP_SECRET;
-const userID = "Zachery";
+// ensure your appKey and secret are not resolving to undefined
 console.log(appKey, secret);
-const client = StreamChat.getInstance(appKey, secret);
 
-const token = client.createToken(userID);
+const serverClient = StreamChat.getInstance(appKey, secret);
 
-const userArray = [
-  { id: "Stephen" },
-  { id: "Zach" },
-  { id: "Cody" },
-  { id: "Chantelle" },
-  { id: "Suki" },
-  { id: "Shweta" },
-];
+// There is no need for userID, createToken(), or connectUser() on server side
+// 🚫 const userID = "Zachery";
+// 🙅 const token = serverClient.createToken(userID);
+// ⛔️ client.connectUser({ id: userID }, token);
 
-const upsertMany = async (users) => {
-  return await client.upsertUsers(users);
+const upsertManyUsers = async () => {
+  const userArray = [
+    { id: "Stephen" },
+    { id: "Zachery" },
+    { id: "Cody" },
+    { id: "Chantelle" },
+    { id: "Suki" },
+    { id: "Shweta" },
+  ];
+  return await serverClient
+    .upsertUsers(userArray)
+    .catch((err) => console.log(err));
 };
+// Add mock users (optional) - From root directory - Run:
+// npm run upsertUsers
+// upsertUsers() is idempotent - if you call it multiple times with the same arguments, it will not affect your app state
+// you may want to comment out the below method after initial successful call to avoid unexpected behavior
+upsertManyUsers()
+  .then(() => console.log("Mock users added to app")
+  .catch((err) => console.log(err))
+);
 
-// upsertMany(userArray);
+// Below are additional helpful methods you may like to use
 
 const getChannels = async () => {
-  // await client
-  //   .connectUser({ id: userID }, token)
-  //   .catch((err) => console.log(err));
-
   const filter = {
     type: "livestream",
     // type: "messaging",
     // members: { $eq: [userID, "Cody"] },
+    // members: { $in: [userID] },
   };
-  const response = await client
+  const response = await serverClient
     .queryChannels(filter)
     .then(() => console.log(response));
 };
 
-getChannels()
-  .then((res) => console.log(res))
-  .catch((err) => console.log(err));
+// getChannels()
+//   .then((res) => console.log(res))
+//   .catch((err) => console.log(err));
 
 const createChannel = async () => {
-  // await client.connectUser({ id: userID }, token);
-  const channel = client.channel("livestream", "lobby");
+  const channel = serverClient.channel("livestream", "lobby");
   return await channel.create();
 };
 
@@ -55,21 +63,26 @@ const createChannel = async () => {
 //   .catch((err) => console.log(err));
 
 const deleteMessage = async (messageId) => {
-  // await client.connectUser({ id: userID }, token);
-  return await client.deleteMessage(messageId, true);
+  return await serverClient.deleteMessage(messageId, true);
 
   // deleteMessage("c75a421e-ad25-40a5-b457-96a3bf4")
   //   .then((res) => console.log(res))
   //   .catch((err) => console.log(err));
 };
 
+// deleteMessage('some_message_id')
+  // .then((res) => console.log(res))
+  // .catch((err) => console.log(err));
+
 const deleteChannel = async (channelID) => {
-  // await client
+  // await serverClient
   //   .connectUser({ id: userID }, token)
   //   .catch((err) => console.log(err));
-  const channel = client.channel("messaging", channelID);
+  const channel = serverClient.channel("messaging", channelID);
   await channel.watch().catch((err) => console.log(err));
   return await channel.delete().catch((err) => console.log(err));
 };
 
-// deleteChannel("!members-fnjmEdAjuz77kKRWoiI4628fCByF4E6ftvi21a").then((res) => console.log(res))
+// deleteChannel("some_channel_id")
+  // .then((res) => console.log(res))
+  // .catch((err) => console.log(err));
