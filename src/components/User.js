@@ -78,7 +78,7 @@ export default function User({ client, user, setView, setChannel }) {
     // https://getstream.io/chat/docs/javascript/watch_channel/?language=javascript
     await channel.watch();
     setChannel(channel);
-    setView("");
+    setView(channelID);
   };
   return (
     <li className="User" onClick={() => handleUserClick(user.id)}>

@@ -30,27 +30,31 @@ For complete pricing details visit our [Chat Pricing Page](https://getstream.io/
 
 This repo is a simple example app. You can try it out like this:
 
+1. Run:
 ```
 git clone https://github.com/zacheryconverse/basic-chat.git
 npm install
 ```
 
-- Create a .env file at root level and another in the server folder
-- Create an account on [Stream](https://getstream.io/try-for-free/)
-- Go to your Stream [Dashboard](https://dashboard.getstream.io/dashboard/v2/)
-- Add your app key to the root .env file:\
+2. Create a .env file at root level and another in the server folder
+3. Create an account on [Stream](https://getstream.io/try-for-free/)
+4. Go to your Stream [Dashboard](https://dashboard.getstream.io/dashboard/v2/)
+5. Add your app key to the root .env file:
+```
 REACT_APP_KEY=your-app-key
-- Add your app key and secret to the .env file you created in the server folder:\
+```
+6. Add your app key and secret to the .env file you created in the server folder:\
+```
 REACT_APP_KEY=your-app-key\
 REACT_APP_SECRET=your-app-secret
-- Then run:
-
+```
+7. Then run:
 
 ```
 npm run dev
 ```
 
-- Navigate to http://localhost:3000/
+8. Navigate to http://localhost:3000/
 
 ## Docs
 
