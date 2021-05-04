@@ -71,5 +71,4 @@ The best place to start using the UI Components is the [React Chat SDK Tutorial]
 We've recently closed a [$38 million Series B funding round](https://techcrunch.com/2021/03/04/stream-raises-38m-as-its-chat-and-activity-feed-apis-power-communications-for-1b-users/) and we keep actively growing.
 Our APIs are used by more than a billion end-users, and you'll have a chance to make a huge impact on the product within a team of the strongest engineers all over the world.
 
-Check out our current openings and apply via [Stream's website](https://grnh.se/cf33b7ba3us)\
-[The Team Behind Stream](https://getstream.io/team/#jobs).
+Check out our [current openings](https://getstream.io/team/#jobs) and apply via the [job board](https://grnh.se/cf33b7ba3us)
