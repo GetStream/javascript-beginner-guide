@@ -53,9 +53,7 @@ Review our [JS chat API docs](https://getstream.io/chat/docs/js/).
 
 ## React UI Component SDK
 
-If you would rather start with pre-styled and fully featured components, use our [Official React SDK for Stream Chat](https://github.com/GetStream/stream-chat-react)
-
-- [React Chat SDK Tutorial](https://getstream.io/chat/react-chat/tutorial/)
+If you would like to try pre-styled and fully featured UI Components, use our [Official React SDK for Stream Chat](https://github.com/GetStream/stream-chat-react)
 
 With Stream chat components, you can support any chat use case:
 
@@ -73,4 +71,5 @@ The best place to start using the UI Components is the [React Chat SDK Tutorial]
 We've recently closed a [$38 million Series B funding round](https://techcrunch.com/2021/03/04/stream-raises-38m-as-its-chat-and-activity-feed-apis-power-communications-for-1b-users/) and we keep actively growing.
 Our APIs are used by more than a billion end-users, and you'll have a chance to make a huge impact on the product within a team of the strongest engineers all over the world.
 
-Check out our current openings and apply via [Stream's website](https://getstream.io/team/#jobs).
+Check out our current openings and apply via [Stream's website](https://grnh.se/cf33b7ba3us)\
+[The Team Behind Stream](https://getstream.io/team/#jobs).
