@@ -28,7 +28,8 @@ p {
 
 .App {
   min-height: 94vh;
-  width: 65vw;
+  min-width: 65vw;
+  max-width: 95vw;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -135,7 +136,6 @@ p {
 }
 
 .select {
-  border-bottom: 1px solid rgba(1, 95, 255, 0.5);
   padding-bottom: 1rem;
 }
 
@@ -144,9 +144,8 @@ p {
   display: flex;
   flex-direction: column;
   border-bottom: 1px solid rgba(1, 95, 255, 0.5);
-  padding: 0.5rem 3rem;
+  padding: 0.2rem .4rem;
   cursor: pointer;
-  margin-left: -1rem;
 }
 
 .User:hover {
@@ -157,13 +156,14 @@ p {
   display: flex;
   justify-content: space-between;
   width: 100%;
+  align-items: center;
 }
 
 .avatar {
   min-width: 2rem;
   min-height: 2rem;
   border-radius: 2rem;
-  margin-right: 1.5rem;
+  margin-right: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -171,19 +171,27 @@ p {
 
 .user_id {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
+  align-items: flex-start;
   width: 100%;
+  font-weight: 600;
+}
+
+.user_channel-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  font-size: 1rem;
+  color: #909093;
+  white-space: nowrap;
+  font-weight: 300;
+  font-size: .8rem;
 }
 
 .user_arrow {
   color: rgba(1, 95, 255);
-}
-
-.user_channel-info {
-    display: flex;
-    margin-left: 4rem;
-    font-size: 1rem;
-    color: #909093;
 }
 
 .channel-header {
@@ -210,7 +218,8 @@ p {
 }
 
 .channel {
-  width: 60vw;
+  width: 100%;
+  padding: 1rem;
 }
 
 .message-input {
@@ -227,11 +236,12 @@ input:focus {
 
 .message {
   list-style-type: none;
-  max-width: 30vw;
+  max-width: 40vw;
   border-radius: 0.9rem;
   padding: 0.2rem 0.6rem;
   margin: 0.3rem;
   font-size: 0.9rem;
+  word-break: break-word;
 }
 
 .lobby-user {
@@ -262,6 +272,8 @@ input:focus {
   list-style-type: none;
   clear: both;
   float: left;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .me-text-message {
