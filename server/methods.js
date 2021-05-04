@@ -1,18 +1,19 @@
 const StreamChat = require("stream-chat").StreamChat;
-require("dotenv").config({ path: ".env" });
+require("dotenv").config({ path: "server/.env" });
 
-const apiKey = process.env.REACT_APP_API_KEY;
+
+const appKey = process.env.REACT_APP_KEY;
 const secret = process.env.REACT_APP_SECRET;
 const userID = "Zachery";
-
-const client = StreamChat.getInstance(apiKey, secret);
+console.log(appKey, secret);
+const client = StreamChat.getInstance(appKey, secret);
 
 const token = client.createToken(userID);
 
 const getChannels = async () => {
-  await client
-    .connectUser({ id: userID }, token)
-    .catch((err) => console.log(err));
+  // await client
+  //   .connectUser({ id: userID }, token)
+  //   .catch((err) => console.log(err));
 
   const filter = {
     type: "livestream",
@@ -24,9 +25,9 @@ const getChannels = async () => {
     .then(() => console.log(response));
 };
 
-// getChannels()
-//   .then((res) => console.log(res))
-//   .catch((err) => console.log(err));
+getChannels()
+  .then((res) => console.log(res))
+  .catch((err) => console.log(err));
 
 const createChannel = async () => {
   await client.connectUser({ id: userID }, token);

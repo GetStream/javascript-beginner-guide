@@ -28,8 +28,7 @@ p {
 
 .App {
   min-height: 94vh;
-  min-width: 65vw;
-  max-width: 95vw;
+  width: 65vw;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -176,6 +175,7 @@ p {
   align-items: flex-start;
   width: 100%;
   font-weight: 600;
+  font-size: 1rem;
 }
 
 .user_channel-info {
@@ -222,6 +222,16 @@ p {
   padding: 1rem;
 }
 
+.message {
+  list-style-type: none;
+  max-width: 40vw;
+  border-radius: 0.9rem;
+  padding: 0.2rem 0.6rem;
+  margin: 0.3rem;
+  font-size: 0.9rem;
+  word-break: break-word;
+}
+
 .message-input {
   width: 60vw;
   height: 5vh;
@@ -232,16 +242,6 @@ p {
 
 input:focus {
   outline: none;
-}
-
-.message {
-  list-style-type: none;
-  max-width: 40vw;
-  border-radius: 0.9rem;
-  padding: 0.2rem 0.6rem;
-  margin: 0.3rem;
-  font-size: 0.9rem;
-  word-break: break-word;
 }
 
 .lobby-user {
