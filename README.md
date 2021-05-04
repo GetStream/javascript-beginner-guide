@@ -17,10 +17,6 @@ With Stream chat components, you can support any chat use case:
 - Messaging style chat like Whatsapp or Facebook's messenger
 - Commerce chat like Drift or Intercom
 
-## React Chat Tutorial
-
-The best place to start is the [React Chat Tutorial](https://getstream.io/chat/react-chat/tutorial/). It teaches you how to use this SDK and also shows how to make frequently required changes.
-
 ## Free for Makers
 
 Stream is free for most side and hobby projects. To qualify your project/company needs to have < 5 team members and < $10k in monthly revenue.
