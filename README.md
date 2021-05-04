@@ -1,4 +1,4 @@
-# Official JavaScript SDK for [Stream Chat](https://getstream.io/chat/)
+# Example Chat App using the JS SDK for [Stream Chat](https://getstream.io/chat/)
 
 <p align="center">
   <a href="https://getstream.io/chat/react-chat/tutorial/"><img src="https://i.imgur.com/SRkDlFX.png" alt="react native chat" width="60%" /></a>
@@ -6,39 +6,45 @@
 
 **Quick Links**
 
-- [Guide](https://github.com/zacheryconverse/basic-chat/blob/main/setup-guide.md)
+- Follow along in this complimentary [Guide](https://github.com/zacheryconverse/basic-chat/blob/main/setup-guide.md)
 - [Register](https://getstream.io/chat/trial/) to get an API key for Stream Chat
 - [JS Chat API docs](https://getstream.io/chat/docs/js/)
 - [Knowledge Base Articles](https://getstream.zendesk.com/hc/en-us/)
 
+**Use**
+This is a simple example chat app and guide to using `stream-chat` - the JS SDK for Stream Chat.\
+The purpose of this repo is to showcase Stream Chat basic concepts, use, and best practices.
+
 ## Install Example App
 
-This repo is a simple example app. You can try it out like this:
+To try out this example chat app, follow these steps:
 
-1. Run:
+1. Clone repo and install dependencies - Run:
 ```
 git clone https://github.com/zacheryconverse/basic-chat.git
 npm install
 ```
 
 2. Create a .env file at root level and another in the server folder
-3. Create an account on [Stream](https://getstream.io/try-for-free/)
+3. Create an account on [Stream](https://getstream.io/try-for-free/). Get Started for Free with an Unlimited 30-Day Chat Messaging Trial.
 4. Go to your Stream [Dashboard](https://dashboard.getstream.io/dashboard/v2/)
-5. Add your app key to the root .env file:
-```
+5. Add your app key to the root .env file you created:
+```javascript
 REACT_APP_KEY=your-app-key
 ```
-6. Add your app key and secret to the .env file you created in the server folder:\
-```
-REACT_APP_KEY=your-app-key\
+6. Add your app key and secret to the .env file you created in the server folder:
+```javascript
+REACT_APP_KEY=your-app-key
 REACT_APP_SECRET=your-app-secret
 ```
-7. Then run:
-
+7. Add mock users (optional) - Run:
+```
+npm run upsertUsers
+```
+8. Start client and server - Run:
 ```
 npm run dev
 ```
-
 8. Navigate to http://localhost:3000/
 
 ## Docs
@@ -55,7 +61,7 @@ Review our [Knowledge Base Articles](https://getstream.zendesk.com/hc/en-us/).
 
 ## React UI Component SDK
 
-If you would like to try pre-styled and fully featured UI Components, use our [Official React SDK for Stream Chat](https://github.com/GetStream/stream-chat-react)
+If you would like to try pre-styled and fully featured React UI Components, use our [Official React SDK for Stream Chat](https://github.com/GetStream/stream-chat-react)
 
 With Stream chat components, you can support any chat use case:
 
