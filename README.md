@@ -7,15 +7,6 @@
 **Quick Links**
 
 - [Register](https://getstream.io/chat/trial/) to get an API key for Stream Chat
-- [React Chat Tutorial](https://getstream.io/chat/react-chat/tutorial/)
-
-With Stream chat components, you can support any chat use case:
-
-- Livestreams like Twitch or Youtube
-- In-Game chat like Overwatch or Fortnite
-- Team style chat like Slack
-- Messaging style chat like Whatsapp or Facebook's messenger
-- Commerce chat like Drift or Intercom
 
 ## Free for Makers
 
@@ -59,6 +50,24 @@ Review our [JS chat API docs](https://getstream.io/chat/docs/js/).
 ## Typescript
 
 **Note:** The [stream-chat-js](https://github.com/getstream/stream-chat-js) library allows for fully typed responses using generics.
+
+## React UI Component SDK
+
+If you would rather start with pre-styled and fully featured components, use our [Official React SDK for Stream Chat](https://github.com/GetStream/stream-chat-react)
+
+- [React Chat SDK Tutorial](https://getstream.io/chat/react-chat/tutorial/)
+
+With Stream chat components, you can support any chat use case:
+
+- Livestreams like Twitch or Youtube
+- In-Game chat like Overwatch or Fortnite
+- Team style chat like Slack
+- Messaging style chat like Whatsapp or Facebook's messenger
+- Commerce chat like Drift or Intercom
+
+## React Chat Tutorial
+
+The best place to start using the UI Components is the [React Chat SDK Tutorial](https://getstream.io/chat/react-chat/tutorial/). It teaches you how to use the React Chat SDK and also shows how to make frequently required changes.
 
 ## We are hiring!
 We've recently closed a [$38 million Series B funding round](https://techcrunch.com/2021/03/04/stream-raises-38m-as-its-chat-and-activity-feed-apis-power-communications-for-1b-users/) and we keep actively growing.
