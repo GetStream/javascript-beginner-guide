@@ -10,7 +10,7 @@
 - [Register](https://getstream.io/chat/trial/) to get an API key for Stream Chat
 - [JS Chat API docs](https://getstream.io/chat/docs/js/)
 - [Knowledge Base Articles](https://getstream.zendesk.com/hc/en-us/)
-> * [Stream Chat Success Checklist](https://getstream.zendesk.com/hc/en-us/articles/1500007673721-Stream-Chat-Success-Checklist)
+: [Stream Chat Success Checklist](https://getstream.zendesk.com/hc/en-us/articles/1500007673721-Stream-Chat-Success-Checklist)
 
 **Use**
 
@@ -28,8 +28,8 @@ npm install
 ```
 
 2. Create a .env file at root level and another in the server folder
-3. Create an account on [Stream](https://getstream.io/try-for-free/). Get Started for Free with an Unlimited 30-Day Chat Messaging Trial.
-4. Go to your Stream [Dashboard](https://dashboard.getstream.io/dashboard/v2/)
+3. Create an account on [Stream](https://getstream.io/try-for-free/). Get Started for Free with an Unlimited 30-Day Chat Messaging Trial
+4. Go to your Stream [Dashboard](https://dashboard.getstream.io/dashboard/v2/) to find your app key and secret
 5. Add your app key to the root .env file you created:
 ```javascript
 REACT_APP_KEY=your-app-key
@@ -47,7 +47,7 @@ npm run upsertUsers
 ```
 npm run dev
 ```
-8. Navigate to http://localhost:3000/
+9. Navigate to http://localhost:3000/
 
 ## Docs
 
@@ -55,7 +55,8 @@ Review our [JS Chat API docs](https://getstream.io/chat/docs/js/).
 
 ## Knowledge Base
 
-Review our [Knowledge Base Articles](https://getstream.zendesk.com/hc/en-us/).
+Review our [Knowledge Base Articles](https://getstream.zendesk.com/hc/en-us/). Especially this [Success Checklist](https://getstream.zendesk.com/hc/en-us/articles/1500007673721-Stream-Chat-Success-Checklist)
+
 
 ## Typescript
 
