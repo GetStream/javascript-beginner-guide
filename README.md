@@ -10,10 +10,12 @@
 - [Register](https://getstream.io/chat/trial/) to get an API key for Stream Chat
 - [JS Chat API docs](https://getstream.io/chat/docs/js/)
 - [Knowledge Base Articles](https://getstream.zendesk.com/hc/en-us/)
+> * [Stream Chat Success Checklist](https://getstream.zendesk.com/hc/en-us/articles/1500007673721-Stream-Chat-Success-Checklist)
 
 **Use**
-This is a simple example chat app and guide to using `stream-chat` - the JS SDK for Stream Chat.\
-The purpose of this repo is to showcase Stream Chat basic concepts, use, and best practices.
+
+> This is a simple example chat app and guide to using `stream-chat` - the JS SDK for Stream Chat.\
+> The purpose of this repo is to showcase Stream Chat basic concepts, use, and best practices.
 
 ## Install Example App
 
@@ -61,7 +63,8 @@ Review our [Knowledge Base Articles](https://getstream.zendesk.com/hc/en-us/).
 
 ## React UI Component SDK
 
-If you would like to try pre-styled and fully featured React UI Components, use our [Official React SDK for Stream Chat](https://github.com/GetStream/stream-chat-react)
+If you would like to try pre-styled and fully featured React UI Components instead of this low-level JS Library, use our [Official React SDK for Stream Chat](https://github.com/GetStream/stream-chat-react)
+> After deciding to try out Stream, it can be a little daunting with the number of ways to use the product. One of the earliest and most critical decisions is whether to use a component library, a low-level library, or even the Rest API.
 
 With Stream chat components, you can support any chat use case:
 
