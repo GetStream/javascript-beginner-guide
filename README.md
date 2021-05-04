@@ -6,12 +6,10 @@
 
 **Quick Links**
 
+- [Guide](https://github.com/zacheryconverse/basic-chat/blob/main/setup-guide.md)
 - [Register](https://getstream.io/chat/trial/) to get an API key for Stream Chat
-
-## Free for Makers
-
-Stream is free for most side and hobby projects. To qualify your project/company needs to have < 5 team members and < $10k in monthly revenue.
-For complete pricing details visit our [Chat Pricing Page](https://getstream.io/chat/pricing/)
+- [JS Chat API docs](https://getstream.io/chat/docs/js/)
+- [Knowledge Base Articles](https://getstream.zendesk.com/hc/en-us/)
 
 ## Install Example App
 
@@ -45,7 +43,11 @@ npm run dev
 
 ## Docs
 
-Review our [JS chat API docs](https://getstream.io/chat/docs/js/).
+Review our [JS Chat API docs](https://getstream.io/chat/docs/js/).
+
+## Knowledge Base
+
+Review our [Knowledge Base Articles](https://getstream.zendesk.com/hc/en-us/).
 
 ## Typescript
 
@@ -67,8 +69,13 @@ With Stream chat components, you can support any chat use case:
 
 The best place to start using the UI Components is the [React Chat SDK Tutorial](https://getstream.io/chat/react-chat/tutorial/). It teaches you how to use the React Chat SDK and also shows how to make frequently required changes.
 
+## Free for Makers
+
+Stream is free for most side and hobby projects. To qualify your project/company needs to have < 5 team members and < $10k in monthly revenue.
+For complete pricing details visit our [Chat Pricing Page](https://getstream.io/chat/pricing/)
+
 ## We are hiring!
 We've recently closed a [$38 million Series B funding round](https://techcrunch.com/2021/03/04/stream-raises-38m-as-its-chat-and-activity-feed-apis-power-communications-for-1b-users/) and we keep actively growing.
 Our APIs are used by more than a billion end-users, and you'll have a chance to make a huge impact on the product within a team of the strongest engineers all over the world.
 
-Check out our [current openings](https://getstream.io/team/#jobs) and apply via the [job board](https://grnh.se/cf33b7ba3us)
+Check out our [current openings](https://getstream.io/team/#jobs) and apply via our [job board](https://grnh.se/cf33b7ba3us).
