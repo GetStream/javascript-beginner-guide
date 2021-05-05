@@ -2,7 +2,8 @@
 
 This is a step-by-step guide designed to provide context on basic concepts of Stream's Chat API. Additional information may be found in the [official documentation](https://getstream.io/chat/docs/?language=javascript). The purpose of this guide is to provide steps to build a simple chat app and showcase Stream Chat basic concepts, use, and best practices.
 
-To try out this example chat app, follow these ([instructions](https://github.com/zacheryconverse/basic-chat#install-example-app)).\
+To try out this example chat app, follow the instructions in the [README](https://github.com/zacheryconverse/basic-chat#install-example-app).
+
 To build a chat app from scratch, follow these steps and reference the files in this repo. This guide will include many links to files in this repo to showcase how certain methods may be implemented.
 
 This guide assumes knowledge of ES6 syntax such as async functionality as well as basic http requests. For reference to building a simple NodeJS/ExressJS server, review our server file [here](https://github.com/zacheryconverse/basic-chat/blob/main/server/index.js).
@@ -114,7 +115,7 @@ _After you have started the server and successfully added these users, comment o
 `upsertUsers()` requires `id` as a field. Custom fields may be additionally included. More info [here](https://getstream.io/chat/docs/node/update_users/?language=javascript) on user creation.
 [Example In Repo](https://github.com/zacheryconverse/basic-chat/blob/3f857ac4785f08d5bb7e8ff41bb225776e5b808c/server/methods.js#L13)
 
-Review all users from the Chat 'Explorer' within your Dashboard.
+Review all users from the Chat 'Explorer' within your Dashboard.\
 ![chatexplorer](https://user-images.githubusercontent.com/32964891/117075467-1e93d500-acf2-11eb-8277-bcef235d0113.gif)\
 _Finding the Chat Explorer in your dashboard_
 
@@ -122,40 +123,53 @@ _It is also possible to add users to an app with `connectUser()` - but this will
 
 ## Server Side - Generate Token
 
-Before you connect to the client as a user, you need to generate a user token. Your serverClient has a method built-in that generates a user token for you. On your server-side, run `serverClient.createToken(your_user_id)`
-More info on best practices for token creation in [this](https://getstream.zendesk.com/hc/en-us/articles/360060576774-Token-Creation-Best-Practices) article.
+In order to connect a user on the client side, a token needs to be generated on the server side with `createToken()`.
+
+In `server/index.js`:
+```javascript
+serverClient.createToken('Cody')
+```
+> Because the `serverClient` includes an app secret, it combines the given user id with the secret to generate a user specific token
+More info on best practices for token creation can be found in [this](https://getstream.zendesk.com/hc/en-us/articles/360060576774-Token-Creation-Best-Practices) article.
 
 ## Connect User
 
-Now that you’ve created your list of users, it’s time to log yourself in using the `connctUser()` method.
-Log in by taking your server-side generated token and running `chatClient.connectUser({ id: your_user_id }, your_token)`
-[Passing token from server to client side in the repo, and connecting](https://github.com/zacheryconverse/basic-chat/blob/3f857ac4785f08d5bb7e8ff41bb225776e5b808c/src/components/Login.js#L8)
+Pass the server-side generated token to the client-side in a response and include it in `connectUser()` along with a user id:
+```javascript
+chatClient.connectUser({ id: 'Cody' }, user_specific_token)
+```
+> Every token is specific to a user
+[Example In Repo](https://github.com/zacheryconverse/basic-chat/blob/3f857ac4785f08d5bb7e8ff41bb225776e5b808c/src/components/Login.js#L8)
 
-_Running `connectUser()` with a user that has not already been added using `upsertUser()` will automatically upsert the user for you._
+_Calling `connectUser()` with a user that has not been added to the app will automatically upsert the user for you._
 
 ## Create Lobby
 
-In this guide we use two channel types: livestream and messaging. There is more information on different channel types later on in this guide.
-First we will create a livestream channel, and call it 'Lobby'.
+In this guide two channel types are used: 'livestream' and 'messaging'. More information on channel types may be found later on in this guide.
 
-1. Create and watch the channel.
+Create a 'livestream' channel, and give it an id of 'lobby'.
+
+1. Create and watch a channel:
 
 ```javascript
 const channel = chatClient.channel("livestream", "lobby");
-channel.watch();
+await channel.watch();
 ```
 
-Here, on the first line, we are instantiating a 'livestream' channel, and then by calling `channel.watch()` we are subscribing to events on this channel, such as when a new message is sent. `channel.watch()` also creates a new channel if it doesn't already exist.
-[Creating livestream channel in repo](https://github.com/zacheryconverse/basic-chat/blob/3f857ac4785f08d5bb7e8ff41bb225776e5b808c/src/components/Lobby.js#L12)
+Instantiate a 'livestream' channel with `channel()`.
+Subscribe to events on a channel, such as when a new message is received (`message.new`), by calling `channel.watch()`, which also creates a new channel if it doesn't already exist.
+[Example In Repo](https://github.com/zacheryconverse/basic-chat/blob/3f857ac4785f08d5bb7e8ff41bb225776e5b808c/src/components/Lobby.js#L12)
 
-2. Send A Message
-   We're the only person in this lobby right now, but that's okay, we can still send a message by running
-   `channel.sendMessage({ text: 'Hello' })`
-   [Sending a message in repo](https://github.com/zacheryconverse/basic-chat/blob/main/src/components/MessageInput.js#L13)
+2. Send a message to channel:
+
+```javascript
+channel.sendMessage({ text: 'Hello' })
+```
+[Example In Repo](https://github.com/zacheryconverse/basic-chat/blob/main/src/components/MessageInput.js#L13)
 
 ## Get User List
 
-We've gone over creating a lobby and sending a message. Let's fetch a list of users and create a one-on-one style chat.
+Next, fetch a list of users and create a one-on-one channel.
 
 Since you've already run `upsertUsers` and have a list of users in your app, you can query for these users. Otherwise, if you are the only user in your app, you'll want to [logout](https://github.com/zacheryconverse/basic-chat/blob/3f857ac4785f08d5bb7e8ff41bb225776e5b808c/src/components/Login.js#L20) by running `chatClient.disconnectUser()`, then go back and run `chatClient.connectUser()` again with a second user id before continuing.
 
