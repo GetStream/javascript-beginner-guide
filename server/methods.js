@@ -30,7 +30,7 @@ const upsertManyUsers = async () => {
   ];
   return await serverClient
     .upsertUsers(userArray)
-    .catch((err) => console.log(err));
+    .catch((err) => console.log("An error occurred in server/methods.js - line 31", err));
 };
 // Add mock users (optional) - From root directory - Run:
 // npm run upsertUsers

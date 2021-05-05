@@ -1,7 +1,7 @@
-export default function Header({ messages, channel, client }) {
+export default function Header({ messages, channel, chatClient }) {
   // there are many useful properties on channel.state and the client object
   const otherMember = Object.keys(channel.state.members).filter(
-    (user) => user !== client.userID
+    (user) => user !== chatClient.userID
   );
   const to = otherMember.length ? otherMember : "Lobby";
 
@@ -15,7 +15,7 @@ export default function Header({ messages, channel, client }) {
             : channel.id === "lobby"
             ? "This is a 'Livestream' Channel Type. All 'roles' have read permissions by default"
             : channel.data.name
-          // channel.data.name is the extra data we added to the 1:1 channel on
+          // channel.data.name is the custom field we added to the 1:1 channel on
           // creation -> channel.watch() in User.js
         }
       </h2>

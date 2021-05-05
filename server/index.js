@@ -6,9 +6,9 @@ require("dotenv").config({ path: 'server/.env' });
 // Dashboard - https://getstream.io/accounts/login/
 const key = process.env.REACT_APP_KEY;
 const secret = process.env.REACT_APP_SECRET;
-// instantiate client on server-side requires key & secret
+// initializing client on server-side requires a key & secret
+  // https://getstream.io/chat/docs/javascript/tokens_and_authentication/?language=javascript
 const serverClient = StreamChat.getInstance(key, secret);
-// https://getstream.io/chat/docs/javascript/tokens_and_authentication/?language=javascript
 
 const app = express();
 const PORT = 8080;

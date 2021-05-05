@@ -3,7 +3,7 @@ import { List } from "react-content-loader";
 import Header from "./Header";
 import MessageInput from "./MessageInput";
 
-export default function Channel({ client, view, channel }) {
+export default function Channel({ chatClient, view, channel }) {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const messagesEndRef = useRef(null);
@@ -20,7 +20,7 @@ export default function Channel({ client, view, channel }) {
     }, 500);
   }, [channel.state.messages]);
   // listen to channel events for new messages in channel state
-  // https://getstream.io/chat/docs/javascript/event_listening/?language=javascript
+    // https://getstream.io/chat/docs/javascript/event_listening/?language=javascript
   channel.on("message.new", () => {
     setMessages(channel.state.messages);
     scrollToBottom();
@@ -28,19 +28,20 @@ export default function Channel({ client, view, channel }) {
 
   const getClassNames = (message) => {
     let classNames = "";
-    classNames += message.user.id === client.userID ? "me" : "not-me";
-    // the API will recognize slash commands or the first URL in a message text and enrich the
-    // message object with attachments
-    // https://getstream.io/chat/docs/javascript/message_format/?language=javascript
+    classNames += message.user.id === chatClient.userID ? "me" : "not-me";
+    // the API will recognize slash commands for the first URL in a message text and enrich the
+      // message object with attachments
+        // https://getstream.io/chat/docs/javascript/message_format/?language=javascript
     classNames += message.attachments.length ? "-thumbnail" : "-text-message";
     return classNames;
   };
 
   const isMe = (message) => {
-    return message.user.id === client.userID ? "me" : "not-me";
+    return message.user.id === chatClient.userID ? "me" : "not-me";
   };
 
   function getFormattedTime(date) {
+    console.log(date);
     let hour = date.getHours();
     let minutes = date.getMinutes().toString().padStart(2, "0");
     let amOrPm = "AM";
@@ -53,7 +54,7 @@ export default function Channel({ client, view, channel }) {
 
   return (
     <Fragment>
-      <Header client={client} channel={channel} messages={messages} />
+      <Header chatClient={chatClient} channel={channel} messages={messages} />
       {loading ? (
         <List className="loading" />
       ) : (
@@ -81,7 +82,7 @@ export default function Channel({ client, view, channel }) {
         </ul>
       )}
       <div ref={messagesEndRef}></div>
-      <MessageInput view={view} channel={channel} client={client} />
+      <MessageInput view={view} channel={channel} chatClient={chatClient} />
     </Fragment>
   );
 }

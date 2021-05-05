@@ -3,13 +3,13 @@ import { List } from "react-content-loader";
 import MessageInput from "./MessageInput";
 import Header from "./Header";
 
-export default function Lobby({ client }) {
+export default function Lobby({ chatClient }) {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const messagesEndRef = useRef(null);
-  // client.channel() instantiates a channel - channel type is the only mandatory argument
-  // if no id is passed, the id will be generated for you - does not call API
-  const channel = client.channel("livestream", "lobby");
+  // chatClient.channel() instantiates a channel - channel type is the only mandatory argument
+  // if no id is passed, the id will be generated for you using the channel type and members- does not call API
+  const channel = chatClient.channel("livestream", "lobby");
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -18,7 +18,7 @@ export default function Lobby({ client }) {
   useEffect(() => {
     const getMessagesAndWatchChannel = async () => {
       // calling channel.watch() allows you to listen for events when anything in the channel changes
-      // https://getstream.io/chat/docs/javascript/watch_channel/?language=javascript
+        // https://getstream.io/chat/docs/javascript/watch_channel/?language=javascript
       await channel.watch();
       setMessages(channel.state.messages);
       setLoading(false);
@@ -30,7 +30,7 @@ export default function Lobby({ client }) {
   }, [channel]);
 
   // listen to channel events for new messages in channel state
-  // https://getstream.io/chat/docs/javascript/event_listening/?language=javascript
+    // https://getstream.io/chat/docs/javascript/event_listening/?language=javascript
   channel.on("message.new", () => {
     setMessages(channel.state.messages);
     scrollToBottom();
@@ -53,7 +53,7 @@ export default function Lobby({ client }) {
 
   return (
     <Fragment>
-      <Header channel={channel} client={client} messages={messages} />
+      <Header channel={channel} chatClient={chatClient} messages={messages} />
       {loading ? (
         <List className='loading' />
       ) : (
@@ -82,7 +82,7 @@ export default function Lobby({ client }) {
         </ul>
       )}
       <div ref={messagesEndRef}></div>
-      <MessageInput channel={channel} client={client} />
+      <MessageInput channel={channel} chatClient={chatClient} />
     </Fragment>
   );
 }

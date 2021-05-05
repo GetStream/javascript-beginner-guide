@@ -32,12 +32,12 @@ npm install
 4. Go to your Stream [Dashboard](https://dashboard.getstream.io/dashboard/v2/) to find your app key and secret
 5. Add your app key to the root .env file you created:
 ```javascript
-REACT_APP_KEY=your-app-key
+REACT_APP_KEY=your_app_key
 ```
 6. Add your app key and secret to the .env file you created in the server folder:
 ```javascript
-REACT_APP_KEY=your-app-key
-REACT_APP_SECRET=your-app-secret
+REACT_APP_KEY=your_app_key
+REACT_APP_SECRET=your_app_secret
 ```
 7. Add mock users (optional) - Run:
 ```

@@ -2,9 +2,11 @@ import { useState, useEffect, Fragment } from "react";
 import { List } from "react-content-loader";
 import User from "./User";
 
-export default function UserList({ client, setView, setChannel }) {
-  const [users, setUsers] = useState(null);
+export default function UserList({ chatClient, setView, setChannel }) {
   const [loading, setLoading] = useState(true);
+  const [users, setUsers] = useState([]);
+  const [offset, setOffset] = useState(10);
+  const [renderGetMore, setRenderGetMore] = useState(true);
 
   useEffect(() => {
     const getUsers = async () => {
@@ -13,35 +15,35 @@ export default function UserList({ client, setView, setChannel }) {
       // sort users by last_active date - optional
       // limit the response to the 10 most recently active users
         // https://getstream.io/chat/docs/javascript/query_users/?language=javascript
-      const filter = { id: { $ne: client.userID } };
+      const filter = { id: { $ne: chatClient.userID } };
       const sort = { last_active: -1 };
       const options = { limit: 10 };
-      const response = await client.queryUsers(filter, sort, options);
+      const response = await chatClient.queryUsers(filter, sort, options);
       setUsers(response.users);
     };
     getUsers();
     setTimeout(() => setLoading(false), 500);
-  }, [client]);
+  }, [chatClient]);
 
-  let offset = 10;
   const handleGetMoreUsersClick = async () => {
-    const filter = { id: { $ne: client.userID } };
+    const filter = { id: { $ne: chatClient.userID } };
     const sort = { last_active: -1 };
     // offset can be used for pagination
     const options = { offset: offset, limit: 10 };
-    offset += 10;
-    const response = await client.queryUsers(filter, sort, options);
+    setOffset(offset + 10);
+    const response = await chatClient.queryUsers(filter, sort, options);
     if (users.length === 10) setUsers([...users, ...response.users]);
     if (
       users[users.length - 1]?.id !==
       response.users[response.users.length - 1]?.id
     )
       setUsers([...users, ...response.users]);
+    else setRenderGetMore(false);
   };
 
   return (
     <div className="User-list">
-      <h1 className="welcome">{`Welcome ${client.userID}`}</h1>
+      <h1 className="welcome">{`Welcome ${chatClient.userID}`}</h1>
       {loading ? (
         <List className="loading" />
       ) : (
@@ -53,7 +55,7 @@ export default function UserList({ client, setView, setChannel }) {
                 users.map((user) => (
                   <User
                     key={user.created_at}
-                    client={client}
+                    chatClient={chatClient}
                     user={user}
                     setView={setView}
                     setChannel={setChannel}
@@ -66,12 +68,14 @@ export default function UserList({ client, setView, setChannel }) {
               another user to view a list of users to choose from"
             </p>
           )}
-          <button
-            onClick={handleGetMoreUsersClick}
-            className="lobby-logout-users"
-          >
-            Get More Users
-          </button>
+          {users.length % 10 === 0 && renderGetMore && (
+            <button
+              onClick={handleGetMoreUsersClick}
+              className="lobby-logout-users"
+            >
+              Get More Users
+            </button>
+          )}
         </ul>
       )}
     </div>

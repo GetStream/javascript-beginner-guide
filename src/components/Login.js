@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 
-export default function Login({ client, setView }) {
+export default function Login({ chatClient, setView }) {
   const [userID, setUserID] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -11,13 +11,13 @@ export default function Login({ client, setView }) {
       // trigger a call to server which calls createToken(userID)
       .post("http://localhost:8080/token", { userID })
       // token exists on result.data
-      // https://getstream.io/chat/docs/javascript/init_and_users/?language=javascript
-      .then((res) => client.connectUser({ id: userID }, res.data))
+        // https://getstream.io/chat/docs/javascript/init_and_users/?language=javascript
+      .then((res) => chatClient.connectUser({ id: userID }, res.data))
       .then(() => setView("lobby"))
       .catch((err) => {
         console.error(err);
-        // use client.disconnect() before trying to connect as a different user
-        client.disconnectUser();
+        // use chatClient.disconnect() before trying to connect as a different user
+        chatClient.disconnectUser();
         setErrorMessage(
           "user_details.id is not a valid user id. a-z, 0-9, @, _ and - are allowed."
         );
