@@ -1,6 +1,6 @@
-# Stream Chat Concepts: Set-Up Guide
+# Stream Chat Essentials: Set-Up Guide
 
-This is a step-by-step guide designed to provide context on basic concepts of Stream's Chat API. Additional information may be found in the [Official Documentation](https://getstream.io/chat/docs/?language=javascript) as well as our [Knowledge Base](https://getstream.zendesk.com/hc/en-us/). The purpose of this guide is to provide steps to build a simple chat app using Stream's Chat API and showcase Stream Chat basic concepts, use, and best practices.
+This is a step-by-step guide designed to provide context on basic concepts of Stream's Chat API. Additional information may be found in the [official documentation](https://getstream.io/chat/docs/?language=javascript). The purpose of this guide is to provide steps to build a simple chat app and showcase Stream Chat basic concepts, use, and best practices.
 
 To try out this example chat app, follow the instructions in the [README](https://github.com/zacheryconverse/basic-chat#install-example-app).
 
@@ -42,19 +42,19 @@ const StreamChat = require("stream-chat").StreamChat;
 6. Add your app key to the root .env file you created:
 
 ```javascript
-REACT_APP_KEY=your_app_key;
+REACT_APP_KEY = your - app - key;
 ```
 
 7. Add your app key and secret to the .env file you created in the server folder:
 
 ```javascript
-REACT_APP_KEY=your_app_key;
-REACT_APP_SECRET=your_app_secret;
+REACT_APP_KEY = your-app-key;
+REACT_APP_SECRET = your-app-secret;
 ```
 
 > Your key and secret are sensitive information that should not be public.
+> For more info on working with .env files, check out [this article](https://medium.com/the-node-js-collection/making-your-node-js-work-everywhere-with-environment-variables-2da8cdf6e786).
 
-<sub><sup>For more info on working with .env files, check out [this article](https://medium.com/the-node-js-collection/making-your-node-js-work-everywhere-with-environment-variables-2da8cdf6e786). </sub></sup>
 ![Dashboard App](https://user-images.githubusercontent.com/32964891/117043503-8c2c0b00-acca-11eb-9991-5dd10b5ebc1f.png)
 
 ## Instantiate StreamChat
@@ -87,7 +87,8 @@ node server/index.js
 
 ## Server Side - Upsert Users
 
-Add a user to an app by calling upsertUser(). Add multiple users by calling upsertUsers(). This method is included in `server/methods.js` and will be called by running:
+Add a user to an app by calling `upsertUser()`. Add multiple users by calling `psertUsers()`. 
+This method is included in `server/methods.js` and will be called by running:
 
 ```
 npm run upsertUsers
@@ -97,30 +98,24 @@ npm run upsertUsers
 const upsertMany = async () => {
   const usersArray = [
     { id: "Stephen" },
-    { id: "Zachery" },
+    { id: "Zach" },
     { id: "Cody" },
     { id: "Chantelle" },
     { id: "Suki" },
     { id: "Shweta" },
-    { id: "Steve" },
-    { id: "Zach" },
-    { id: "Collin" },
-    { id: "Chandler" },
-    { id: "Sara" },
-    { id: "Sharon" },
   ];
 
   return await serverClient.upsertUsers(usersArray);
 };
-```
 
-_After you have started the server and successfully added these users, comment out this bit of code_
+upsertMany(userArray);
+```
 
 `upsertUsers()` requires `id` as a field. Custom fields may be additionally included. More info [here](https://getstream.io/chat/docs/node/update_users/?language=javascript) on user creation.
 [Example In Repo](https://github.com/zacheryconverse/basic-chat/blob/3f857ac4785f08d5bb7e8ff41bb225776e5b808c/server/methods.js#L13)
 
-Review all users from the Chat 'Explorer' within your Dashboard.\
-![chatexplorer](https://user-images.githubusercontent.com/32964891/117075467-1e93d500-acf2-11eb-8277-bcef235d0113.gif)\
+Review all users from the Chat 'Explorer' within your Dashboard.
+<img width="1357" alt="Chat Explorer" src="https://user-images.githubusercontent.com/32964891/117172627-366a6800-ad89-11eb-91f2-e958bc57bb0f.png">
 _Finding the Chat Explorer in your dashboard_
 
 _It is also possible to add users to an app with `connectUser()` - but this will affect monthly MAUs. `upsertUser()` is necessary to add members in bulk to your app without connecting them (and increasing your bill)._
@@ -142,10 +137,10 @@ Pass the server-side generated token to the client-side in a response and includ
 ```javascript
 chatClient.connectUser({ id: 'Cody' }, user_specific_token)
 ```
-> Every token is specific to a user
 [Example In Repo](https://github.com/zacheryconverse/basic-chat/blob/3f857ac4785f08d5bb7e8ff41bb225776e5b808c/src/components/Login.js#L8)
+> Every token is specific to a user
 
-_Calling `connectUser()` with a user that has not been added to the app will automatically upsert the user for you._
+> Calling `connectUser()` with a user that has not been added to the app will automatically upsert the user for you.
 
 ## Create Lobby
 
@@ -173,70 +168,71 @@ channel.sendMessage({ text: 'Hello' })
 
 ## Get User List
 
-The users that were added by `upsertUsers()` earlier will be queried. If users have not been added to the app, the client will need to [disconnect](https://github.com/zacheryconverse/basic-chat/blob/3f857ac4785f08d5bb7e8ff41bb225776e5b808c/src/components/Login.js#L20) by calling:
-```javascript
-chatClient.disconnectUser()
-```
-Then call `chatClient.connectUser()` again with a different user id.
+Since you've already run `upsertUsers` and have a list of users in your app, you can query for these users. Otherwise, if you are the only user in your app, you'll want to [logout](https://github.com/zacheryconverse/basic-chat/blob/3f857ac4785f08d5bb7e8ff41bb225776e5b808c/src/components/Login.js#L20) by running `chatClient.disconnectUser()`, then go back and run `chatClient.connectUser()` again with a second user id before continuing.
 
-1. `queryUsers()` will return an object with an array of users in the app. Filter users by `id` and/or by custom fields. Sort the users by `last_active` or by `created_at` date. The options `limit` and `offset` may be used to implement pagination. `queryUsers()` also allows the client to subscribe to presence change events.
+Pick a user to chat with by running the `queryUsers` method. This method is quite flexible. It can be used to filter users by `id` and custom fields, and sort the results by `last_active` or `created_at` date. It also has a `limit` and `offset` option if you want to implement pagination. The method also allows the client to subscribe to presence changes.
 
 Refer to [this page](https://getstream.io/chat/docs/node/query_users/?language=javascript) in the docs for more info.
-_Stream Chat has many query methods such as `queryUsers()`, `queryMembers()`, and `queryChannels()`. Learn more about query syntax [here](https://getstream.io/chat/docs/react/query_syntax/?language=js)_
 
-Query all users with a limit of 10 and sort them by the most recently active.
+For this user list, we are going to query all users with a limit of 10 and sort it by the most recently created.
+
+_There are a lot of ways to query. You can query for channels, users, and members of channels. Learn more about query syntax [here](https://getstream.io/chat/docs/react/query_syntax/?language=js)_
 
 ```javascript
 const getUsers = async () => {
   const filter = { id: { $ne: client.userID } };
-  const sort = { last_active: -1 }
-  const limit = { limit: 10 }
-  return await chatClient.queryUsers(filter, sort, limit);
-}
+  const sort = { last-active: -1 }
+  const response = await chatClient.queryUsers(filter, sort, { limit: 10 })
+  return response
+  }
+
+  getUsers()
 ```
 
-[Example In Repo](https://github.com/zacheryconverse/basic-chat/blob/main/src/components/UserList.js#L10)
+The response of getUsers() will return a list of users.
 
-## Create 1-On-1 Chat Channel
+[Link to querying users in the repo](https://github.com/zacheryconverse/basic-chat/blob/main/src/components/UserList.js#L10)
 
-Now that we have our list of users, we can create a 'messaging' type channel by running `client.channel()` and passing in a channel type and an object with an array of members, then running the `create` method.
-Let's say we want to start a chat with Suki...
+## Get or Create 1-On-1 Chat Channel
+
+After getting a list of users, create a 'messaging' type channel by running `client.channel()` and passing in a channel type and an object with an array of members, then running the `create` method.
+
+To start a chat with Suki...
 
 ```javascript
 const channel = chatClient.channel("messaging", {
-  members: [client.user.id, "Suki"],
+  members: [chatClient.user.id, "Suki"],
 });
 
 await channel.watch();
 ```
 
-You can also add custom parameters to this channel if you'd like, for example:
+You can also add custom parameters to this channel, for example:
 
 ```javascript
 const channel = chatClient.channel("messaging", {
-  members: [client.user.id, "Suki"],
+  members: [chatClient.user.id, "Suki"],
   name: `This is a 'Messaging' Channel Type. ${client.userID} & Suki have role 'channel_member' which has read & write permissions by default`,
 });
 ```
 
 [Link to creating channel in repo](https://github.com/zacheryconverse/basic-chat/blob/main/src/components/User.js#L68)
 
-_In this example we are leaving out an optional ‘id’ field as the second argument of .channel(). This field can be used to create a custom channel name, but for 1 on 1 instances it's best practice to have the API autogenerate a channel id._
+> In this example we are leaving out an optional ‘id’ field as the second argument of .channel(). This field can be used to create a custom channel name, but for 1 on 1 instances it's best practice to have the API autogenerate a channel id._
 
-- _A common approach is to restrict channel creation to your server by running `channel.create()`. `channel.watch()` is suggested for client-side use, where as `channel.create()` is required for server-side. More info on watching channels [here](https://getstream.io/chat/docs/node/watch_channel/?language=javascript)_
+> A common approach is to restrict channel creation to your server by running `channel.create()`. `channel.watch()` is suggested for client-side use, where as `channel.create()` is required for server-side. More info on watching channels [here](https://getstream.io/chat/docs/node/watch_channel/?language=javascript)_
 
-  _If you have already created this channel before, you don't need to do this step and can just get the channel instance, which is covered in the following step._
+> If the channel already exists, calling `channel.watch()` will return the channel state. 
 
 ## Send A Message
 
-Now that we’ve created and started watching our channel instance, run its `sendMessage()` method. A channel instance also includes lots of other
-information, such as the `created_by` field, and `member_count`.
+After getting the channel instance, run the `sendMessage()` method. 
 
 ```javascript
 channel.sendMessage({ text: "Hi Friend!" });
 ```
 
-Now if you log in as the other user, you can see this message show up when you access this channel.
+Now after connecting as a different user, you can see this message show up when you access this channel.
 
 ```javascript
 const channel = chatClient.channel("messaging", {
@@ -268,7 +264,6 @@ Listening for an event is as simple as running the `on` method on your channel i
 ```javascript
 channel.on("message.new", (event) => {
   console.log(event.message);
-  // double check what this is*****
 });
 ```
 
