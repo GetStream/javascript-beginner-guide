@@ -1,6 +1,6 @@
-# Stream Chat Essentials: Set-Up Guide
+# Stream Chat Concepts: Set-Up Guide
 
-This is a step-by-step guide designed to provide context on basic concepts of Stream's Chat API. Additional information may be found in the [official documentation](https://getstream.io/chat/docs/?language=javascript). The purpose of this guide is to provide steps to build a simple chat app and showcase Stream Chat basic concepts, use, and best practices.
+This is a step-by-step guide designed to provide context on basic concepts of Stream's Chat API. Additional information may be found in the [Official Documentation](https://getstream.io/chat/docs/?language=javascript) as well as our [Knowledge Base](https://getstream.zendesk.com/hc/en-us/). The purpose of this guide is to provide steps to build a simple chat app using Stream's Chat API and showcase Stream Chat basic concepts, use, and best practices.
 
 To try out this example chat app, follow the instructions in the [README](https://github.com/zacheryconverse/basic-chat#install-example-app).
 
@@ -42,14 +42,14 @@ const StreamChat = require("stream-chat").StreamChat;
 6. Add your app key to the root .env file you created:
 
 ```javascript
-REACT_APP_KEY = your - app - key;
+REACT_APP_KEY=your_app_key;
 ```
 
 7. Add your app key and secret to the .env file you created in the server folder:
 
 ```javascript
-REACT_APP_KEY = your - app - key;
-REACT_APP_SECRET = your - app - secret;
+REACT_APP_KEY=your_app_key;
+REACT_APP_SECRET=your_app_secret;
 ```
 
 > Your key and secret are sensitive information that should not be public.
@@ -97,11 +97,17 @@ npm run upsertUsers
 const upsertMany = async () => {
   const usersArray = [
     { id: "Stephen" },
-    { id: "Zach" },
+    { id: "Zachery" },
     { id: "Cody" },
     { id: "Chantelle" },
     { id: "Suki" },
     { id: "Shweta" },
+    { id: "Steve" },
+    { id: "Zach" },
+    { id: "Collin" },
+    { id: "Chandler" },
+    { id: "Sara" },
+    { id: "Sharon" },
   ];
 
   return await serverClient.upsertUsers(usersArray);
@@ -171,9 +177,13 @@ channel.sendMessage({ text: 'Hello' })
 
 Next, fetch a list of users and create a one-on-one channel.
 
-Since you've already run `upsertUsers` and have a list of users in your app, you can query for these users. Otherwise, if you are the only user in your app, you'll want to [logout](https://github.com/zacheryconverse/basic-chat/blob/3f857ac4785f08d5bb7e8ff41bb225776e5b808c/src/components/Login.js#L20) by running `chatClient.disconnectUser()`, then go back and run `chatClient.connectUser()` again with a second user id before continuing.
+To fetch a list of users in the app, the users that were added by `upsertUsers()` earlier will be queried. If users have not been added to the app, you'll need to [disconnect](https://github.com/zacheryconverse/basic-chat/blob/3f857ac4785f08d5bb7e8ff41bb225776e5b808c/src/components/Login.js#L20) by calling:
+```javascript
+chatClient.disconnectUser()
+```
+Then call `chatClient.connectUser()` again with a different user id.
 
-1. Before we start a chat with somebody, we need to see all of the users of our application, which we can do by running the `queryUsers` method. This method is quite flexible. You can use it to filter users by `id` and custom fields, and sort the results by `last_active` or `created_at` date. It also has a `limit` and `offset` option if you want to implement pagination. The method also allows the client to subscribe to presence changes.
+1. `queryUsers()` will fetch a list of users in the app. Filter users by `id` and/or by custom fields. Sort the users by `last_active` or by `created_at` date. The options `limit` and `offset` may be used to implement pagination. `queryUsers()` also allows the client to subscribe to presence changes.
 
 Refer to [this page](https://getstream.io/chat/docs/node/query_users/?language=javascript) in the docs for more info.
 

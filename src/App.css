@@ -143,7 +143,7 @@ p {
   display: flex;
   flex-direction: column;
   border-bottom: 1px solid rgba(1, 95, 255, 0.5);
-  padding: 0.2rem .4rem;
+  padding: 0.2rem 1rem;
   cursor: pointer;
 }
 

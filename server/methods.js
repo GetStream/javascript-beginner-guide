@@ -21,6 +21,12 @@ const upsertManyUsers = async () => {
     { id: "Chantelle" },
     { id: "Suki" },
     { id: "Shweta" },
+    { id: "Steve" },
+    { id: "Zach" },
+    { id: "Collin" },
+    { id: "Chandler" },
+    { id: "Sara" },
+    { id: "Sharon" },
   ];
   return await serverClient
     .upsertUsers(userArray)
