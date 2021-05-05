@@ -9,14 +9,14 @@ export default function UserList({ client, setView, setChannel }) {
   useEffect(() => {
     const getUsers = async () => {
       // return users with id 'Not Equal' ($ne) to me
-      // https://getstream.io/chat/docs/javascript/query_syntax/?language=javascript
+        // https://getstream.io/chat/docs/javascript/query_syntax/?language=javascript
+      // sort users by last_active date - optional
+      // limit the response to the 10 most recently active users
+        // https://getstream.io/chat/docs/javascript/query_users/?language=javascript
       const filter = { id: { $ne: client.userID } };
-      // how to sort the response - optional
       const sort = { last_active: -1 };
       const options = { limit: 10 };
-      // https://getstream.io/chat/docs/javascript/query_users/?language=javascript
       const response = await client.queryUsers(filter, sort, options);
-      // add note options
       setUsers(response.users);
     };
     getUsers();
