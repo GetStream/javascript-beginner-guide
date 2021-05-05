@@ -17,7 +17,6 @@ export default function UserList({ client, setView, setChannel }) {
       const sort = { last_active: -1 };
       const options = { limit: 10 };
       const response = await client.queryUsers(filter, sort, options);
-      console.log(response);
       setUsers(response.users);
     };
     getUsers();
