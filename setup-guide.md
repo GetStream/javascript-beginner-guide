@@ -1,6 +1,6 @@
 # Stream Chat Concepts: Set-Up Guide
 
-The purpose of this guide is to provide steps to build a simple chat app using Stream's Chat API and showcase Stream Chat basic concepts, use, and best practices.
+The following guide provides steps on how to quickly build chat leveraging Stream's Chat API and to showcase Stream Chat basic concepts, use, and best practices.
 
 Additional information may be found in the following:
 - [Official Documentation](https://getstream.io/chat/docs/?language=javascript)
@@ -15,7 +15,7 @@ This guide assumes knowledge of ES6 syntax such as async functionality as well a
 
 Concepts covered in this guide:
 
-- Instantiate Stream Chat client (client-side & server-side)
+- Initialize Stream Chat client (client-side & server-side)
 - Create tokens
 - Connect/disconnect user
 - Create channels
@@ -62,11 +62,11 @@ REACT_APP_SECRET=your_app_secret;
 
 ![Dashboard App](https://user-images.githubusercontent.com/32964891/117043503-8c2c0b00-acca-11eb-9991-5dd10b5ebc1f.png)
 
-## Instantiate StreamChat
+## Initialize StreamChat
 
 Two instances of StreamChat are required - one on the client-side and one on the server-side. A number of methods require the server-side client, such as generating user tokens and updating user roles/permissions. [Here](https://getstream.zendesk.com/hc/en-us/articles/360061669873-How-do-the-Chat-Client-Server-Stream-API-communicate-with-each-other-) is an article with more info on how the client and server sides interact.
 
-1. Instantiate a client-side client instance. This can be used to connect/disconnect users, retrieve user info, and more.
+1. Initialize a client-side client instance. This can be used to connect/disconnect users, retrieve user info, and more.
 
 ```javascript
 const chatClient = StreamChat.getInstance(YOUR_APP_KEY);
@@ -74,7 +74,7 @@ const chatClient = StreamChat.getInstance(YOUR_APP_KEY);
 
 [Example In Repo](https://github.com/zacheryconverse/basic-chat/blob/b6c73c96278cc739def1a6a745f9fbcaf42f4032/src/App.js#L18)
 
-2. In a separate file, instantiate a server-side client instance. This will be used to generate tokens, and upsert users.
+2. In a separate file, initialize a server-side client instance. This will be used to generate tokens, and upsert users.
 
 ```javascript
 const serverClient = StreamChat.getInstance(YOUR_APP_KEY, YOUR_APP_SECRET);
@@ -163,7 +163,7 @@ const channel = chatClient.channel("livestream", "lobby");
 await channel.watch();
 ```
 
-Instantiate a 'livestream' channel with `channel()`.
+Initialize a 'livestream' channel with `channel()`.
 Subscribe to events on a channel, such as when a new message is received (`message.new`), by calling `channel.watch()`, which also creates a new channel if it doesn't already exist.
 [Example In Repo](https://github.com/zacheryconverse/basic-chat/blob/3f857ac4785f08d5bb7e8ff41bb225776e5b808c/src/components/Lobby.js#L12)
 
@@ -178,7 +178,7 @@ channel.sendMessage({ text: 'Hello' })
 
 The users that were added by `upsertUsers()` earlier will be queried. If users have not been added to the app, the client will need to [disconnect](https://github.com/zacheryconverse/basic-chat/blob/3f857ac4785f08d5bb7e8ff41bb225776e5b808c/src/components/Login.js#L20) by calling:
 ```javascript
-chatClient.disconnectUser()
+await chatClient.disconnectUser()
 ```
 Then call `chatClient.connectUser()` again with a different user id.
 
@@ -203,7 +203,7 @@ const getUsers = async () => {
 
 ## Get or Create a 1-On-1 Channel
 
-Instantiate a channel by passing the 'messaging' channel type to `client.channel()` as well as an array of members. Then call `channel.watch()`.
+1. Initialize a channel by passing the 'messaging' channel type to `client.channel()` as well as an array of members. Then call `channel.watch()`.
 
 To start a chat with Suki...
 
@@ -233,15 +233,13 @@ const channel = chatClient.channel("messaging", {
 
 > Subsequent calls to `watch()` with a channel that already exists will not create a duplicate channel - nor will it update any fields such as 'members' or 'name'.
 
-## Send A Message
+2. Send A Message to 1-on-1 channel
 
-After getting the channel instance, run the `sendMessage()` method.
+To send a message to a channel, call `channel.sendMessage()` passing in a 'text' field.
 
 ```javascript
 channel.sendMessage({ text: "Hi Friend!" });
 ```
-
-Now after connecting as a different user, you can see this message show up when you access this channel.
 
 ## Query Channels
 
