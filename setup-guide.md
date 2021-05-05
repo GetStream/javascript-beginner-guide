@@ -123,11 +123,10 @@ const upsertMany = async () => {
 `upsertUsers()` requires `id` as a field. Custom fields may be additionally included. More info [here](https://getstream.io/chat/docs/node/update_users/?language=javascript) on user creation.
 [Example In Repo](https://github.com/zacheryconverse/basic-chat/blob/3f857ac4785f08d5bb7e8ff41bb225776e5b808c/server/methods.js#L13)
 
-Review all users from the Chat 'Explorer' within your Dashboard.
 <img width="1357" alt="Chat Explorer" src="https://user-images.githubusercontent.com/32964891/117172627-366a6800-ad89-11eb-91f2-e958bc57bb0f.png">
-_Finding the Chat Explorer in your dashboard_
+> Use the Chat Explorer in your dashboard to see a list of users
 
-_It is also possible to add users to an app with `connectUser()` - but this will affect monthly MAUs. `upsertUser()` is necessary to add members in bulk to your app without connecting them (and increasing your bill)._
+> It is also possible to add users to an app with `connectUser()` - but this will affect monthly MAUs. `upsertUser()` is necessary to add members in bulk to your app without connecting them (and increasing your bill).
 
 ## Server Side - Generate Token
 
@@ -244,26 +243,23 @@ channel.sendMessage({ text: "Hi Friend!" });
 
 Now after connecting as a different user, you can see this message show up when you access this channel.
 
-```javascript
-const channel = chatClient.channel("messaging", {
-  members: [client.user.id, "Stephen"],
-});
-
-await channel.watch();
-```
-
 ## Query Channels
 
-Rewrite all this vvvv
-To access the channel instance and its methods, you need the channelID, which you can get from the `queryChannels()` method. `queryChannels` will return channel state and automatically watch the channel. In the following example, we will create a filter that checks for you and the other user, run `queryChannels`, and take the relavent channel ID from its response. From there, we can instantiate the channel. `queryChannels` by default watches the channel, so there is no need to call `.watch()` in this instance. More info on querying channels in [the docs](https://getstream.io/chat/docs/node/query_channels/?language=javascript).
+`queryChannels` can be used to get a list of channels. Like `queryUsers`, it takes 3 arguments: filter, sort, and options. 
+Query your app for channels you are a member of, and sort them by the most recent message sent. 
 
 ```javascript
-  let channelID;
-  const filter = {type: "messaging", members: { $eq: [client.userID, userID] }}
-  const channels = await chatClient.queryChannels(filter).then(response => channelID = channels[0].id)
-  const channel = chatClient.channel('messaging', channelID)
-}
+const messagingMembers = async () => {
+  const filter = { type: "messaging", members: { $in: [chatClient.user.id] } };
+  const sort = { last_message_at: -1 };
+  const result = await chatClient.queryChannels(filter, sort);
+  return result;
+};
 ```
+
+More info on querying channels in [the docs](https://getstream.io/chat/docs/node/query_channels/?language=javascript).
+
+
 
 ## Listening for Events
 
@@ -277,12 +273,12 @@ channel.on("message.new", (event) => {
 });
 ```
 
-**_Link to repo where we listen for event_**
+[https://github.com/zacheryconverse/basic-chat/blob/2e0275475f238b2d5d4d290e21cbcbdd5b0361ec/src/components/OneOnOne.js#L24](Example in Repo)
 
 ## Channel Types & User Permissions
 
 At this point, we have covered the basics of what you will need to get up-and-running with a simple chat app.
-The next thing you might want to learn about is channel types. So far, we've been working with the 'messaging' channel type. However, if you want to implement a Twitch-style live chat, you can use a 'livestream' channel type. Other channel types include 'team' and 'commerce', and you can also create your own channel types. You can go [here](https://getstream.io/chat/docs/node/channel_features/?language=javascript) for more information.
+The next thing you might want to learn about is channel types. So far, we've been working with the 'messaging' channel type. However, if you want to implement a Twitch-style live chat, you can use a 'livestream' channel type. Other channel types include 'team' and 'commerce', and you can also create your own channel types. Go [here](https://getstream.io/chat/docs/node/channel_features/?language=javascript) for more information.
 
 The difference between these channel types is their default user permissions. For example, in a 'messaging' channel type, a user must have the role of 'member' to read the channel, but in a livestream style chat, you can read the channel with the role of 'user'. For a more complete list of default permissions, refer to [this page](https://getstream.io/chat/docs/node/channel_permission_policies/?language=javascript) in the docs.
 
