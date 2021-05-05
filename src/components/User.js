@@ -57,6 +57,17 @@ export default function User({ client, user, setView, setChannel }) {
   //   });
   // };
 
+    // function getFormattedTime(date) {
+    //   let hour = date.getHours();
+    //   let minutes = date.getMinutes().toString().padStart(2, "0");
+    //   let amOrPm = "AM";
+    //   if (hour > 12) {
+    //     amOrPm = "PM";
+    //     hour = (hour % 12).toString().padStart(2, "0");
+    //   }
+    //   return `${hour}:${minutes} ${amOrPm}`;
+    // }
+
   const handleUserClick = async (userID) => {
     // client.channel() instantiates a channel - channel type is the only mandatory argument
     // if no id is passed to client.channel() (such as here), the id will be generated for you by the SDK
@@ -78,6 +89,7 @@ export default function User({ client, user, setView, setChannel }) {
     setChannel(channel);
     setView(channel.id);
   };
+
   return (
     <li className="User" onClick={() => handleUserClick(user.id)}>
       <div className="user_info">
@@ -85,9 +97,7 @@ export default function User({ client, user, setView, setChannel }) {
         <div className="user_id">
           {user.id}
           <div className="user_channel-info">
-            {/* {messages?.length
-              ? `${messages[messages.length - 1].text.slice(0, 25)}...`
-              : "No message history"} */}
+            {`Last active: ${user.last_active}`}
           </div>
         </div>
         <div className="user_arrow">→</div>

@@ -112,8 +112,6 @@ const upsertMany = async () => {
 
   return await serverClient.upsertUsers(usersArray);
 };
-
-upsertMany(userArray);
 ```
 
 _After you have started the server and successfully added these users, comment out this bit of code_
@@ -175,36 +173,29 @@ channel.sendMessage({ text: 'Hello' })
 
 ## Get User List
 
-Next, fetch a list of users and create a one-on-one channel.
-
-To fetch a list of users in the app, the users that were added by `upsertUsers()` earlier will be queried. If users have not been added to the app, you'll need to [disconnect](https://github.com/zacheryconverse/basic-chat/blob/3f857ac4785f08d5bb7e8ff41bb225776e5b808c/src/components/Login.js#L20) by calling:
+The users that were added by `upsertUsers()` earlier will be queried. If users have not been added to the app, the client will need to [disconnect](https://github.com/zacheryconverse/basic-chat/blob/3f857ac4785f08d5bb7e8ff41bb225776e5b808c/src/components/Login.js#L20) by calling:
 ```javascript
 chatClient.disconnectUser()
 ```
 Then call `chatClient.connectUser()` again with a different user id.
 
-1. `queryUsers()` will fetch a list of users in the app. Filter users by `id` and/or by custom fields. Sort the users by `last_active` or by `created_at` date. The options `limit` and `offset` may be used to implement pagination. `queryUsers()` also allows the client to subscribe to presence changes.
+1. `queryUsers()` will return an object with an array of users in the app. Filter users by `id` and/or by custom fields. Sort the users by `last_active` or by `created_at` date. The options `limit` and `offset` may be used to implement pagination. `queryUsers()` also allows the client to subscribe to presence change events.
 
 Refer to [this page](https://getstream.io/chat/docs/node/query_users/?language=javascript) in the docs for more info.
+_Stream Chat has many query methods such as `queryUsers()`, `queryMembers()`, and `queryChannels()`. Learn more about query syntax [here](https://getstream.io/chat/docs/react/query_syntax/?language=js)_
 
-For this user list, we are going to query all users with a limit of 10 so we can get a list of users we can chat with, and sort it by the most recently created.
-
-_There are a lot of ways to query. You can query for channels, query for users, and members of channels. Learn more about query syntax [here](https://getstream.io/chat/docs/react/query_syntax/?language=js)_
+Query all users with a limit of 10 and sort them by the most recently active.
 
 ```javascript
 const getUsers = async () => {
   const filter = { id: { $ne: client.userID } };
-  const sort = { last-active: -1 }
-  const response = await chatClient.queryUsers(filter, sort, { limit: 10 })
-  return response
-  }
-
-  getUsers()
+  const sort = { last_active: -1 }
+  const limit = { limit: 10 }
+  return await chatClient.queryUsers(filter, sort, limit);
+}
 ```
 
-The response of getUsers() will return a list of users.
-
-[Link to querying users in the repo](https://github.com/zacheryconverse/basic-chat/blob/main/src/components/UserList.js#L10)
+[Example In Repo](https://github.com/zacheryconverse/basic-chat/blob/main/src/components/UserList.js#L10)
 
 ## Create 1-On-1 Chat Channel
 
