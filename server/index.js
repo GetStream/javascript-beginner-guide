@@ -4,7 +4,7 @@ const cors = require("cors");
 require("dotenv").config({ path: 'server/.env' });
 // key and secret exist in the Dashboard
 // Dashboard - https://getstream.io/accounts/login/
-const key = process.env.REACT_APP_API_KEY;
+const key = process.env.REACT_APP_KEY;
 const secret = process.env.REACT_APP_SECRET;
 // instantiate client on server-side requires key & secret
 const serverClient = StreamChat.getInstance(key, secret);

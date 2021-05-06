@@ -8,7 +8,7 @@ import "./App.css";
 
 // the key (and secret) exist in the Dashboard
 // Dashboard - https://getstream.io/accounts/login/
-const appKey = process.env["REACT_APP_API_KEY"];
+const appKey = process.env["REACT_APP_KEY"];
 
 export default function App() {
   const [view, setView] = useState("login");
