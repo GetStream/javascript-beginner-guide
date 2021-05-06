@@ -1,6 +1,6 @@
 import { useState, useEffect, Fragment } from "react";
 import { List } from "react-content-loader";
-import User from "./User";
+import Channel from "./Channel";
 
 export default function UserList({ chatClient, setView, setChannel }) {
   const [loading, setLoading] = useState(true);
@@ -54,11 +54,11 @@ export default function UserList({ chatClient, setView, setChannel }) {
             <Fragment>
               <p className="select">Select a contact to chat with</p>
               {channelList &&
-                channelList.map((user) => (
-                  <User
-                    key={user.created_at}
+                channelList.map((channel) => (
+                  <Channel
+                    key={channel.created_at}
                     chatClient={chatClient}
-                    user={user}
+                    channel={channel}
                     setView={setView}
                     setChannel={setChannel}
                   />
