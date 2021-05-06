@@ -1,34 +1,24 @@
 import { useState, useEffect, useRef, Fragment } from "react";
 import { List } from "react-content-loader";
-import MessageInput from "./MessageInput";
 import Header from "./Header";
+import MessageInput from "./MessageInput";
 
-export default function Lobby({ chatClient }) {
+export default function Channel({ chatClient, view, channel }) {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const messagesEndRef = useRef(null);
-  // chatClient.channel() instantiates a channel - channel type is the only mandatory argument
-  // if no id is passed, the id will be generated for you using the channel type and members- does not call API
-  const channel = chatClient.channel("livestream", "lobby");
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   useEffect(() => {
-    const getMessagesAndWatchChannel = async () => {
-      // calling channel.watch() allows you to listen for events when anything in the channel changes
-        // https://getstream.io/chat/docs/javascript/watch_channel/?language=javascript
-      await channel.watch();
-      setMessages(channel.state.messages);
+    setMessages(channel.state.messages);
+    setTimeout(() => {
       setLoading(false);
-      setTimeout(() => {
-        scrollToBottom();
-      }, 500);
-    };
-    getMessagesAndWatchChannel();
-  }, [channel]);
-
+      scrollToBottom();
+    }, 500);
+  }, [channel.state.messages]);
   // listen to channel events for new messages in channel state
     // https://getstream.io/chat/docs/javascript/event_listening/?language=javascript
   channel.on("message.new", () => {
@@ -36,7 +26,22 @@ export default function Lobby({ chatClient }) {
     scrollToBottom();
   });
 
+  const getClassNames = (message) => {
+    let classNames = "";
+    classNames += message.user.id === chatClient.userID ? "me" : "not-me";
+    // the API will recognize slash commands as well as enrich the message object with
+      // attachments for the first URL in a message text
+        // https://getstream.io/chat/docs/javascript/message_format/?language=javascript
+    classNames += message.attachments.length ? "-thumbnail" : "-text-message";
+    return classNames;
+  };
+
+  const isMe = (message) => {
+    return message.user.id === chatClient.userID ? "me" : "not-me";
+  };
+
   function getFormattedTime(date) {
+    console.log(date);
     let hour = date.getHours();
     let minutes = date.getMinutes().toString().padStart(2, "0");
     let amOrPm = "AM";
@@ -47,23 +52,18 @@ export default function Lobby({ chatClient }) {
     return `${hour}:${minutes} ${amOrPm}`;
   }
 
-  const isImage = (message) => {
-    return message.attachments.length ? "-thumbnail" : "";
-  };
-
   return (
     <Fragment>
-      <Header channel={channel} chatClient={chatClient} messages={messages} />
+      <Header chatClient={chatClient} channel={channel} messages={messages} />
       {loading ? (
-        <List className='loading' />
+        <List className="loading" />
       ) : (
         <ul className="channel">
           {messages.map(
             (message) =>
               message.type !== "deleted" && (
                 <Fragment key={message.id}>
-                  <li className={`lobby${isImage(message)}`}>
-                    <b className="lobby-user">{`${message.user.id} `}</b>
+                  <li className={`message ${getClassNames(message)}`}>
                     {message.attachments.length ? (
                       <img
                         src={message.attachments[0].thumb_url}
@@ -73,7 +73,7 @@ export default function Lobby({ chatClient }) {
                       message.text
                     )}
                   </li>
-                  <p className="lobby-time">
+                  <p className={`${isMe(message)}-dm-time`}>
                     {getFormattedTime(message.created_at)}
                   </p>
                 </Fragment>
@@ -82,7 +82,7 @@ export default function Lobby({ chatClient }) {
         </ul>
       )}
       <div ref={messagesEndRef}></div>
-      <MessageInput channel={channel} chatClient={chatClient} />
+      <MessageInput view={view} channel={channel} chatClient={chatClient} />
     </Fragment>
   );
 }

@@ -1,60 +1,87 @@
-export default function User({ client, user, setView, setChannel }) {
+import Avatar from "./Avatar";
 
-  const getChannelID = async (userID) => {
-    // there are 4 built-in Channel Types. We will query messaging Type
-    // https://getstream.io/chat/docs/javascript/channel_features/?language=javascript
-    // permissions vary by many factors including Channel Type 'role' and 'membership'
-    // https://getstream.io/chat/docs/javascript/channel_permission_policies/?language=javascript
-    const filter = {
-      type: "messaging",
-      // search messaging channels for a channel with only these 2 members: 'Equals' ($eq)
-      members: { $eq: [client.userID, userID] },
-    };
+export default function User({ chatClient, user, setView, setChannel }) {
+  //   const filter = {
+  //     type: "messaging",
+  //     members: { $eq: [chatClient.userID, user.id] },
+  //   };
+  //   const options = { limit: 1 };
+  //   const getChannelIDAndMessages = async () => {
+  //     await chatClient.queryChannels(filter, {}, options).then((res) => {
+  //       setMessages(res[0]?.state.messages);
+  //       setID(res[0]?.id);
+  //     });
+  //   };
 
-    // queryChannels() will only return channels that the user can read
-    // be default, queryChannels() will start watching all channels it returns
-    // https://getstream.io/chat/docs/javascript/query_channels/?language=javascript
-    const channels = await client.queryChannels(filter);
-    // return the channel id if it exists - otherwise return undefined
-    return channels[0]?.id;
-  };
+  // const getChannelID = async (userID) => {
+  //   // there are 4 built-in Channel Types. We will query channels with 'messaging' Type
+  //   // https://getstream.io/chat/docs/javascript/channel_features/?language=javascript
+  //   // queryChannels() will only return channels that the user can read
+  //   // permissions vary by many factors including 'Channel Type', 'role', and 'channel_membership'
+  //   // https://getstream.io/chat/docs/javascript/channel_permission_policies/?language=javascript
+  //   // we will search messaging channels for a channel with only these 2 members: 'Equals' ($eq)
+  //   // this use case will only return 1 channel, so we will leave the sort argument empty: {}
+  //   // https://getstream.io/chat/docs/javascript/query_channels/?language=javascript
+  //   // by default, queryChannels() will start watching all channels it returns
+  //   console.log(chatClient.userID, userID);
+  //   const filter = {
+  //     type: "messaging",
+  //     members: { $eq: [chatClient.userID, userID] },
+  //   };
+
+  //   await chatClient.queryChannels(filter).then((res) => {
+  //     setID(res[0]?.id);
+  //     // channelID = res[0]?.id;
+  //     console.log(res);
+  //   });
+  // };
+
+  // function getFormattedTime(date) {
+  //   let hour = date.getHours();
+  //   let minutes = date.getMinutes().toString().padStart(2, "0");
+  //   let amOrPm = "AM";
+  //   if (hour > 12) {
+  //     amOrPm = "PM";
+  //     hour = (hour % 12).toString().padStart(2, "0");
+  //   }
+  //   return `${hour}:${minutes} ${amOrPm}`;
+  // }
 
   const handleUserClick = async (userID) => {
-    // check if a 1:1 channel exists already between you and the other user
-    let channelID = await getChannelID(userID);
-    // if a channel exists already
-    if (channelID) {
-      // client.channel() instantiates a channel - channel type is the only mandatory argument
-      // if no id is passed, the id will be generated for you - does not call API
-      const channel = client.channel("messaging", channelID);
-      // no need to call channel.watch() because queryChannels() watches all the channels it returns
-      setChannel(channel);
-      setView("");
-      // if a channel id is not returned from getChannelID, we need to create a new channel
-    } else {
-      createNewChannel(userID, `${client.userID}-${userID}`);
-    }
-  };
-
-  const createNewChannel = async (userID, id) => {
-    // instantiate a channel to use, passing a new id and adding 2 members
-    // the name property is custom extra data
+    // chatClient.channel() instantiates a channel - channel type is the only mandatory argument
+    // if no id is passed to chatClient.channel() (such as here), the id will be generated for you by the SDK
+    // based on the channel type and channel members
+    // this method does not call the Stream API
+    // we will pass 2 members to this channel
+    // the 'name' property is a custom field
     // https://getstream.io/chat/docs/javascript/creating_channels/?language=javascript
-    const channel = client.channel("messaging", id, {
-      members: [client.userID, userID],
-      name: `A private 1:1 channel between ${client.userID} & ${userID}`,
+
+    const channel = chatClient.channel("messaging", {
+      members: [chatClient.userID, userID],
+      name: `This is a 'Messaging' Channel Type. ${chatClient.userID} & ${userID} have role 'channel_member' which has read & write permissions by default`,
     });
-    // calling channel.watch() creates a channel, returns channel.state, and tells the
-    // server to send events when anything in the channel changes
+    // calling channel.watch() creates a channel, returns channel state, and tells the
+    // server to send events to the chatClient when anything in the channel changes
+    // on subsequent calls to watch() with this channel, the API will recognize that this channel already exists
+    // and will not create a duplicate channel - nor will it update the 'members' or 'name' fields
     // https://getstream.io/chat/docs/javascript/watch_channel/?language=javascript
     await channel.watch();
     setChannel(channel);
-    setView("");
+    setView(channel.id);
   };
 
   return (
     <li className="User" onClick={() => handleUserClick(user.id)}>
-      {user.id}
+      <div className="user_info">
+        <Avatar user={user} />
+        <div className="user_id">
+          {user.id}
+          <div className="user_channel-info">
+            {`Last active: ${user.last_active || 'New user'}`}
+          </div>
+        </div>
+        <div className="user_arrow">→</div>
+      </div>
     </li>
   );
 }
