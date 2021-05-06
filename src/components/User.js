@@ -77,7 +77,7 @@ export default function User({ chatClient, user, setView, setChannel }) {
         <div className="user_id">
           {user.id}
           <div className="user_channel-info">
-            {`Last active: ${user.last_active}`}
+            {`Last active: ${user.last_active || 'New user'}`}
           </div>
         </div>
         <div className="user_arrow">→</div>

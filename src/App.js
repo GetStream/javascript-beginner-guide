@@ -27,9 +27,17 @@ export default function App() {
       {view === "login" ? (
         <Login chatClient={chatClient} setView={setView} />
       ) : view === "users" ? (
-        <UserList chatClient={chatClient} setView={setView} setChannel={setChannel} />
+        <UserList
+          chatClient={chatClient}
+          setView={setView}
+          setChannel={setChannel}
+        />
       ) : view === "lobby" ? (
-        <Lobby chatClient={chatClient} setView={setView} setChannel={setChannel} />
+        <Lobby
+          chatClient={chatClient}
+          setView={setView}
+          setChannel={setChannel}
+        />
       ) : (
         <OneOnOne view={view} chatClient={chatClient} channel={channel} />
       )}
