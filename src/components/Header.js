@@ -1,9 +1,7 @@
+import { getOtherMember } from '../getOtherMember';
+
 export default function Header({ messages, channel, chatClient }) {
-  // there are many useful properties on channel.state and the client object
-  const otherMember = Object.keys(channel.state.members).filter(
-    (user) => user !== chatClient.userID
-  );
-  const to = otherMember.length ? otherMember : "Lobby";
+  const to = getOtherMember(channel, chatClient);
 
   return (
     <div className="channel-header">
@@ -14,9 +12,9 @@ export default function Header({ messages, channel, chatClient }) {
             ? `This is the start of your 1:1 message history with ${to}`
             : channel.id === "lobby"
             ? "This is a 'Livestream' Channel Type. All 'roles' have read permissions by default"
+            // channel.data.name is the custom field we added to the 1:1 channel on
+              // creation -> channel.watch() in User.js
             : channel.data.name
-          // channel.data.name is the custom field we added to the 1:1 channel on
-          // creation -> channel.watch() in User.js
         }
       </h2>
     </div>
