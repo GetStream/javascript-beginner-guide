@@ -279,13 +279,11 @@ channel.on("message.new", (event) => {
 ## Channel Types & User Permissions
 
 At this point, we have covered the basics of what you will need to get up-and-running with a simple chat app.
-The next thing you might want to learn about is channel types. So far, we've been working with the 'messaging' channel type. However, if you want to implement a Twitch-style live chat, you can use a 'livestream' channel type. Other channel types include 'team' and 'commerce', and you can also create your own channel types. Go [here](https://getstream.io/chat/docs/node/channel_features/?language=javascript) for more information.
+The next thing you might want to learn about is channel types and their associated user permissions. So far, we've been working with the 'messaging' and 'livestream' channel types. Other channel types include 'team' and 'commerce'. You may also create your own channel types.
 
-The difference between these channel types is their default user permissions. For example, in a 'messaging' channel type, a user must have the role of 'member' to read the channel, but in a livestream style chat, you can read the channel with the role of 'user'. For a more complete list of default permissions, refer to [this page](https://getstream.io/chat/docs/node/channel_permission_policies/?language=javascript) in the docs.
+The difference between channel types is their default user permissions. For a complete list of default permissions, refer to [this page](https://getstream.io/chat/docs/node/channel_permission_policies/?language=javascript) in the docs.
 
-All of these user permissions are fully customizable, and you can access these permissions in your dashboard.
-If you go to your dashboard, click on your app, then on Chat > Overview, you will see the full list of permissions in a JSON file at the bottom of the page.
-In addition to the permissions, you are provided with lots of other options. A commonly used option is to enable the blocklist, which will block messages that contain profanity.
+All of these user permissions are fully customizable; you may access these permissions in your dashboard by navigating to your App, then on Chat > Overview, then selecting the relavent channel type you'd like to customize permissions for. 
 
 ## Pagination
 
