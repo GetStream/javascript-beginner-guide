@@ -59,7 +59,7 @@ export default function UserList({ chatClient, setView, setChannel }) {
 
   return (
     <div className="User-list">
-      <h1 className="welcome">{`Welcome ${chatClient.userID}`}</h1>
+      <h1 className="welcome">{`${chatClient.userID}'s Contacts`}</h1>
       {loading ? (
         <List className="loading" />
       ) : (
@@ -70,7 +70,7 @@ export default function UserList({ chatClient, setView, setChannel }) {
               {channelList &&
                 channelList.map((channel, i) => (
                   <User
-                    key={i}
+                    key={channel.data.created_at}
                     chatClient={chatClient}
                     channel={channel}
                     setView={setView}

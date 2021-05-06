@@ -1,18 +1,13 @@
 import Avatar from "./Avatar";
 import { getOtherMember } from "../getOtherMember";
 
-export default function User({ chatClient, user, channel, setView, setChannel }) {
-  // function getFormattedTime(date) {
-  //   let hour = date.getHours();
-  //   let minutes = date.getMinutes().toString().padStart(2, "0");
-  //   let amOrPm = "AM";
-  //   if (hour > 12) {
-  //     amOrPm = "PM";
-  //     hour = (hour % 12).toString().padStart(2, "0");
-  //   }
-  //   return `${hour}:${minutes} ${amOrPm}`;
-  // }
-
+export default function User({
+  chatClient,
+  user,
+  channel,
+  setView,
+  setChannel,
+}) {
   const handleUserClick = async (userID) => {
     // chatClient.channel() instantiates a channel - channel type is the only mandatory argument
     // if no id is passed to chatClient.channel() (such as here), the id will be generated for you by the SDK
@@ -44,15 +39,63 @@ export default function User({ chatClient, user, channel, setView, setChannel })
     name = otherMember;
   }
 
+  const timeSince = (date) => {
+    const seconds = Math.floor((new Date() - date) / 1000);
+
+    let interval = seconds / 31536000;
+    let intervalType;
+
+    if (interval >= 1) {
+      intervalType = "year ago";
+    } else {
+      interval = Math.floor(seconds / 2592000);
+      if (interval >= 1) {
+        intervalType = "month ago";
+      } else {
+        interval = Math.floor(seconds / 86400);
+        if (interval >= 1) {
+          intervalType = "day ago";
+        } else {
+          interval = Math.floor(seconds / 3600);
+          if (interval >= 1) {
+            intervalType = "hour ago";
+          } else {
+            interval = Math.floor(seconds / 60);
+            if (interval >= 1) {
+              intervalType = "minute ago";
+            } else {
+              interval = seconds;
+              intervalType = "second ago";
+            }
+          }
+        }
+      }
+    }
+
+    if (interval > 1 || interval === 0) {
+      intervalType += "s";
+    }
+
+    return interval + " " + intervalType;
+  };
+
+  let time;
+  if (userOrChannel.last_active) {
+    time = `Last active: ${timeSince(new Date(userOrChannel.last_active))}`;
+  } else if (userOrChannel.created_at) {
+    time = `Joined: ${timeSince(new Date(userOrChannel.created_at))}`;
+  } else
+    time = `Last message: ${userOrChannel.state.messages[
+      userOrChannel.state.messages.length - 1
+    ].text.slice(0, 40)}`;
+
   return (
     <li className="User" onClick={() => handleUserClick(name)}>
       <div className="user_info">
         <Avatar userOrChannel={userOrChannel} chatClient={chatClient} />
         <div className="user_id">
           {name}
-          <div className="user_channel-info">
-            {`Last active: ${userOrChannel.last_active || "New user"}`}
-          </div>
+          <div className="user_channel-info">{time}</div>
         </div>
         <div className="user_arrow">→</div>
       </div>
