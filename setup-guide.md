@@ -226,9 +226,12 @@ const channel = chatClient.channel("messaging", {
 
 [Example In Repo](https://github.com/zacheryconverse/basic-chat/blob/main/src/components/User.js#L68)
 
-> In this example, the optional ‘id’ field is left out as the second argument of .channel(). This field is used to define the channel id. Here, the API will generate a channel id based on the channel type and members.
+> In this example, the optional ‘id’ field is left out as the second argument of `.channel()`. This field is used to define the channel id. Here, the API will generate a channel id based on the channel type and members.
 
-> A common approach is to restrict channel creation to your server using `channel.create()`, which will not listen for events. Whereas, `channel.watch()` is suggested for client-side use.
+> A channel may also be called by providing the channel id as the second argument of `.channel()`
+
+> To restrict channel creation to your server, use  `channel.create()`, which will not listen for events. Whereas, `channel.watch()` is suggested for client-side use.
+
 > More info on watching channels [here](https://getstream.io/chat/docs/node/watch_channel/?language=javascript)
 
 > Subsequent calls to `watch()` with a channel that already exists will not create a duplicate channel - nor will it update any fields such as 'members' or 'name'.
@@ -246,13 +249,13 @@ channel.sendMessage({ text: "Hi Friend!" });
 `queryChannels` can be used to get a list of channels. Like `queryUsers`, it takes 3 arguments: filter, sort, and options.
 Query your app for channels you are a member of, and sort them by the most recent message sent.
 
+The following query will get all 'messaging' channel types that you are a member of, sort by the most recent message, and return the first 10 results.
+
 ```javascript
-const messagingMembers = async () => {
   const filter = { type: "messaging", members: { $in: [chatClient.user.id] } };
   const sort = { last_message_at: -1 };
-  const result = await chatClient.queryChannels(filter, sort);
-  return result;
-};
+  const options = { limit: 10 }
+  const result = await chatClient.queryChannels(filter, sort, limit);
 ```
 
 More info on querying channels in [the docs](https://getstream.io/chat/docs/node/query_channels/?language=javascript).
