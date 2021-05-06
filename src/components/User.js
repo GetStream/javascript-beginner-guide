@@ -1,41 +1,7 @@
 import Avatar from "./Avatar";
+import { getOtherMember } from "../getOtherMember";
 
-export default function User({ chatClient, user, setView, setChannel }) {
-  //   const filter = {
-  //     type: "messaging",
-  //     members: { $eq: [chatClient.userID, user.id] },
-  //   };
-  //   const options = { limit: 1 };
-  //   const getChannelIDAndMessages = async () => {
-  //     await chatClient.queryChannels(filter, {}, options).then((res) => {
-  //       setMessages(res[0]?.state.messages);
-  //       setID(res[0]?.id);
-  //     });
-  //   };
-
-  // const getChannelID = async (userID) => {
-  //   // there are 4 built-in Channel Types. We will query channels with 'messaging' Type
-  //   // https://getstream.io/chat/docs/javascript/channel_features/?language=javascript
-  //   // queryChannels() will only return channels that the user can read
-  //   // permissions vary by many factors including 'Channel Type', 'role', and 'channel_membership'
-  //   // https://getstream.io/chat/docs/javascript/channel_permission_policies/?language=javascript
-  //   // we will search messaging channels for a channel with only these 2 members: 'Equals' ($eq)
-  //   // this use case will only return 1 channel, so we will leave the sort argument empty: {}
-  //   // https://getstream.io/chat/docs/javascript/query_channels/?language=javascript
-  //   // by default, queryChannels() will start watching all channels it returns
-  //   console.log(chatClient.userID, userID);
-  //   const filter = {
-  //     type: "messaging",
-  //     members: { $eq: [chatClient.userID, userID] },
-  //   };
-
-  //   await chatClient.queryChannels(filter).then((res) => {
-  //     setID(res[0]?.id);
-  //     // channelID = res[0]?.id;
-  //     console.log(res);
-  //   });
-  // };
-
+export default function User({ chatClient, user, channel, setView, setChannel }) {
   // function getFormattedTime(date) {
   //   let hour = date.getHours();
   //   let minutes = date.getMinutes().toString().padStart(2, "0");
@@ -70,14 +36,22 @@ export default function User({ chatClient, user, setView, setChannel }) {
     setView(channel.id);
   };
 
+  let userOrChannel = user || channel;
+
+  let name = userOrChannel.id;
+  if (userOrChannel.state) {
+    const otherMember = getOtherMember(userOrChannel, chatClient);
+    name = otherMember;
+  }
+
   return (
-    <li className="User" onClick={() => handleUserClick(user.id)}>
+    <li className="User" onClick={() => handleUserClick(name)}>
       <div className="user_info">
-        <Avatar user={user} />
+        <Avatar userOrChannel={userOrChannel} chatClient={chatClient} />
         <div className="user_id">
-          {user.id}
+          {name}
           <div className="user_channel-info">
-            {`Last active: ${user.last_active || 'New user'}`}
+            {`Last active: ${userOrChannel.last_active || "New user"}`}
           </div>
         </div>
         <div className="user_arrow">→</div>

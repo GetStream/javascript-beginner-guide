@@ -1,5 +1,6 @@
-export default function Avatar({ user }) {
+import { getOtherMember } from "../getOtherMember";
 
+export default function Avatar({ userOrChannel, chatClient }) {
   function stringToHslColor(str, s, l) {
     let hash = 0;
     for (let i = 0; i < str.length; i++) {
@@ -9,10 +10,14 @@ export default function Avatar({ user }) {
     const h = hash % 360;
     return "hsl(" + h + ", " + s + "%, " + l + "%)";
   }
-  // console.log(user.state);
-  // let name;
-  // user.state ? name = user.state : name = user.id;
-  let name = user.id
+
+  let name = userOrChannel.id;
+  if (userOrChannel.state) {
+    const otherMember = getOtherMember(userOrChannel, chatClient);
+    if (otherMember) name = otherMember;
+    else console.log(otherMember, 'otherMember');
+  }
+
   return (
     <div
       className="avatar"

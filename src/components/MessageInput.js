@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { getOtherMember } from "../getOtherMember";
 
 export default function MessageInput({ channel, chatClient }) {
   const [message, setMessage] = useState("");
@@ -15,13 +16,7 @@ export default function MessageInput({ channel, chatClient }) {
         .catch((err) => console.error(err));
   };
 
-  const getOtherMember = () => {
-    // there are many useful properties on channel.state and the client object
-    const otherMember = Object.keys(channel.state.members).filter(
-      (user) => user !== chatClient.userID
-    );
-    return otherMember.length ? otherMember : "Lobby";
-  };
+  const to = getOtherMember(channel, chatClient);
 
   return (
     <form onSubmit={handleSubmitMessage}>
@@ -31,7 +26,7 @@ export default function MessageInput({ channel, chatClient }) {
         type="text"
         className="message-input"
         onChange={(e) => setMessage(e.target.value)}
-        placeholder={`Message ${getOtherMember(channel, chatClient)}...`}
+        placeholder={`Message ${to}...`}
       />
     </form>
   );
