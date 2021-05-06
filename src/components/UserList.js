@@ -6,6 +6,7 @@ export default function UserList({ chatClient, setView, setChannel }) {
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState([]);
   const [offset, setOffset] = useState(10);
+  const [searchTerm, setSearchTerm] = useState('');
   const [renderGetMore, setRenderGetMore] = useState(true);
 
   useEffect(() => {
@@ -41,6 +42,13 @@ export default function UserList({ chatClient, setView, setChannel }) {
     else setRenderGetMore(false);
   };
 
+  const searchUsers = async (e) => {
+    e.preventDefault();
+    const response = await chatClient.queryUsers({ id: { $autocomplete: searchTerm } });
+    console.log(response);
+    setUsers(response.users);
+  }
+
   return (
     <div className="User-list">
       <h1 className="welcome">{`Welcome ${chatClient.userID}`}</h1>
@@ -50,6 +58,17 @@ export default function UserList({ chatClient, setView, setChannel }) {
         <ul>
           {users ? (
             <Fragment>
+              <form onSubmit={searchUsers}>
+                <input
+                  autoFocus
+                  type="text"
+                  name='searchTerm'
+                  value={searchTerm}
+                  placeholder="Search all users..."
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+
+              </form>
               <p className="select">Select a user to chat with</p>
               {users &&
                 users.map((user) => (
