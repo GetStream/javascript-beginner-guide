@@ -9,15 +9,18 @@ export default function Avatar({ user }) {
     const h = hash % 360;
     return "hsl(" + h + ", " + s + "%, " + l + "%)";
   }
-
+  // console.log(user.state);
+  // let name;
+  // user.state ? name = user.state : name = user.id;
+  let name = user.id
   return (
     <div
       className="avatar"
       style={{
-        backgroundColor: stringToHslColor(user.id, 50, 40),
+        backgroundColor: stringToHslColor(name, 50, 40),
       }}
     >
-      {user?.id[0].toUpperCase()}
+      {name[0].toUpperCase()}
     </div>
   );
 }

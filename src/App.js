@@ -2,6 +2,7 @@ import { useState } from "react";
 import { StreamChat } from "stream-chat";
 import Login from "./components/Login";
 import UserList from "./components/UserList";
+import Contacts from "./components/Contacts";
 import OneOnOne from "./components/OneOnOne";
 import Lobby from "./components/Lobby";
 import "./App.css";
@@ -32,6 +33,12 @@ export default function App() {
           setView={setView}
           setChannel={setChannel}
         />
+      ) : view === "contacts" ? (
+        <Contacts
+          chatClient={chatClient}
+          setView={setView}
+          setChannel={setChannel}
+        />
       ) : view === "lobby" ? (
         <Lobby
           chatClient={chatClient}
@@ -55,6 +62,14 @@ export default function App() {
               className="lobby-logout-users"
             >
               Users
+            </button>
+          )}
+          {view !== "contacts" && (
+            <button
+              onClick={() => handleViewClick("contacts")}
+              className="lobby-logout-users"
+            >
+              Contacts
             </button>
           )}
           {view !== "lobby" && (

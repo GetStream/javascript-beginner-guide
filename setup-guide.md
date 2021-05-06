@@ -174,7 +174,7 @@ channel.sendMessage({ text: 'Hello' })
 ```
 [Example In Repo](https://github.com/zacheryconverse/basic-chat/blob/main/src/components/MessageInput.js#L13)
 
-## Get User List (Contacts)
+## Get List of Users
 
 The users that were added by `upsertUsers()` earlier will be queried. If users have not been added to the app, the client will need to [disconnect](https://github.com/zacheryconverse/basic-chat/blob/3f857ac4785f08d5bb7e8ff41bb225776e5b808c/src/components/Login.js#L20) by calling:
 ```javascript
@@ -243,8 +243,8 @@ channel.sendMessage({ text: "Hi Friend!" });
 
 ## Query Channels
 
-`queryChannels` can be used to get a list of channels. Like `queryUsers`, it takes 3 arguments: filter, sort, and options. 
-Query your app for channels you are a member of, and sort them by the most recent message sent. 
+`queryChannels` can be used to get a list of channels. Like `queryUsers`, it takes 3 arguments: filter, sort, and options.
+Query your app for channels you are a member of, and sort them by the most recent message sent.
 
 ```javascript
 const messagingMembers = async () => {
