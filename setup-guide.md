@@ -124,6 +124,7 @@ const upsertMany = async () => {
 [Example In Repo](https://github.com/zacheryconverse/basic-chat/blob/3f857ac4785f08d5bb7e8ff41bb225776e5b808c/server/methods.js#L13)
 
 <img width="1357" alt="Chat Explorer" src="https://user-images.githubusercontent.com/32964891/117172627-366a6800-ad89-11eb-91f2-e958bc57bb0f.png">
+
 > Use the Chat Explorer in your dashboard to see a list of users
 
 > It is also possible to add users to an app with `connectUser()` - but this will affect monthly MAUs. `upsertUser()` is necessary to add members in bulk to your app without connecting them (and increasing your bill).
@@ -273,8 +274,7 @@ channel.on("message.new", (event) => {
   console.log(event.message);
 });
 ```
-
-[https://github.com/zacheryconverse/basic-chat/blob/2e0275475f238b2d5d4d290e21cbcbdd5b0361ec/src/components/OneOnOne.js#L24](Example in Repo)
+[Example in Repo](https://github.com/zacheryconverse/basic-chat/blob/2e0275475f238b2d5d4d290e21cbcbdd5b0361ec/src/components/OneOnOne.js#L24)
 
 ## Channel Types & User Permissions
 
