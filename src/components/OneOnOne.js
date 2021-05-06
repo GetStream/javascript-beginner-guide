@@ -29,8 +29,8 @@ export default function Channel({ chatClient, view, channel }) {
   const getClassNames = (message) => {
     let classNames = "";
     classNames += message.user.id === chatClient.userID ? "me" : "not-me";
-    // the API will recognize slash commands for the first URL in a message text and enrich the
-      // message object with attachments
+    // the API will recognize slash commands as well as enrich the message object with
+      // attachments for the first URL in a message text
         // https://getstream.io/chat/docs/javascript/message_format/?language=javascript
     classNames += message.attachments.length ? "-thumbnail" : "-text-message";
     return classNames;
