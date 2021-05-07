@@ -16,6 +16,7 @@ export default function Channel({ chatClient, view, channel }) {
     setMessages(channel.state.messages);
     setLoading(false);
     scrollToBottom();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   // listen to channel events for new messages in channel state
   //   https://getstream.io/chat/docs/javascript/event_listening/?language=javascript

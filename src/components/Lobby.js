@@ -18,7 +18,7 @@ export default function Lobby({ chatClient }) {
   useEffect(() => {
     const getMessagesAndWatchChannel = async () => {
       // calling channel.watch() allows you to listen for events when anything in the channel changes
-        // https://getstream.io/chat/docs/javascript/watch_channel/?language=javascript
+      // https://getstream.io/chat/docs/javascript/watch_channel/?language=javascript
       await channel.watch();
       setMessages(channel.state.messages);
       setLoading(false);
@@ -27,6 +27,7 @@ export default function Lobby({ chatClient }) {
       }, 500);
     };
     getMessagesAndWatchChannel();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // listen to channel events for new messages in channel state

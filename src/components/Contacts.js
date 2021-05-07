@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { List } from "react-content-loader";
-import User from "./User";
+import UserOrChannel from "./UserOrChannel";
 
 export default function UserList({ chatClient, setChannel, setView }) {
   const [channelList, setChannelList] = useState([]);
@@ -36,6 +36,7 @@ export default function UserList({ chatClient, setChannel, setView }) {
       setLoading(false);
     };
     getChannels();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleGetMoreUsersClick = async () => {
@@ -72,7 +73,7 @@ export default function UserList({ chatClient, setChannel, setView }) {
           <p className="people">Friends</p>
           {channelList.length ? (
             channelList.map((channel, i) => (
-              <User
+              <UserOrChannel
                 key={channel.data.created_at}
                 chatClient={chatClient}
                 channel={channel}

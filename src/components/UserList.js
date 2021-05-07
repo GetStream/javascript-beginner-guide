@@ -1,6 +1,6 @@
 import { useState, useEffect, Fragment } from "react";
 import { List } from "react-content-loader";
-import User from "./User";
+import UserOrChannel from "./UserOrChannel";
 
 export default function UserList({ chatClient, setView, setChannel }) {
   const [loading, setLoading] = useState(true);
@@ -17,8 +17,10 @@ export default function UserList({ chatClient, setView, setChannel }) {
       const options = { limit: 10 };
       let response;
       if (debouncedTerm === "") {
+        // 
         response = await chatClient.queryUsers(filter, sort, options);
       } else {
+        //
         response = await chatClient.queryUsers({
           id: { $autocomplete: debouncedTerm },
         });
@@ -77,7 +79,7 @@ export default function UserList({ chatClient, setView, setChannel }) {
           <p className='people'>Results</p>
             {users ? (
               users.map((user) => (
-                <User
+                <UserOrChannel
                   key={user.created_at}
                   chatClient={chatClient}
                   user={user}
