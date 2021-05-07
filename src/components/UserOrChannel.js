@@ -90,7 +90,7 @@ export default function User({
   } else if (userOrChannel.state.messages[0]) {
     info = `Last message: ${userOrChannel.state.messages[
       userOrChannel.state.messages.length - 1
-    ].text.slice(0, 40)}`;
+    ].text.slice(0, 30)}...`;
   }
 
   return (

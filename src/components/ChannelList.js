@@ -51,8 +51,8 @@ export default function UserList({ chatClient, setChannel, setView }) {
       offset,
       limit: 10,
     };
-    setOffset(offset + 10);
     const response = await chatClient.queryChannels(filter, sort, options);
+    setOffset(offset + 10);
     if (channelList.length === 10)
       setChannelList([...channelList, ...response]);
     if (

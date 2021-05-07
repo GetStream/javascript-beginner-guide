@@ -3,21 +3,32 @@ import { List } from "react-content-loader";
 import UserOrChannel from "./UserOrChannel";
 
 export default function UserList({ chatClient, setView, setChannel }) {
-  const [loading, setLoading] = useState(true);
-  const [users, setUsers] = useState([]);
-  const [offset, setOffset] = useState(10);
-  const [searchTerm, setSearchTerm] = useState("");
   const [debouncedTerm, setDebouncedTerm] = useState("");
-  const [renderGetMore, setRenderGetMore] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [offset, setOffset] = useState(10);
+  const [renderLoadMore, setRenderLoadMore] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     const getAllUsers = async () => {
       const filter = { id: { $ne: chatClient.userID } };
+      // const filter = {
+      //   $and: [
+      //     { last_active: { $lt: "2021-05-07T20:51:54.347823Z" } },
+      //     { id: { $ne: chatClient.userID } },
+      //   ],
+      // };
+
       const sort = { last_active: -1 };
+      // const sort = [{ last_active: -1 }, { created_at: 1 }];
+      // const sort = [{ created_at: -1 }, { last_active: -1 }];
+      // const sort = { $eq: { last_active: -1 } };
+
       const options = { limit: 10 };
       let response;
       if (debouncedTerm === "") {
-        // 
+        //
         response = await chatClient.queryUsers(filter, sort, options);
       } else {
         //
@@ -30,7 +41,8 @@ export default function UserList({ chatClient, setView, setChannel }) {
       setLoading(false);
     };
     getAllUsers();
-  }, [debouncedTerm, chatClient]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedTerm]);
 
   useEffect(() => {
     const timerID = setTimeout(() => {
@@ -44,24 +56,34 @@ export default function UserList({ chatClient, setView, setChannel }) {
 
   const handleGetMoreUsersClick = async () => {
     const filter = { id: { $ne: chatClient.userID } };
+    // const filter = {
+    //   $and: [
+    //     { last_active: { $lt: "2021-05-07T20:51:54.347823Z" } },
+    //     { id: { $ne: chatClient.userID } },
+    //   ],
+    // };
+
     const sort = { last_active: -1 };
+    // const sort = [{ last_active: -1 }, { created_at: 1 }];
+    // const sort = [{ created_at: -1 }, { last_active: -1 }];
+    // const sort = { $or: [{ last_active: -1 }, { created_at: 1 }] };
+    // const sort = { "$and": [ { "last_active": { "$ne": '' } }, { "last_active": -1 } ] };
+
     // offset can be used for pagination by skipping the first <offset> (10, then 20...) users
     //   and then return the next 10 users
     const options = { offset, limit: 10 };
     const response = await chatClient.queryUsers(filter, sort, options);
     setOffset(offset + 10);
-    if (users.length === 10) setUsers([...users, ...response.users]);
-    if (
-      users[users.length - 1]?.id !==
-      response.users[response.users.length - 1]?.id
-    )
+    const len = response.users.length;
+    if (len === 10) setUsers([...users, ...response.users]);
+    if (users[len - 1]?.id !== response.users[len - 1]?.id)
       setUsers([...users, ...response.users]);
-    else setRenderGetMore(false);
+    else setRenderLoadMore(false);
   };
 
   return (
     <div className="User-list">
-      <h1 className="user-list-contacts_header">{"People Search"}</h1>
+      <h1 className="user-list-contacts_header">People Search</h1>
       {loading ? (
         <List className="loading" />
       ) : (
@@ -76,7 +98,7 @@ export default function UserList({ chatClient, setView, setChannel }) {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           <ul>
-          <p className='people'>Results</p>
+            <p className="people">Results</p>
             {users ? (
               users.map((user) => (
                 <UserOrChannel
@@ -93,7 +115,7 @@ export default function UserList({ chatClient, setView, setChannel }) {
                 another user to view a list of users to choose from"
               </p>
             )}
-            {users.length % 10 === 0 && renderGetMore && (
+            {users.length % 10 === 0 && renderLoadMore && (
               <button
                 onClick={handleGetMoreUsersClick}
                 className="lobby-logout-users"
