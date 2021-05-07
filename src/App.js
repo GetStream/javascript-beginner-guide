@@ -2,7 +2,7 @@ import { useState } from "react";
 import { StreamChat } from "stream-chat";
 import Login from "./components/Login";
 import UserList from "./components/UserList";
-import Contacts from "./components/Contacts";
+import ChannelList from "./components/ChannelList";
 import OneOnOne from "./components/OneOnOne";
 import Lobby from "./components/Lobby";
 import "./App.css";
@@ -34,7 +34,7 @@ export default function App() {
           setChannel={setChannel}
         />
       ) : view === "contacts" ? (
-        <Contacts
+        <ChannelList
           chatClient={chatClient}
           setView={setView}
           setChannel={setChannel}
