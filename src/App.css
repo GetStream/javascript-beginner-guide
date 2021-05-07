@@ -45,10 +45,6 @@ p {
 }
 
 .Login {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   color: #909093;
   margin: 4rem 0.4rem;
 }
@@ -131,7 +127,7 @@ p {
   overflow: hidden;
 }
 
-.welcome {
+.user-list-contacts_header {
   margin: 1rem;
   font-size: 1.5rem;
   margin-bottom: 2rem;
