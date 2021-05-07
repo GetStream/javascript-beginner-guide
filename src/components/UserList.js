@@ -24,6 +24,7 @@ export default function UserList({ chatClient, setView, setChannel }) {
         });
       }
       setUsers(response.users);
+      // if (!response.length) setRenderGetMore(false);
       setLoading(false);
     };
     getAllUsers();
@@ -44,7 +45,7 @@ export default function UserList({ chatClient, setView, setChannel }) {
     const sort = { last_active: -1 };
     // offset can be used for pagination by skipping the first <offset> (10, then 20...) users
     //   and then return the next 10 users
-    const options = { offset: offset, limit: 10 };
+    const options = { offset, limit: 10 };
     const response = await chatClient.queryUsers(filter, sort, options);
     setOffset(offset + 10);
     if (users.length === 10) setUsers([...users, ...response.users]);

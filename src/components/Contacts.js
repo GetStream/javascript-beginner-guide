@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { List } from "react-content-loader";
 import User from "./User";
 
-export default function UserList({ chatClient, setView, setChannel }) {
-  const [loading, setLoading] = useState(true);
+export default function UserList({ chatClient, setChannel, setView }) {
   const [channelList, setChannelList] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [offset, setOffset] = useState(10);
   const [renderGetMore, setRenderGetMore] = useState(true);
 
@@ -25,14 +25,18 @@ export default function UserList({ chatClient, setView, setChannel }) {
         type: "messaging",
         members: { $in: [chatClient.userID] },
       };
+
       const sort = { last_message_at: -1 };
       const options = { limit: 10 };
+
       const response = await chatClient.queryChannels(filter, sort, options);
       setChannelList(response);
+
+      if (!response.length) setRenderGetMore(false);
       setLoading(false);
     };
     getChannels();
-  }, [chatClient]);
+  }, []);
 
   const handleGetMoreUsersClick = async () => {
     const filter = {
@@ -43,7 +47,7 @@ export default function UserList({ chatClient, setView, setChannel }) {
     // offset can be used for pagination by skipping the first <offset> (10, then 20...) users
     //   and then return the next 10 users
     const options = {
-      offset: offset,
+      offset,
       limit: 10,
     };
     setOffset(offset + 10);
@@ -66,7 +70,7 @@ export default function UserList({ chatClient, setView, setChannel }) {
       ) : (
         <ul>
           <p className="people">Friends</p>
-          {channelList ? (
+          {channelList.length ? (
             channelList.map((channel, i) => (
               <User
                 key={channel.data.created_at}
@@ -78,8 +82,8 @@ export default function UserList({ chatClient, setView, setChannel }) {
             ))
           ) : (
             <p className="instructions">
-              "It looks like you don't have any contacts, yet - go to Users and
-              start a conversation with someone add a contact and view a list of
+              "It looks like you don't have any contacts, yet - click Search and
+              start a conversation with someone to be able to add a contact and view a list of
               contacts to choose from"
             </p>
           )}

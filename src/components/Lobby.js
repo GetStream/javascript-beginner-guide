@@ -27,7 +27,7 @@ export default function Lobby({ chatClient }) {
       }, 500);
     };
     getMessagesAndWatchChannel();
-  }, [channel]);
+  }, []);
 
   // listen to channel events for new messages in channel state
     // https://getstream.io/chat/docs/javascript/event_listening/?language=javascript

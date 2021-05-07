@@ -16,7 +16,7 @@ export default function Channel({ chatClient, view, channel }) {
     setMessages(channel.state.messages);
     setLoading(false);
     scrollToBottom();
-  }, [channel.state.messages]);
+  }, []);
   // listen to channel events for new messages in channel state
   //   https://getstream.io/chat/docs/javascript/event_listening/?language=javascript
   channel.on("message.new", () => {
