@@ -61,7 +61,7 @@ export default function App() {
               onClick={() => handleViewClick("users")}
               className="lobby-logout-users"
             >
-              Users
+              Search
             </button>
           )}
           {view !== "contacts" && (

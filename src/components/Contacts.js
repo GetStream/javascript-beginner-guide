@@ -29,21 +29,22 @@ export default function UserList({ chatClient, setView, setChannel }) {
       const options = { limit: 10 };
       const response = await chatClient.queryChannels(filter, sort, options);
       setChannelList(response);
+      setLoading(false);
     };
     getChannels();
-    setTimeout(() => setLoading(false), 500);
   }, [chatClient]);
 
   const handleGetMoreUsersClick = async () => {
     const filter = {
-      type: 'messaging',
-      members: {$in: [chatClient.userID] }
+      type: "messaging",
+      members: { $in: [chatClient.userID] },
     };
     const sort = { last_message_at: -1 };
-    // offset can be used for pagination
+    // offset can be used for pagination by skipping the first <offset> (10, then 20...) users
+    //  and then return the next 10 users
     const options = {
       offset: offset,
-      limit: 10
+      limit: 10,
     };
     setOffset(offset + 10);
     const response = await chatClient.queryChannels(filter, sort, options);
@@ -64,10 +65,8 @@ export default function UserList({ chatClient, setView, setChannel }) {
         <List className="loading" />
       ) : (
         <ul>
+          <p className="people">Friends</p>
           {channelList ? (
-            <Fragment>
-              <p className="select">Select a contact to chat with</p>
-              {channelList &&
                 channelList.map((channel, i) => (
                   <User
                     key={channel.data.created_at}
@@ -76,8 +75,7 @@ export default function UserList({ chatClient, setView, setChannel }) {
                     setView={setView}
                     setChannel={setChannel}
                   />
-                ))}
-            </Fragment>
+                ))
           ) : (
             <p className="instructions">
               "It looks like you don't have any contacts, yet - go to Users and

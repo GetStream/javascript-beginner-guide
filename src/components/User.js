@@ -16,19 +16,26 @@ export default function User({
     // we will pass 2 members to this channel
     // the 'name' property is a custom field
     // https://getstream.io/chat/docs/javascript/creating_channels/?language=javascript
+    let channel;
+    console.log(userID, chatClient.userID);
+    if (userID === chatClient.userID) {
 
-    const channel = chatClient.channel("messaging", {
-      members: [chatClient.userID, userID],
-      name: `This is a 'Messaging' Channel Type. ${chatClient.userID} & ${userID} have role 'channel_member' which has read & write permissions by default`,
-    });
-    // calling channel.watch() creates a channel, returns channel state, and tells the
-    // server to send events to the chatClient when anything in the channel changes
-    // on subsequent calls to watch() with this channel, the API will recognize that this channel already exists
-    // and will not create a duplicate channel - nor will it update the 'members' or 'name' fields
-    // https://getstream.io/chat/docs/javascript/watch_channel/?language=javascript
-    await channel.watch();
-    setChannel(channel);
-    setView(channel.id);
+      channel = chatClient.channel('messaging', 'you');
+    } else {
+      console.log('he');
+      channel = chatClient.channel("messaging", {
+        members: [chatClient.userID, userID],
+        name: `This is a 'Messaging' Channel Type. ${chatClient.userID} & ${userID} have role 'channel_member' which has read & write permissions by default`,
+      });
+    }
+      // calling channel.watch() creates a channel, returns channel state, and tells the
+      // server to send events to the chatClient when anything in the channel changes
+      // on subsequent calls to watch() with this channel, the API will recognize that this channel already exists
+      // and will not create a duplicate channel - nor will it update the 'members' or 'name' fields
+      // https://getstream.io/chat/docs/javascript/watch_channel/?language=javascript
+      await channel.watch();
+      setChannel(channel);
+      setView(channel.id);
   };
 
   let userOrChannel = user || channel;
@@ -41,53 +48,51 @@ export default function User({
 
   const timeSince = (date) => {
     const seconds = Math.floor((new Date() - date) / 1000);
-
     let interval = seconds / 31536000;
     let intervalType;
 
     if (interval >= 1) {
-      intervalType = "year ago";
+      intervalType = "year";
     } else {
       interval = Math.floor(seconds / 2592000);
       if (interval >= 1) {
-        intervalType = "month ago";
+        intervalType = "month";
       } else {
         interval = Math.floor(seconds / 86400);
         if (interval >= 1) {
-          intervalType = "day ago";
+          intervalType = "day";
         } else {
           interval = Math.floor(seconds / 3600);
           if (interval >= 1) {
-            intervalType = "hour ago";
+            intervalType = "hour";
           } else {
             interval = Math.floor(seconds / 60);
             if (interval >= 1) {
-              intervalType = "minute ago";
+              intervalType = "minute";
             } else {
               interval = seconds;
-              intervalType = "second ago";
+              intervalType = "second";
             }
           }
         }
       }
     }
-
     if (interval > 1 || interval === 0) {
       intervalType += "s";
     }
-
-    return interval + " " + intervalType;
+    return `${interval} ${intervalType} ago`;
   };
 
-  let time;
+  let info = "No messages yet";
   if (userOrChannel.last_active) {
-    time = `Last active: ${timeSince(new Date(userOrChannel.last_active))}`;
+    info = `Last active ${timeSince(new Date(userOrChannel.last_active))}`;
   } else if (userOrChannel.created_at) {
-    time = `Joined: ${timeSince(new Date(userOrChannel.created_at))}`;
-  } else
-    time = `Last message: ${userOrChannel.state.messages[
+    info = `Joined ${timeSince(new Date(userOrChannel.created_at))}`;
+  } else if (userOrChannel.state.messages[0]) {
+    info = `Last message: ${userOrChannel.state.messages[
       userOrChannel.state.messages.length - 1
     ].text.slice(0, 40)}`;
+  }
 
   return (
     <li className="User" onClick={() => handleUserClick(name)}>
@@ -95,7 +100,7 @@ export default function User({
         <Avatar userOrChannel={userOrChannel} chatClient={chatClient} />
         <div className="user_id">
           {name}
-          <div className="user_channel-info">{time}</div>
+          <div className="user_channel-info">{info}</div>
         </div>
         <div className="user_arrow">→</div>
       </div>

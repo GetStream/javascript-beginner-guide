@@ -20,6 +20,7 @@ body {
 
 ul {
   padding: 0;
+  margin-top: 0;
 }
 
 p {
@@ -32,19 +33,24 @@ p {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   font-size: calc(10px + 2vmin);
   color: white;
   border: 1px solid black;
   border-radius: 0.8rem;
   box-shadow: 5px 5px 4px 1px rgba(1, 95, 255, 0.5),
     0.3em 0.3em 1em rgba(0, 0, 0, 0.8);
-  margin: 2vh;
+  margin: 2vh 0;
+  padding: 2vh 0;
 }
 
 .Login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   color: #909093;
-  margin: 0.4rem;
+  margin: 4rem 0.4rem;
 }
 
 .login_header {
@@ -127,15 +133,23 @@ p {
 
 .welcome {
   margin: 1rem;
-  font-size: 2rem;
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .instructions {
   margin: 1rem;
 }
 
-.select {
-  padding-bottom: 1rem;
+.people {
+  padding: .4rem;
+  display: flex;
+}
+
+.search_form {
+  width: 30vw;
+  padding: .5rem;
+  border-radius: .5rem;
 }
 
 .User {
@@ -197,6 +211,7 @@ p {
 .channel-header {
   background-color: #373639;
   font-size: 1em;
+  margin-top: -2vh;
   margin-bottom: auto;
   width: 100%;
   border-radius: 0.8rem;
@@ -325,7 +340,7 @@ img {
   border-radius: 1rem;
   background-color: #909093;
   height: 5vh;
-  min-width: 16vw;
+  min-width: 12vw;
 }
 
 .lobby-logout-users:hover {
