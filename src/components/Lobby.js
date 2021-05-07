@@ -81,8 +81,8 @@ export default function Lobby({ chatClient }) {
           )}
         </ul>
       )}
-      <div ref={messagesEndRef}></div>
       <MessageInput channel={channel} chatClient={chatClient} />
+      <div ref={messagesEndRef}></div>
     </Fragment>
   );
 }

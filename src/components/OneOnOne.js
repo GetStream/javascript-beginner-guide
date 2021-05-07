@@ -14,10 +14,10 @@ export default function Channel({ chatClient, view, channel }) {
 
   useEffect(() => {
     setMessages(channel.state.messages);
-    setTimeout(() => {
+    // setTimeout(() => {
       setLoading(false);
       scrollToBottom();
-    }, 500);
+    // }, 500);
   }, [channel.state.messages]);
   // listen to channel events for new messages in channel state
     // https://getstream.io/chat/docs/javascript/event_listening/?language=javascript
@@ -41,7 +41,6 @@ export default function Channel({ chatClient, view, channel }) {
   };
 
   function getFormattedTime(date) {
-    console.log(date);
     let hour = date.getHours();
     let minutes = date.getMinutes().toString().padStart(2, "0");
     let amOrPm = "AM";

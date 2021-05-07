@@ -13,9 +13,7 @@ export default function Avatar({ userOrChannel, chatClient }) {
 
   let name = userOrChannel.id;
   if (userOrChannel.state) {
-    const otherMember = getOtherMember(userOrChannel, chatClient);
-    if (otherMember) name = otherMember;
-    else console.log(otherMember, 'otherMember');
+    name = getOtherMember(userOrChannel, chatClient);
   }
 
   return (

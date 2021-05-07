@@ -16,19 +16,26 @@ export default function User({
     // we will pass 2 members to this channel
     // the 'name' property is a custom field
     // https://getstream.io/chat/docs/javascript/creating_channels/?language=javascript
+    let channel;
+    console.log(userID, chatClient.userID);
+    if (userID === chatClient.userID) {
 
-    const channel = chatClient.channel("messaging", {
-      members: [chatClient.userID, userID],
-      name: `This is a 'Messaging' Channel Type. ${chatClient.userID} & ${userID} have role 'channel_member' which has read & write permissions by default`,
-    });
-    // calling channel.watch() creates a channel, returns channel state, and tells the
-    // server to send events to the chatClient when anything in the channel changes
-    // on subsequent calls to watch() with this channel, the API will recognize that this channel already exists
-    // and will not create a duplicate channel - nor will it update the 'members' or 'name' fields
-    // https://getstream.io/chat/docs/javascript/watch_channel/?language=javascript
-    await channel.watch();
-    setChannel(channel);
-    setView(channel.id);
+      channel = chatClient.channel('messaging', 'you');
+    } else {
+      console.log('he');
+      channel = chatClient.channel("messaging", {
+        members: [chatClient.userID, userID],
+        name: `This is a 'Messaging' Channel Type. ${chatClient.userID} & ${userID} have role 'channel_member' which has read & write permissions by default`,
+      });
+    }
+      // calling channel.watch() creates a channel, returns channel state, and tells the
+      // server to send events to the chatClient when anything in the channel changes
+      // on subsequent calls to watch() with this channel, the API will recognize that this channel already exists
+      // and will not create a duplicate channel - nor will it update the 'members' or 'name' fields
+      // https://getstream.io/chat/docs/javascript/watch_channel/?language=javascript
+      await channel.watch();
+      setChannel(channel);
+      setView(channel.id);
   };
 
   let userOrChannel = user || channel;
@@ -41,7 +48,6 @@ export default function User({
 
   const timeSince = (date) => {
     const seconds = Math.floor((new Date() - date) / 1000);
-
     let interval = seconds / 31536000;
     let intervalType;
 
@@ -77,7 +83,7 @@ export default function User({
     return `${interval} ${intervalType} ago`;
   };
 
-  let info = 'No messages yet';
+  let info = "No messages yet";
   if (userOrChannel.last_active) {
     info = `Last active ${timeSince(new Date(userOrChannel.last_active))}`;
   } else if (userOrChannel.created_at) {
