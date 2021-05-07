@@ -46,48 +46,47 @@ export default function User({
     let intervalType;
 
     if (interval >= 1) {
-      intervalType = "year ago";
+      intervalType = "year";
     } else {
       interval = Math.floor(seconds / 2592000);
       if (interval >= 1) {
-        intervalType = "month ago";
+        intervalType = "month";
       } else {
         interval = Math.floor(seconds / 86400);
         if (interval >= 1) {
-          intervalType = "day ago";
+          intervalType = "day";
         } else {
           interval = Math.floor(seconds / 3600);
           if (interval >= 1) {
-            intervalType = "hour ago";
+            intervalType = "hour";
           } else {
             interval = Math.floor(seconds / 60);
             if (interval >= 1) {
-              intervalType = "minute ago";
+              intervalType = "minute";
             } else {
               interval = seconds;
-              intervalType = "second ago";
+              intervalType = "second";
             }
           }
         }
       }
     }
-
     if (interval > 1 || interval === 0) {
       intervalType += "s";
     }
-
-    return interval + " " + intervalType;
+    return `${interval} ${intervalType} ago`;
   };
 
-  let time;
+  let info = 'No messages yet';
   if (userOrChannel.last_active) {
-    time = `Last active: ${timeSince(new Date(userOrChannel.last_active))}`;
+    info = `Last active ${timeSince(new Date(userOrChannel.last_active))}`;
   } else if (userOrChannel.created_at) {
-    time = `Joined: ${timeSince(new Date(userOrChannel.created_at))}`;
-  } else
-    time = `Last message: ${userOrChannel.state.messages[
+    info = `Joined ${timeSince(new Date(userOrChannel.created_at))}`;
+  } else if (userOrChannel.state.messages[0]) {
+    info = `Last message: ${userOrChannel.state.messages[
       userOrChannel.state.messages.length - 1
     ].text.slice(0, 40)}`;
+  }
 
   return (
     <li className="User" onClick={() => handleUserClick(name)}>
@@ -95,7 +94,7 @@ export default function User({
         <Avatar userOrChannel={userOrChannel} chatClient={chatClient} />
         <div className="user_id">
           {name}
-          <div className="user_channel-info">{time}</div>
+          <div className="user_channel-info">{info}</div>
         </div>
         <div className="user_arrow">→</div>
       </div>

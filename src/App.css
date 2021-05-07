@@ -138,6 +138,10 @@ p {
   padding-bottom: 1rem;
 }
 
+.search_form {
+  height: 2rem;
+}
+
 .User {
   list-style-type: none;
   display: flex;

@@ -1,4 +1,4 @@
-import { useState, useEffect, Fragment } from "react";
+import { useState, useEffect,useCallback, Fragment } from "react";
 import { List } from "react-content-loader";
 import User from "./User";
 
@@ -7,24 +7,62 @@ export default function UserList({ chatClient, setView, setChannel }) {
   const [users, setUsers] = useState([]);
   const [offset, setOffset] = useState(10);
   const [searchTerm, setSearchTerm] = useState('');
+  const [debouncedTerm, setDebouncedTerm] = useState("");
   const [renderGetMore, setRenderGetMore] = useState(true);
 
+  // const getAllUsers = useCallback(
+  //   async () => {
+  //     // return users with id 'Not Equal' ($ne) to me
+  //     // https://getstream.io/chat/docs/javascript/query_syntax/?language=javascript
+  //     // sort users by last_active date - optional
+  //     // limit the response to the 10 most recently active users
+  //     // https://getstream.io/chat/docs/javascript/query_users/?language=javascript
+  //     const filter = { id: { $ne: chatClient.userID } };
+  //     const sort = { last_active: -1 };
+  //     const options = { limit: 10 };
+  //     const response = await chatClient.queryUsers(filter, sort, options);
+  //     setUsers(response.users);
+  //   }, [chatClient]
+  //   )
+
+  // const searchUsers = async (e) => {
+  //   e.preventDefault();
+  //   if (searchTerm === '') getAllUsers();
+  //   else {
+  //   const response = await chatClient.queryUsers({ id: { $autocomplete: searchTerm } });
+  //   setUsers(response.users);
+  //   }
+  // }
+  // setLoading(false)
+
   useEffect(() => {
-    const getUsers = async () => {
-      // return users with id 'Not Equal' ($ne) to me
-        // https://getstream.io/chat/docs/javascript/query_syntax/?language=javascript
-      // sort users by last_active date - optional
-      // limit the response to the 10 most recently active users
-        // https://getstream.io/chat/docs/javascript/query_users/?language=javascript
+    const getAllUsers = async () => {
       const filter = { id: { $ne: chatClient.userID } };
       const sort = { last_active: -1 };
       const options = { limit: 10 };
-      const response = await chatClient.queryUsers(filter, sort, options);
+      let response;
+      if (debouncedTerm === '') {
+        response = await chatClient.queryUsers(filter, sort, options);
+      } else {
+        response = await chatClient.queryUsers({
+          id: { $autocomplete: debouncedTerm },
+        });
+      }
       setUsers(response.users);
-    };
-    getUsers();
-    setTimeout(() => setLoading(false), 500);
-  }, [chatClient]);
+      setLoading(false);
+    }
+    getAllUsers();
+  }, [debouncedTerm, chatClient])
+
+  useEffect(() => {
+    const timerID = setTimeout(() => {
+      setDebouncedTerm(searchTerm)
+    }, 1000);
+
+    return () => {
+      clearTimeout(timerID)
+    }
+  }, [searchTerm]);
 
   const handleGetMoreUsersClick = async () => {
     const filter = { id: { $ne: chatClient.userID } };
@@ -42,32 +80,25 @@ export default function UserList({ chatClient, setView, setChannel }) {
     else setRenderGetMore(false);
   };
 
-  const searchUsers = async (e) => {
-    e.preventDefault();
-    const response = await chatClient.queryUsers({ id: { $autocomplete: searchTerm } });
-    console.log(response);
-    setUsers(response.users);
-  }
-
   return (
     <div className="User-list">
-      <h1 className="welcome">{`Welcome ${chatClient.userID}`}</h1>
+      <h1 className="welcome">{'People Search'}</h1>
       {loading ? (
         <List className="loading" />
       ) : (
         <ul>
           {users ? (
             <Fragment>
-              <form onSubmit={searchUsers}>
+              <form>
                 <input
+                  className="search_form"
                   autoFocus
                   type="text"
-                  name='searchTerm'
+                  name="searchTerm"
                   value={searchTerm}
                   placeholder="Search all users..."
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
-
               </form>
               <p className="select">Select a user to chat with</p>
               {users &&
