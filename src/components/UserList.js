@@ -32,7 +32,7 @@ export default function UserList({ chatClient, setView, setChannel }) {
   useEffect(() => {
     const timerID = setTimeout(() => {
       setDebouncedTerm(searchTerm);
-    }, 1000);
+    }, 500);
 
     return () => {
       clearTimeout(timerID);
@@ -43,7 +43,7 @@ export default function UserList({ chatClient, setView, setChannel }) {
     const filter = { id: { $ne: chatClient.userID } };
     const sort = { last_active: -1 };
     // offset can be used for pagination by skipping the first <offset> (10, then 20...) users
-    //  and then return the next 10 users
+    //   and then return the next 10 users
     const options = { offset: offset, limit: 10 };
     const response = await chatClient.queryUsers(filter, sort, options);
     setOffset(offset + 10);
@@ -58,7 +58,7 @@ export default function UserList({ chatClient, setView, setChannel }) {
 
   return (
     <div className="User-list">
-      <h1 className="welcome">{"People Search"}</h1>
+      <h1 className="user-list-contacts_header">{"People Search"}</h1>
       {loading ? (
         <List className="loading" />
       ) : (

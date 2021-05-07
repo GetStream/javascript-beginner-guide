@@ -10,32 +10,31 @@ export default function User({
 }) {
   const handleUserClick = async (userID) => {
     // chatClient.channel() instantiates a channel - channel type is the only mandatory argument
-    // if no id is passed to chatClient.channel() (such as here), the id will be generated for you by the SDK
-    // based on the channel type and channel members
     // this method does not call the Stream API
-    // we will pass 2 members to this channel
-    // the 'name' property is a custom field
-    // https://getstream.io/chat/docs/javascript/creating_channels/?language=javascript
     let channel;
-    console.log(userID, chatClient.userID);
+    // if you select you, create a channel with an id as your userID with no members
     if (userID === chatClient.userID) {
-
-      channel = chatClient.channel('messaging', 'you');
+      channel = chatClient.channel("messaging", userID);
     } else {
-      console.log('he');
+      // if no id is passed to chatClient.channel(), the id will be generated for you by the SDK
+      //   based on the channel type and channel members
+      // we will pass 2 members to this channel
+      // the 'name' property is a custom field
+      //   https://getstream.io/chat/docs/javascript/creating_channels/?language=javascript
       channel = chatClient.channel("messaging", {
         members: [chatClient.userID, userID],
         name: `This is a 'Messaging' Channel Type. ${chatClient.userID} & ${userID} have role 'channel_member' which has read & write permissions by default`,
       });
     }
-      // calling channel.watch() creates a channel, returns channel state, and tells the
-      // server to send events to the chatClient when anything in the channel changes
-      // on subsequent calls to watch() with this channel, the API will recognize that this channel already exists
-      // and will not create a duplicate channel - nor will it update the 'members' or 'name' fields
-      // https://getstream.io/chat/docs/javascript/watch_channel/?language=javascript
-      await channel.watch();
-      setChannel(channel);
-      setView(channel.id);
+    // calling channel.watch() creates a channel, returns channel state, and tells the
+    //   server to send events to the chatClient when anything in the channel changes
+    //     https://getstream.io/chat/docs/javascript/watch_channel/?language=javascript
+    // on subsequent calls to watch() with this channel, the API will recognize that this channel
+    //   already exists and will not create a duplicate channel - nor will it update the 'members' or 'name' fields
+    //     https://getstream.io/chat/docs/javascript/creating_channels/?language=javascript
+    await channel.watch();
+    setChannel(channel);
+    setView(channel.id);
   };
 
   let userOrChannel = user || channel;

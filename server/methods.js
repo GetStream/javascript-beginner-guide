@@ -9,7 +9,7 @@ console.log("key: ", appKey, "secret: ", secret);
 const serverClient = StreamChat.getInstance(appKey, secret);
 const userID = "Zachery";
 
-// There is no need for createToken() or the passing token to connectUser() on server side
+// There is no need for createToken() or passing the token to connectUser() on server side
 // 🙅 const token = serverClient.createToken(userID);
 // ⛔️ client.connectUser({ id: userID }, token);
 
@@ -55,9 +55,9 @@ const getChannels = async () => {
     .then(() => console.log(response));
 };
 
-getChannels()
-  .then((res) => console.log(res))
-  .catch((err) => console.log(err));
+// getChannels()
+//   .then((res) => console.log(res))
+//   .catch((err) => console.log(err));
 
 const createChannel = async () => {
   const channel = serverClient.channel("livestream", "lobby");

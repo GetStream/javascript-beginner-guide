@@ -14,13 +14,11 @@ export default function Channel({ chatClient, view, channel }) {
 
   useEffect(() => {
     setMessages(channel.state.messages);
-    // setTimeout(() => {
-      setLoading(false);
-      scrollToBottom();
-    // }, 500);
+    setLoading(false);
+    scrollToBottom();
   }, [channel.state.messages]);
   // listen to channel events for new messages in channel state
-    // https://getstream.io/chat/docs/javascript/event_listening/?language=javascript
+  //   https://getstream.io/chat/docs/javascript/event_listening/?language=javascript
   channel.on("message.new", () => {
     setMessages(channel.state.messages);
     scrollToBottom();
@@ -30,8 +28,8 @@ export default function Channel({ chatClient, view, channel }) {
     let classNames = "";
     classNames += message.user.id === chatClient.userID ? "me" : "not-me";
     // the API will recognize slash commands as well as enrich the message object with
-      // attachments for the first URL in a message text
-        // https://getstream.io/chat/docs/javascript/message_format/?language=javascript
+    //   attachments for the first URL in a message text
+    //     https://getstream.io/chat/docs/javascript/message_format/?language=javascript
     classNames += message.attachments.length ? "-thumbnail" : "-text-message";
     return classNames;
   };

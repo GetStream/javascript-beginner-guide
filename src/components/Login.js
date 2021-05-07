@@ -11,7 +11,7 @@ export default function Login({ chatClient, setView }) {
       // trigger a call to server which calls createToken(userID)
       .post("http://localhost:8080/token", { userID })
       // token exists on result.data
-        // https://getstream.io/chat/docs/javascript/init_and_users/?language=javascript
+      //   https://getstream.io/chat/docs/javascript/init_and_users/?language=javascript
       .then((res) => chatClient.connectUser({ id: userID }, res.data))
       .then(() => setView("lobby"))
       .catch((err) => {
@@ -39,7 +39,10 @@ export default function Login({ chatClient, setView }) {
           name="userID"
           value={userID}
           placeholder="Enter UserID..."
-          onChange={(e) => { setUserID(e.target.value); setErrorMessage('') }}
+          onChange={(e) => {
+            setUserID(e.target.value);
+            setErrorMessage("");
+          }}
         ></input>
         <p className="login_error">{errorMessage}</p>
         <button className="login_button">Login</button>
