@@ -62,6 +62,9 @@ export default function Channel({ chatClient, view, channel }) {
               message.type !== "deleted" && (
                 <Fragment key={message.id}>
                   <li className={`message ${getClassNames(message)}`}>
+                    {/*
+                      THIS COULD BE A GOOD PLACE TO TALK ABOUT THE MESSAGE OBJECT - 3 CORE OBJECT TYPES - USER, CHANNEL, AND MESSAGE
+                    */}
                     {message.attachments.length ? (
                       <img
                         src={message.attachments[0].thumb_url}
