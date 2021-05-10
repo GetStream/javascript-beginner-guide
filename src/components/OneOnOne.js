@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { List } from "react-content-loader";
 import { getFormattedTime } from "../utils/getFormattedTime";
+import { getClassNames } from "../utils/getClassNames";
+import { isMe } from "../utils/isMe";
 import Header from "./Header";
 import MessageInput from "./MessageInput";
 
@@ -16,7 +18,10 @@ export default function Channel({ chatClient, view, channel }) {
   useEffect(() => {
     setMessages(channel.state.messages);
     setLoading(false);
-    scrollToBottom();
+    setTimeout(() => {
+      scrollToBottom();
+      // console.log("hi");
+    }, 500);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   // Listen to channel events for new messages in channel state
@@ -25,20 +30,6 @@ export default function Channel({ chatClient, view, channel }) {
     setMessages(channel.state.messages);
     scrollToBottom();
   });
-  setTimeout(() => scrollToBottom(), 100)
-  const getClassNames = (message) => {
-    let classNames = "";
-    classNames += message.user.id === chatClient.userID ? "me" : "not-me";
-    /** The API will recognize slash commands as well as enrich the message object with
-          attachments with info for the first URL found in a message.text
-            https://getstream.io/chat/docs/javascript/message_format/?language=javascript */
-    classNames += message.attachments.length ? "-thumbnail" : "-text-message";
-    return classNames;
-  };
-
-  const isMe = (message) => {
-    return message.user.id === chatClient.userID ? "me" : "not-me";
-  };
 
   return (
     <>
@@ -51,7 +42,9 @@ export default function Channel({ chatClient, view, channel }) {
             (message) =>
               message.type !== "deleted" && (
                 <div key={message.id} className="one-on-one-message-box ">
-                  <li className={`message ${getClassNames(message)}`}>
+                  <li
+                    className={`message ${getClassNames(message, chatClient)}`}
+                  >
                     {message.attachments.length ? (
                       <img
                         src={message.attachments[0].thumb_url}
@@ -61,7 +54,7 @@ export default function Channel({ chatClient, view, channel }) {
                       message.text
                     )}
                   </li>
-                  <p className={`${isMe(message)}-dm-time`}>
+                  <p className={`${isMe(message, chatClient)}-dm-time`}>
                     {getFormattedTime(message.created_at)}
                   </p>
                 </div>
