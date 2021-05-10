@@ -5,23 +5,23 @@ export default function Login({ chatClient, setView }) {
   const [userID, setUserID] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleUserIDSubmit = (e) => {
+  const handleUserIDSubmit = async (e) => {
     e.preventDefault();
-    axios
-      // trigger a call to server which calls createToken(userID)
-      .post("http://localhost:8080/token", { userID })
-      // token exists on result.data
+    // Trigger a call to server which calls createToken(userID)
+    const result = await axios.post("http://localhost:8080/token", { userID });
+    try {
+      // Token exists on result.data
       //   https://getstream.io/chat/docs/javascript/init_and_users/?language=javascript
-      .then((res) => chatClient.connectUser({ id: userID }, res.data))
-      .then(() => setView("lobby"))
-      .catch((err) => {
-        console.error(err);
-        // use chatClient.disconnect() before trying to connect as a different user
-        chatClient.disconnectUser();
-        setErrorMessage(
-          "user_details.id is not a valid user id. a-z, 0-9, @, _ and - are allowed."
-        );
-      });
+      await chatClient.connectUser({ id: userID }, result.data);
+      setView("lobby");
+    } catch (err) {
+      console.error(err);
+      // Call chatClient.disconnect() before trying to connect as a different user
+      chatClient.disconnectUser();
+      setErrorMessage(
+        "user_details.id is not a valid user id. a-z, 0-9, @, _ and - are allowed."
+      );
+    }
   };
 
   return (

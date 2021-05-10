@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef, Fragment } from "react";
+import { useState, useEffect, useRef } from "react";
 import { List } from "react-content-loader";
+import { getFormattedTime } from "../utils/getFormattedTime";
 import Header from "./Header";
 import MessageInput from "./MessageInput";
 
@@ -16,8 +17,9 @@ export default function Channel({ chatClient, view, channel }) {
     setMessages(channel.state.messages);
     setLoading(false);
     scrollToBottom();
-  }, [channel.state.messages]);
-  // listen to channel events for new messages in channel state
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  // Listen to channel events for new messages in channel state
   //   https://getstream.io/chat/docs/javascript/event_listening/?language=javascript
   channel.on("message.new", () => {
     setMessages(channel.state.messages);
@@ -27,9 +29,9 @@ export default function Channel({ chatClient, view, channel }) {
   const getClassNames = (message) => {
     let classNames = "";
     classNames += message.user.id === chatClient.userID ? "me" : "not-me";
-    // the API will recognize slash commands as well as enrich the message object with
-    //   attachments for the first URL in a message text
-    //     https://getstream.io/chat/docs/javascript/message_format/?language=javascript
+    /** The API will recognize slash commands as well as enrich the message object with
+          attachments with info for the first URL found in a message.text
+            https://getstream.io/chat/docs/javascript/message_format/?language=javascript */
     classNames += message.attachments.length ? "-thumbnail" : "-text-message";
     return classNames;
   };
@@ -38,19 +40,8 @@ export default function Channel({ chatClient, view, channel }) {
     return message.user.id === chatClient.userID ? "me" : "not-me";
   };
 
-  function getFormattedTime(date) {
-    let hour = date.getHours();
-    let minutes = date.getMinutes().toString().padStart(2, "0");
-    let amOrPm = "AM";
-    if (hour > 12) {
-      amOrPm = "PM";
-      hour = (hour % 12).toString().padStart(2, "0");
-    }
-    return `${hour}:${minutes} ${amOrPm}`;
-  }
-
   return (
-    <Fragment>
+    <>
       <Header chatClient={chatClient} channel={channel} messages={messages} />
       {loading ? (
         <List className="loading" />
@@ -80,6 +71,6 @@ export default function Channel({ chatClient, view, channel }) {
         </ul>
       )}
       <MessageInput view={view} channel={channel} chatClient={chatClient} />
-    </Fragment>
+    </>
   );
 }
