@@ -243,8 +243,7 @@ p {
   margin: 0.3rem;
   font-size: 0.9rem;
   word-break: break-word;
-  width: fit-content;
-
+  width: fit-content
 }
 
 .message-input {
@@ -260,7 +259,10 @@ p {
 input:focus {
   outline: none;
 }
-
+.one-on-one-message-box {
+  display: flex;
+  flex-direction: column;
+}
 .lobby-user {
   font-size: 1rem;
   margin-right: 0.2rem;
@@ -285,10 +287,10 @@ input:focus {
 .me-text-message {
   background-color: #1a8afd;
   border-bottom-right-radius: 0;
+  /* float: right;
+  clear: both; */
   width: fit-content;
-  float: right;
-  clear: both;
-  
+  align-self: flex-end;
 }
 
 .not-me-text-message {
@@ -317,8 +319,7 @@ img {
 
 .me-dm-time {
   font-size: 0.8rem;
-  clear: both;
-  float: right;
+  align-self: flex-end;
 }
 
 .not-me-dm-time {
