@@ -287,8 +287,6 @@ input:focus {
 .me-text-message {
   background-color: #1a8afd;
   border-bottom-right-radius: 0;
-  /* float: right;
-  clear: both; */
   width: fit-content;
   align-self: flex-end;
 }
