@@ -1,6 +1,6 @@
 import { getOtherMember } from "../getOtherMember";
 
-export default function Header({ messages, channel, chatClient }) {
+export default function Header({ channel, chatClient, messages }) {
   const to = getOtherMember(channel, chatClient);
 
   return (

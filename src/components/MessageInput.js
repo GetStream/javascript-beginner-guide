@@ -7,8 +7,8 @@ export default function MessageInput({ channel, chatClient }) {
   const handleSubmitMessage = async (e) => {
     e.preventDefault();
     message &&
-      // there are many possible fields to include with channel.sendMessage()
-      // we will simply send a text field
+      // There are many possible fields to include with channel.sendMessage()
+      // We will simply send a text field
       //   https://getstream.io/chat/docs/javascript/send_message/?language=javascript
       channel
         .sendMessage({ text: message })

@@ -1,0 +1,43 @@
+export default function Navigation({ chatClient, setView, view }) {
+  const handleViewClick = async (room) => {
+    setView(room);
+    room === "login" && (await chatClient.disconnectUser());
+  };
+
+  return (
+    view !== "login" && (
+      <div>
+        <button
+          onClick={() => handleViewClick("login")}
+          className="lobby-logout-users"
+        >
+          Logout
+        </button>
+        {view !== "users" && (
+          <button
+            onClick={() => handleViewClick("users")}
+            className="lobby-logout-users"
+          >
+            Search
+          </button>
+        )}
+        {view !== "contacts" && (
+          <button
+            onClick={() => handleViewClick("contacts")}
+            className="lobby-logout-users"
+          >
+            Contacts
+          </button>
+        )}
+        {view !== "lobby" && (
+          <button
+            onClick={() => handleViewClick("lobby")}
+            className="lobby-logout-users"
+          >
+            Lobby
+          </button>
+        )}
+      </div>
+    )
+  );
+}

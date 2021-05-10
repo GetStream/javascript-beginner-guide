@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, Fragment } from "react";
+import { useState, useEffect, useRef } from "react";
 import { List } from "react-content-loader";
 import Header from "./Header";
 import MessageInput from "./MessageInput";
@@ -18,7 +18,7 @@ export default function Channel({ chatClient, view, channel }) {
     scrollToBottom();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // listen to channel events for new messages in channel state
+  // Listen to channel events for new messages in channel state
   //   https://getstream.io/chat/docs/javascript/event_listening/?language=javascript
   channel.on("message.new", () => {
     setMessages(channel.state.messages);
@@ -28,9 +28,9 @@ export default function Channel({ chatClient, view, channel }) {
   const getClassNames = (message) => {
     let classNames = "";
     classNames += message.user.id === chatClient.userID ? "me" : "not-me";
-    // the API will recognize slash commands as well as enrich the message object with
-    //   attachments for the first URL in a message text
-    //     https://getstream.io/chat/docs/javascript/message_format/?language=javascript
+    /** The API will recognize slash commands as well as enrich the message object with
+          attachments for the first URL in a message text
+            https://getstream.io/chat/docs/javascript/message_format/?language=javascript */
     classNames += message.attachments.length ? "-thumbnail" : "-text-message";
     return classNames;
   };
@@ -51,7 +51,7 @@ export default function Channel({ chatClient, view, channel }) {
   }
 
   return (
-    <Fragment>
+    <>
       <Header chatClient={chatClient} channel={channel} messages={messages} />
       {loading ? (
         <List className="loading" />
@@ -60,7 +60,7 @@ export default function Channel({ chatClient, view, channel }) {
           {messages.map(
             (message) =>
               message.type !== "deleted" && (
-                <Fragment key={message.id}>
+                <div key={message.id}>
                   <li className={`message ${getClassNames(message)}`}>
                     {/*
                       THIS COULD BE A GOOD PLACE TO TALK ABOUT THE MESSAGE OBJECT - 3 CORE OBJECT TYPES - USER, CHANNEL, AND MESSAGE
@@ -77,13 +77,13 @@ export default function Channel({ chatClient, view, channel }) {
                   <p className={`${isMe(message)}-dm-time`}>
                     {getFormattedTime(message.created_at)}
                   </p>
-                </Fragment>
+                </div>
               )
           )}
         </ul>
       )}
       <div ref={messagesEndRef}></div>
       <MessageInput view={view} channel={channel} chatClient={chatClient} />
-    </Fragment>
+    </>
   );
 }
