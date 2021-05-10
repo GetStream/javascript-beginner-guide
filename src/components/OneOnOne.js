@@ -23,7 +23,7 @@ export default function Channel({ chatClient, view, channel }) {
     setMessages(channel.state.messages);
     scrollToBottom();
   });
-
+  setTimeout(() => scrollToBottom(), 100)
   const getClassNames = (message) => {
     let classNames = "";
     classNames += message.user.id === chatClient.userID ? "me" : "not-me";
@@ -59,7 +59,7 @@ export default function Channel({ chatClient, view, channel }) {
           {messages.map(
             (message) =>
               message.type !== "deleted" && (
-                <Fragment key={message.id}>
+                <div key={message.id} className="one-on-one-message-box ">
                   <li className={`message ${getClassNames(message)}`}>
                     {message.attachments.length ? (
                       <img
@@ -73,12 +73,12 @@ export default function Channel({ chatClient, view, channel }) {
                   <p className={`${isMe(message)}-dm-time`}>
                     {getFormattedTime(message.created_at)}
                   </p>
-                </Fragment>
+                </div>
               )
           )}
+          <div ref={messagesEndRef}></div>
         </ul>
       )}
-      <div ref={messagesEndRef}></div>
       <MessageInput view={view} channel={channel} chatClient={chatClient} />
     </Fragment>
   );
