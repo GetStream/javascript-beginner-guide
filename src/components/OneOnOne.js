@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef, Fragment } from "react";
+import { useState, useEffect, useRef } from "react";
 import { List } from "react-content-loader";
+import { getFormattedTime } from "../utils/getFormattedTime";
 import Header from "./Header";
 import MessageInput from "./MessageInput";
 
@@ -18,7 +19,7 @@ export default function Channel({ chatClient, view, channel }) {
     scrollToBottom();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // listen to channel events for new messages in channel state
+  // Listen to channel events for new messages in channel state
   //   https://getstream.io/chat/docs/javascript/event_listening/?language=javascript
   channel.on("message.new", () => {
     setMessages(channel.state.messages);
@@ -28,9 +29,9 @@ export default function Channel({ chatClient, view, channel }) {
   const getClassNames = (message) => {
     let classNames = "";
     classNames += message.user.id === chatClient.userID ? "me" : "not-me";
-    // the API will recognize slash commands as well as enrich the message object with
-    //   attachments for the first URL in a message text
-    //     https://getstream.io/chat/docs/javascript/message_format/?language=javascript
+    /** The API will recognize slash commands as well as enrich the message object with
+          attachments with info for the first URL found in a message.text
+            https://getstream.io/chat/docs/javascript/message_format/?language=javascript */
     classNames += message.attachments.length ? "-thumbnail" : "-text-message";
     return classNames;
   };
@@ -39,19 +40,8 @@ export default function Channel({ chatClient, view, channel }) {
     return message.user.id === chatClient.userID ? "me" : "not-me";
   };
 
-  function getFormattedTime(date) {
-    let hour = date.getHours();
-    let minutes = date.getMinutes().toString().padStart(2, "0");
-    let amOrPm = "AM";
-    if (hour > 12) {
-      amOrPm = "PM";
-      hour = (hour % 12).toString().padStart(2, "0");
-    }
-    return `${hour}:${minutes} ${amOrPm}`;
-  }
-
   return (
-    <Fragment>
+    <>
       <Header chatClient={chatClient} channel={channel} messages={messages} />
       {loading ? (
         <List className="loading" />
@@ -60,7 +50,7 @@ export default function Channel({ chatClient, view, channel }) {
           {messages.map(
             (message) =>
               message.type !== "deleted" && (
-                <Fragment key={message.id}>
+                <div key={message.id}>
                   <li className={`message ${getClassNames(message)}`}>
                     {message.attachments.length ? (
                       <img
@@ -74,13 +64,13 @@ export default function Channel({ chatClient, view, channel }) {
                   <p className={`${isMe(message)}-dm-time`}>
                     {getFormattedTime(message.created_at)}
                   </p>
-                </Fragment>
+                </div>
               )
           )}
         </ul>
       )}
       <div ref={messagesEndRef}></div>
       <MessageInput view={view} channel={channel} chatClient={chatClient} />
-    </Fragment>
+    </>
   );
 }

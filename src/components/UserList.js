@@ -1,8 +1,8 @@
-import { useState, useEffect, Fragment } from "react";
+import { useState, useEffect } from "react";
 import { List } from "react-content-loader";
 import UserOrChannel from "./UserOrChannel";
 
-export default function UserList({ chatClient, setView, setChannel }) {
+export default function UserList({ chatClient, setChannel, setView }) {
   const [debouncedTerm, setDebouncedTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [offset, setOffset] = useState(10);
@@ -55,13 +55,13 @@ export default function UserList({ chatClient, setView, setChannel }) {
   }, [searchTerm]);
 
   const handleGetMoreUsersClick = async () => {
-    const filter = { id: { $ne: chatClient.userID } };
-    // const filter = {
-    //   $and: [
-    //     { last_active: { $lt: "2021-05-07T20:51:54.347823Z" } },
-    //     { id: { $ne: chatClient.userID } },
-    //   ],
-    // };
+    // const filter = { id: { $ne: chatClient.userID } };
+    const filter = {
+      $and: [
+        { last_active: { $lt: "2021-05-07T20:51:54.347823Z" } },
+        { id: { $ne: chatClient.userID } },
+      ],
+    };
 
     const sort = { last_active: -1 };
     // const sort = [{ last_active: -1 }, { created_at: 1 }];
@@ -87,7 +87,7 @@ export default function UserList({ chatClient, setView, setChannel }) {
       {loading ? (
         <List className="loading" />
       ) : (
-        <Fragment>
+        <>
           <input
             className="search_form"
             autoFocus
@@ -124,7 +124,7 @@ export default function UserList({ chatClient, setView, setChannel }) {
               </button>
             )}
           </ul>
-        </Fragment>
+        </>
       )}
     </div>
   );
