@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { List } from "react-content-loader";
 import { getFormattedTime } from "../utils/getFormattedTime";
-
 import MessageInput from "./MessageInput";
 import Header from "./Header";
 
