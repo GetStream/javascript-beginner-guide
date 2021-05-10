@@ -137,8 +137,16 @@ In `server/index.js`:
 ```javascript
 serverClient.createToken('Cody')
 ```
-> Because the `serverClient` includes an app secret, it combines the given user id with the secret to generate a user specific token
+
+In production environments it is common to set an expiry date for the token, which can be passed as the second argument as seen below. 
+```javascript
+  const token = serverClient.createToken(userID, Math.floor(Date.now() / 1000) + (60 * 15));
+```
+This will set the token to expire in 15 minutes from the current time.
 More info on best practices for token creation can be found in [this](https://getstream.zendesk.com/hc/en-us/articles/360060576774-Token-Creation-Best-Practices) article.
+
+> Because the `serverClient` includes an app secret, it combines the given user id with the secret to generate a user specific token
+
 
 ## Connect User
 
@@ -146,6 +154,19 @@ Pass the server-side generated token to the client-side in a response and includ
 ```javascript
 chatClient.connectUser({ id: 'Cody' }, user_specific_token)
 ```
+
+Or, if the token is set to expire, pass an async function that returns the response from your token request as the second argument of `connectUser()`
+```javascript
+chatClient.connectUser( 
+    { id: 'Cody' }, 
+    async () => { 
+        // make a request to your own backend to get the token 
+        const response = await httpBackend.post("/chat-token/", 'Cody'); 
+        return response.token; 
+    } 
+);
+```
+
 [Example In Repo](https://github.com/zacheryconverse/basic-chat/blob/3f857ac4785f08d5bb7e8ff41bb225776e5b808c/src/components/Login.js#L8)
 > Every token is specific to a user
 
