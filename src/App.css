@@ -251,6 +251,8 @@ p {
   border-radius: 2rem;
   padding-left: 1rem;
   border: none;
+  display: flex;
+  margin: auto;
 }
 
 input:focus {
