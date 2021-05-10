@@ -55,13 +55,13 @@ export default function UserList({ chatClient, setChannel, setView }) {
   }, [searchTerm]);
 
   const handleGetMoreUsersClick = async () => {
-    // const filter = { id: { $ne: chatClient.userID } };
-    const filter = {
-      $and: [
-        { last_active: { $lt: "2021-05-07T20:51:54.347823Z" } },
-        { id: { $ne: chatClient.userID } },
-      ],
-    };
+    const filter = { id: { $ne: chatClient.userID } };
+    // const filter = {
+    //   $and: [
+    //     { last_active: { $lt: "2021-05-07T20:51:54.347823Z" } },
+    //     { id: { $ne: chatClient.userID } },
+    //   ],
+    // };
 
     const sort = { last_active: -1 };
     // const sort = [{ last_active: -1 }, { created_at: 1 }];
@@ -78,7 +78,8 @@ export default function UserList({ chatClient, setChannel, setView }) {
     if (len === 10) setUsers([...users, ...response.users]);
     if (users[len - 1]?.id !== response.users[len - 1]?.id)
       setUsers([...users, ...response.users]);
-    else setRenderLoadMore(false);
+    else console.log(response, users);
+    // setRenderLoadMore(false);
   };
 
   return (
