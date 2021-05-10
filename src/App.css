@@ -231,6 +231,8 @@ p {
 .channel {
   width: 100%;
   padding: 1rem;
+  height: 70vh;
+  overflow: scroll;
 }
 
 .message {
@@ -274,18 +276,9 @@ input:focus {
   padding: 0.2rem 0.6rem;
   margin: 0.3rem;
   font-size: 0.9rem;
-  clear: both;
-  float: left;
+  width: fit-content;
 }
 
-.lobby-thumbnail {
-  max-width: 30vw;
-  list-style-type: none;
-  clear: both;
-  float: left;
-  display: flex;
-  flex-wrap: wrap;
-}
 
 .me-text-message {
   background-color: #1a8afd;

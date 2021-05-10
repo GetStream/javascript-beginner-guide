@@ -18,7 +18,7 @@ export default function Lobby({ chatClient }) {
   useEffect(() => {
     const getMessagesAndWatchChannel = async () => {
       // calling channel.watch() allows you to listen for events when anything in the channel changes
-        // https://getstream.io/chat/docs/javascript/watch_channel/?language=javascript
+      // https://getstream.io/chat/docs/javascript/watch_channel/?language=javascript
       await channel.watch();
       setMessages(channel.state.messages);
       setLoading(false);
@@ -30,7 +30,7 @@ export default function Lobby({ chatClient }) {
   }, [channel]);
 
   // listen to channel events for new messages in channel state
-    // https://getstream.io/chat/docs/javascript/event_listening/?language=javascript
+  // https://getstream.io/chat/docs/javascript/event_listening/?language=javascript
   channel.on("message.new", () => {
     setMessages(channel.state.messages);
     scrollToBottom();
@@ -52,37 +52,62 @@ export default function Lobby({ chatClient }) {
   };
 
   return (
-    <Fragment>
+    <div>
       <Header channel={channel} chatClient={chatClient} messages={messages} />
-      {loading ? (
-        <List className='loading' />
-      ) : (
-        <ul className="channel">
-          {messages.map(
-            (message) =>
-              message.type !== "deleted" && (
-                <Fragment key={message.id}>
-                  <li className={`lobby${isImage(message)}`}>
-                    <b className="lobby-user">{`${message.user.id} `}</b>
-                    {message.attachments.length ? (
-                      <img
-                        src={message.attachments[0].thumb_url}
-                        alt={message.attachments[0].title}
-                      />
-                    ) : (
-                      message.text
-                    )}
-                  </li>
-                  <p className="lobby-time">
-                    {getFormattedTime(message.created_at)}
-                  </p>
-                </Fragment>
-              )
-          )}
-        </ul>
-      )}
+      <ul
+        className="channel"
+        onClick={scrollToBottom}
+      >
+        {messages.map((message) => (
+          <li className="lobby" key={message.id}>
+            <b className="lobby-user">{`${message.user.id}`}: </b>
+            {message.attachments.length ? (
+              <img
+                src={message.attachments[0].thumb_url}
+                alt={message.attachments[0].title}
+              />
+            ) : (
+              message.text 
+            )}
+          </li>
+        ))}
+        <div ref={messagesEndRef} />
+      </ul>
       <MessageInput channel={channel} chatClient={chatClient} />
-      <div ref={messagesEndRef}></div>
-    </Fragment>
+    </div>
+    //     <div>
+    //       <Header channel={channel} chatClient={chatClient} messages={messages} />
+    //       {loading ? (
+    //         <List className='loading' />
+    //       ) : (
+    //         <ul style={{ height: "80vh", overflow: "scroll"}}>
+    //           {messages.map(
+    //             (message) =>
+    //               message.type !== "deleted" && (
+    //                 <Fragment key={message.id}>
+    //                   <li className={`lobby${isImage(message)}`}>
+    //                     <b className="lobby-user">{`${message.user.id} `}</b>
+    //                     {message.attachments.length ? (
+    //                       <img
+    //                         src={message.attachments[0].thumb_url}
+    //                         alt={message.attachments[0].title}
+    //                       />
+    //                     ) : (
+    //                       message.text
+    //                     )}
+    //                   </li>
+    //                   <p className="lobby-time">
+    //                     {getFormattedTime(message.created_at)}
+    //                   </p>
+    //                 </Fragment>
+    //               )
+    //           )}
+    //         <div ref={messagesEndRef}></div>
+    //         </ul>
+
+    //       )}
+    // <div ref={messagesEndRef}></div>
+    //       <MessageInput channel={channel} chatClient={chatClient} />
+    //     </div>
   );
 }
