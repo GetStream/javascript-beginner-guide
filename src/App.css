@@ -243,6 +243,8 @@ p {
   margin: 0.3rem;
   font-size: 0.9rem;
   word-break: break-word;
+  width: fit-content;
+
 }
 
 .message-input {
@@ -266,8 +268,6 @@ input:focus {
 
 .lobby-time {
   font-size: 0.8rem;
-  clear: both;
-  float: left;
 }
 
 .lobby {
@@ -285,8 +285,10 @@ input:focus {
 .me-text-message {
   background-color: #1a8afd;
   border-bottom-right-radius: 0;
-  clear: both;
+  width: fit-content;
   float: right;
+  clear: both;
+  
 }
 
 .not-me-text-message {
@@ -294,6 +296,7 @@ input:focus {
   border-bottom-left-radius: 0;
   clear: both;
   float: left;
+  width: fit-content;
 }
 
 img {
