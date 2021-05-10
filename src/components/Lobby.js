@@ -53,9 +53,9 @@ export default function Lobby({ chatClient }) {
           {messages.map(
             (message) =>
               message.type !== "deleted" && (
-                <div key={message.id}>
-                  <li className={`lobby${isImage(message)}`}>
-                    <b className="lobby-user">{`${message.user.id} `}</b>
+                <>
+                  <li className="lobby" key={message.id}>
+                    <b className="lobby-user">{`${message.user.id}`}: </b>
                     {message.attachments.length ? (
                       <img
                         src={message.attachments[0].thumb_url}
@@ -68,9 +68,10 @@ export default function Lobby({ chatClient }) {
                   <p className="lobby-time">
                     {getFormattedTime(message.created_at)}
                   </p>
-                </div>
+                </>
               )
           )}
+          <div ref={messagesEndRef} />
         </ul>
       )}
       <MessageInput channel={channel} chatClient={chatClient} />
