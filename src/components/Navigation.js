@@ -13,6 +13,14 @@ export default function Navigation({ chatClient, setView, view }) {
         >
           Logout
         </button>
+        {view !== "lobby" && (
+          <button
+            onClick={() => handleViewClick("lobby")}
+            className="lobby-logout-users"
+          >
+            Lobby
+          </button>
+        )}
         {view !== "users" && (
           <button
             onClick={() => handleViewClick("users")}
@@ -27,14 +35,6 @@ export default function Navigation({ chatClient, setView, view }) {
             className="lobby-logout-users"
           >
             Contacts
-          </button>
-        )}
-        {view !== "lobby" && (
-          <button
-            onClick={() => handleViewClick("lobby")}
-            className="lobby-logout-users"
-          >
-            Lobby
           </button>
         )}
       </div>

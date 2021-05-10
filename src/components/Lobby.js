@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { List } from "react-content-loader";
 import { getFormattedTime } from "../utils/getFormattedTime";
+import { isImage } from "../utils/isImage";
 import MessageInput from "./MessageInput";
 import Header from "./Header";
 
@@ -17,7 +18,7 @@ export default function Lobby({ chatClient }) {
   };
 
   useEffect(() => {
-    const getMessagesAndWatchChannel = async () => {
+    const setMessagesAndWatchChannel = async () => {
       // Calling channel.watch() allows you to listen for events when anything in the channel changes
       // https://getstream.io/chat/docs/javascript/watch_channel/?language=javascript
       await channel.watch();
@@ -27,7 +28,7 @@ export default function Lobby({ chatClient }) {
         scrollToBottom();
       }, 500);
     };
-    getMessagesAndWatchChannel();
+    setMessagesAndWatchChannel();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -37,11 +38,6 @@ export default function Lobby({ chatClient }) {
     setMessages(channel.state.messages);
     scrollToBottom();
   });
-  // The Stream API enriches message.attachment with info of the first URL found in message.text
-  //   https://getstream.io/chat/docs/javascript/message_format/?language=javascript
-  const isImage = (message) => {
-    return message.attachments.length ? "-thumbnail" : "";
-  };
 
   return (
     <>
@@ -53,8 +49,8 @@ export default function Lobby({ chatClient }) {
           {messages.map(
             (message) =>
               message.type !== "deleted" && (
-                <>
-                  <li className="lobby" key={message.id}>
+                <div key={message.id}>
+                  <li className={`lobby${isImage(message)}`}>
                     <b className="lobby-user">{`${message.user.id}`}: </b>
                     {message.attachments.length ? (
                       <img
@@ -68,14 +64,13 @@ export default function Lobby({ chatClient }) {
                   <p className="lobby-time">
                     {getFormattedTime(message.created_at)}
                   </p>
-                </>
+                </div>
               )
           )}
           <div ref={messagesEndRef} />
         </ul>
       )}
       <MessageInput channel={channel} chatClient={chatClient} />
-      <div ref={messagesEndRef}></div>
     </>
   );
 }

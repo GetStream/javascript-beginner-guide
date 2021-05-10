@@ -138,14 +138,14 @@ p {
 }
 
 .people {
-  padding: .4rem;
+  padding: 0.4rem;
   display: flex;
 }
 
 .search_form {
   width: 30vw;
-  padding: .5rem;
-  border-radius: .5rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
 }
 
 .User {
@@ -197,7 +197,7 @@ p {
   color: #909093;
   white-space: nowrap;
   font-weight: 300;
-  font-size: .8rem;
+  font-size: 0.8rem;
 }
 
 .user_arrow {
@@ -231,7 +231,7 @@ p {
 .channel {
   width: 100%;
   padding: 1rem;
-  height: 70vh;
+  height: 65vh;
   overflow: scroll;
 }
 
@@ -243,7 +243,9 @@ p {
   margin: 0.3rem;
   font-size: 0.9rem;
   word-break: break-word;
-  width: fit-content
+  /* width: fit-content; */
+
+  clear: both;
 }
 
 .message-input {
@@ -259,10 +261,12 @@ p {
 input:focus {
   outline: none;
 }
-.one-on-one-message-box {
+
+/* .one-on-one-message-box {
   display: flex;
   flex-direction: column;
-}
+} */
+
 .lobby-user {
   font-size: 1rem;
   margin-right: 0.2rem;
@@ -270,6 +274,7 @@ input:focus {
 
 .lobby-time {
   font-size: 0.8rem;
+  clear: both;
 }
 
 .lobby {
@@ -281,14 +286,22 @@ input:focus {
   margin: 0.3rem;
   font-size: 0.9rem;
   width: fit-content;
+  clear: both;
 }
 
+.lobby-thumbnail {
+  border-bottom-left-radius: 0;
+  margin: 0.3rem;
+  max-width: 30vw;
+  list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+}
 
 .me-text-message {
   background-color: #1a8afd;
   border-bottom-right-radius: 0;
-  width: fit-content;
-  align-self: flex-end;
+  float: right;
 }
 
 .not-me-text-message {
@@ -296,7 +309,6 @@ input:focus {
   border-bottom-left-radius: 0;
   clear: both;
   float: left;
-  width: fit-content;
 }
 
 img {
@@ -317,13 +329,18 @@ img {
 
 .me-dm-time {
   font-size: 0.8rem;
-  align-self: flex-end;
+  clear: both;
+  float: right;
 }
 
 .not-me-dm-time {
   font-size: 0.8rem;
   clear: both;
   float: left;
+}
+
+.navigation {
+  background-color: #282c3438;
 }
 
 .lobby-logout-users {
