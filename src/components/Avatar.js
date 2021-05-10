@@ -1,4 +1,4 @@
-import { getOtherMember } from "../getOtherMember";
+import { getOtherMember } from "../utils/getOtherMember";
 
 export default function Avatar({ chatClient, userOrChannel }) {
   function stringToHslColor(str, s, l) {
@@ -12,7 +12,7 @@ export default function Avatar({ chatClient, userOrChannel }) {
 
   let name = userOrChannel.id;
   if (userOrChannel.state) {
-    name = getOtherMember(chatClient, userOrChannel);
+    name = getOtherMember(userOrChannel, chatClient);
   }
 
   return (

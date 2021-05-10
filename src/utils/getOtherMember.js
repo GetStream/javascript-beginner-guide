@@ -1,4 +1,4 @@
-export const getOtherMember = (id, chatClient) => {
+export function getOtherMember(id, chatClient) {
   // there are many useful properties on channel.state and the client object
   const otherMember = Object.keys(id.state.members).filter(
     (user) => user !== chatClient.userID

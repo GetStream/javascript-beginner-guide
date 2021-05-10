@@ -1,5 +1,6 @@
 import Avatar from "./Avatar";
-import { getOtherMember } from "../getOtherMember";
+import { getOtherMember } from "../utils/getOtherMember";
+import { timeSince } from "../utils/timeSince";
 
 export default function User({
   chatClient,
@@ -9,10 +10,10 @@ export default function User({
   setChannel,
 }) {
   const handleUserClick = async (userID) => {
+    let channel;
     // chatClient.channel() instantiates a channel - channel type is the only mandatory argument
     // This method does not call the Stream API
-    let channel;
-    // If you select you, create a channel with an id as your userID with no members
+    // If you select yourself, create a channel with an id as your userID with no members
     if (userID === chatClient.userID) {
       channel = chatClient.channel("messaging", userID);
     } else {
@@ -48,43 +49,6 @@ export default function User({
     const otherMember = getOtherMember(userOrChannel, chatClient);
     name = otherMember;
   }
-
-  const timeSince = (date) => {
-    const seconds = Math.floor((new Date() - date) / 1000);
-    let interval = seconds / 31536000;
-    let intervalType;
-
-    if (interval >= 1) {
-      intervalType = "year";
-    } else {
-      interval = Math.floor(seconds / 2592000);
-      if (interval >= 1) {
-        intervalType = "month";
-      } else {
-        interval = Math.floor(seconds / 86400);
-        if (interval >= 1) {
-          intervalType = "day";
-        } else {
-          interval = Math.floor(seconds / 3600);
-          if (interval >= 1) {
-            intervalType = "hour";
-          } else {
-            interval = Math.floor(seconds / 60);
-            if (interval >= 1) {
-              intervalType = "minute";
-            } else {
-              interval = seconds;
-              intervalType = "second";
-            }
-          }
-        }
-      }
-    }
-    if (interval > 1 || interval === 0) {
-      intervalType += "s";
-    }
-    return `${interval} ${intervalType} ago`;
-  };
 
   let info = "No messages yet";
   if (userOrChannel.last_active) {

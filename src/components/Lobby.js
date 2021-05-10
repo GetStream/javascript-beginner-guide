@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { List } from "react-content-loader";
+import { getFormattedTime } from "../utils/getFormattedTime";
+
 import MessageInput from "./MessageInput";
 import Header from "./Header";
 
@@ -31,23 +33,13 @@ export default function Lobby({ chatClient }) {
   }, []);
 
   // Listen to channel events for new messages in channel state
-    // https://getstream.io/chat/docs/javascript/event_listening/?language=javascript
+  // https://getstream.io/chat/docs/javascript/event_listening/?language=javascript
   channel.on("message.new", () => {
     setMessages(channel.state.messages);
     scrollToBottom();
   });
-
-  function getFormattedTime(date) {
-    let hour = date.getHours();
-    let minutes = date.getMinutes().toString().padStart(2, "0");
-    let amOrPm = "AM";
-    if (hour > 12) {
-      amOrPm = "PM";
-      hour = (hour % 12).toString().padStart(2, "0");
-    }
-    return `${hour}:${minutes} ${amOrPm}`;
-  }
-
+  // The Stream API enriches message.attachment with info of the first URL found in message.text
+  //   https://getstream.io/chat/docs/javascript/message_format/?language=javascript
   const isImage = (message) => {
     return message.attachments.length ? "-thumbnail" : "";
   };
@@ -56,7 +48,7 @@ export default function Lobby({ chatClient }) {
     <>
       <Header channel={channel} chatClient={chatClient} messages={messages} />
       {loading ? (
-        <List className='loading' />
+        <List className="loading" />
       ) : (
         <ul className="channel">
           {messages.map(

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { getOtherMember } from "../getOtherMember";
+import { getOtherMember } from "../utils/getOtherMember";
 
 export default function MessageInput({ channel, chatClient }) {
   const [message, setMessage] = useState("");
