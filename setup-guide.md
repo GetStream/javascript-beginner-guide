@@ -289,3 +289,25 @@ All of these user permissions are fully customizable; you may access these permi
 
 A best practice for many query methods like `queryUsers` or `queryChannels` is to take advantage of [pagination logic](https://getstream.io/chat/docs/node/channel_pagination/?language=javascript). Since querying is a relatively heavy API request, it is recommended to take advantage of `limit` and `offset` parameters when querying users, channels, or messages. The `limit` parameter sets the amount of items to be returned, and the `offset` parameter determines the starting index of the query.
 [Here](https://github.com/zacheryconverse/basic-chat/blob/main/src/components/UserList.js#L27) is a section of the repo that takes advantage of pagination logic.
+
+## Adding Reactions
+
+StreamChat allows users to add custom reactions to a message. All you need is the message ID.
+```javascript
+await channel.addReaction('messageID', {
+  type: 'like'
+})
+```
+[Adding Reactions in the Docs](https://getstream.io/chat/docs/node/send_reaction/?language=javascript)
+## Threaded Messages
+
+A user may also add threaded responses to any with the message ID.
+```javascript
+channel.sendMessage({ 
+    text: 'Hey, I am replying to a message!', 
+    parent_id: messageID
+})
+```
+[Adding Threaded Replies in the Docs](https://getstream.io/chat/docs/node/threads/?language=javascript)
+
+> Threaded replies and reactions can be enabled or disabled in your dashboard under Chat Overview > Channel Types
