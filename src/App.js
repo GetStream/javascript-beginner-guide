@@ -15,10 +15,10 @@ const appKey = process.env["REACT_APP_KEY"];
 export default function App() {
   const [view, setView] = useState("login");
   const [channel, setChannel] = useState(null);
+
   // Instantiate client on client-side with app key
   //   https://getstream.io/chat/docs/javascript/?language=javascript
   const chatClient = StreamChat.getInstance(appKey);
-
   return (
     <div className="App">
       {view === "login" ? (

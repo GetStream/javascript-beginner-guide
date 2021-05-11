@@ -8,11 +8,14 @@ export default function Login({ chatClient, setView }) {
   const handleUserIDSubmit = async (e) => {
     e.preventDefault();
     // Trigger a call to server which calls createToken(userID)
-    const result = await axios.post("http://localhost:8080/token", { userID });
     try {
       // Token exists on result.data
       //   https://getstream.io/chat/docs/javascript/init_and_users/?language=javascript
-      await chatClient.connectUser({ id: userID }, result.data);
+      await chatClient.connectUser({ id: userID }, async () => { 
+        // make a request to your own backend to get the token 
+        const response = await axios.post("http://localhost:8080/token/", {userID}); 
+        return response.data; 
+    } );
       setView("lobby");
     } catch (err) {
       console.error(err);

@@ -20,7 +20,8 @@ app.post("/token", async (req, res) => {
   const { userID } = req.body;
   // createToken() combines your app secret and userID to create token
   // because client-side client does not have secret, you must call server-side
-  const token = serverClient.createToken(userID);
+  // createToken takes a second argument which sets an expiration time for the token
+  const token = serverClient.createToken(userID, Math.floor(Date.now() / 1000) + (60 * 15));
   try {
     res.status(200).send(token);
   } catch (err) {
