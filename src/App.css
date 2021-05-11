@@ -347,6 +347,10 @@ img {
   float: left;
 }
 
+/* .ref {
+  position: absolute;
+} */
+
 .lobby-logout-users {
   cursor: pointer;
   margin: 0.4rem;

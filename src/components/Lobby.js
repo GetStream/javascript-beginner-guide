@@ -17,7 +17,11 @@ export default function Lobby() {
   const channel = chatClient.channel("livestream", "lobby");
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    messagesEndRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+      inline: "nearest",
+    });
   };
 
   useEffect(() => {
