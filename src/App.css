@@ -170,11 +170,11 @@ p {
 }
 
 .avatar {
-  width: 3rem;
+  min-width: 3rem;
   height: 3rem;
   border-radius: 3rem;
   margin-right: 1rem;
-  padding: 0.825rem;
+  /* padding: 0.825rem; */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -266,17 +266,6 @@ input:focus {
   outline: none;
 }
 
-.lobby-user {
-  font-size: 1rem;
-  margin-right: 0.2rem;
-}
-
-.lobby-time {
-  font-size: 0.8rem;
-  clear: both;
-}
-
-
 .lobby {
   background-color: #909093;
   border-radius: 0.9rem;
@@ -286,6 +275,16 @@ input:focus {
   margin: 0.3rem;
   font-size: 0.9rem;
   width: fit-content;
+  clear: both;
+}
+
+.lobby-user {
+  font-size: 1rem;
+  margin-right: 0.2rem;
+}
+
+.lobby-time {
+  font-size: 0.8rem;
   clear: both;
 }
 
@@ -317,18 +316,18 @@ img {
 }
 
 .me-thumbnail {
-  clear: both;
   float: right;
 }
 
 .not-me-thumbnail {
-  clear: both;
   float: left;
 }
 
 .me-dm-time {
   font-size: 0.8rem;
   clear: both;
+  width: fit-content;
+
   float: right;
 }
 
@@ -337,6 +336,11 @@ img {
   clear: both;
   float: left;
 }
+
+/* .ref {
+  width: 100%;
+  height: 1px;
+} */
 
 .lobby-logout-users {
   cursor: pointer;

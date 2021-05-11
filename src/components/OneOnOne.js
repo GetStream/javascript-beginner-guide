@@ -20,8 +20,12 @@ export default function Channel({ chatClient, view, channel }) {
     setLoading(false);
     setTimeout(() => {
       scrollToBottom();
-      // console.log("hi");
     }, 500);
+
+    return () => {
+      setLoading(false);
+      console.log('clean up - 1:1');
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   // Listen to channel events for new messages in channel state
@@ -52,13 +56,13 @@ export default function Channel({ chatClient, view, channel }) {
                     message.text
                   )}
                 </li>
-                <p className={message.user.id === chatClient.userID ? "me-dm-time" : "not-me-dm-time"}>
+                <p className={isMe(message, chatClient)}>
                   {getFormattedTime(message.created_at)}
                 </p>
               </div>
               )
           )}
-          <div ref={messagesEndRef}></div>
+          <div ref={messagesEndRef} />
         </ul>
       )}
       <MessageInput view={view} channel={channel} chatClient={chatClient} />
