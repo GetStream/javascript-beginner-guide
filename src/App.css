@@ -154,7 +154,7 @@ p {
   flex-direction: column;
   border-bottom: 1px solid rgba(1, 95, 255, 0.5);
   padding: 0.2rem 1rem;
-  height: 3.rem;
+  height: 3rem;
   cursor: pointer;
   justify-content: center;
 }
@@ -275,7 +275,6 @@ input:focus {
   font-size: 0.8rem;
   clear: both;
 }
-
 
 .lobby {
   background-color: #909093;
