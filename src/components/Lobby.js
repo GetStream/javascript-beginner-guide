@@ -32,6 +32,11 @@ export default function Lobby() {
       }, 500);
     };
     setMessagesAndWatchChannel();
+
+    return () => {
+      setLoading(false);
+      console.log("clean up - lobby");
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

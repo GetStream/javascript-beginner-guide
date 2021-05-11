@@ -15,7 +15,7 @@ export default function UserList({ setChannel, setView }) {
       /**
         There are 4 built-in Channel Types - 'livestream', 'messaging', 'team', & 'commerce'
           https://getstream.io/chat/docs/javascript/channel_features/?language=javascript
-        We will query for channels with 'messaging' Type that the client is a member 'In' ($in)
+        Query for channels with 'messaging' Type that the client is a member 'In' ($in)
           https://getstream.io/chat/docs/javascript/query_syntax/?language=javascript
         queryChannels() will only return channels that the user can read
         Permissions vary by many factors including 'channel type', 'role', and 'channel_membership'
@@ -34,9 +34,9 @@ export default function UserList({ setChannel, setView }) {
       const options = { limit: 10 };
 
       const response = await chatClient.queryChannels(filter, sort, options);
+
       if (!response.length) setRenderGetMore(false);
       else setChannelList(response);
-
       setLoading(false);
     };
     getChannels();
@@ -48,6 +48,7 @@ export default function UserList({ setChannel, setView }) {
       type: "messaging",
       members: { $in: [chatClient.userID] },
     };
+    
     const sort = { last_message_at: -1 };
     // Offset can be used for pagination by skipping the first <offset> (10, then 20...) users
     //   and then return the next 10 users
@@ -55,14 +56,13 @@ export default function UserList({ setChannel, setView }) {
       offset,
       limit: 10,
     };
+
     const response = await chatClient.queryChannels(filter, sort, options);
     setOffset(offset + 10);
-    if (channelList.length === 10)
-      setChannelList([...channelList, ...response]);
-    if (
-      channelList[channelList.length - 1]?.id !==
-      response[response.length - 1]?.id
-    )
+    const len = channelList.length;
+
+    if (len === 10) setChannelList([...channelList, ...response]);
+    if (channelList[len - 1]?.id !== response[response.length - 1]?.id)
       setChannelList([...channelList, ...response]);
     else setRenderGetMore(false);
   };

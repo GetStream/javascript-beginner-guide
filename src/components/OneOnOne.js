@@ -22,8 +22,12 @@ export default function Channel({ view, channel }) {
     setLoading(false);
     setTimeout(() => {
       scrollToBottom();
-      // console.log("hi");
     }, 500);
+
+    return () => {
+      setLoading(false);
+      console.log('clean up - 1:1');
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   // Listen to channel events for new messages in channel state
@@ -44,31 +48,23 @@ export default function Channel({ view, channel }) {
             (message) =>
               message.type !== "deleted" && (
                 <div key={message.id}>
-                  <li
-                    className={`message ${getClassNames(message, chatClient)}`}
-                  >
-                    {message.attachments.length ? (
-                      <img
-                        src={message.attachments[0].thumb_url}
-                        alt={message.attachments[0].title}
-                      />
-                    ) : (
-                      message.text
-                    )}
-                  </li>
-                  <p
-                    className={
-                      message.user.id === chatClient.userID
-                        ? "me-dm-time"
-                        : "not-me-dm-time"
-                    }
-                  >
-                    {getFormattedTime(message.created_at)}
-                  </p>
-                </div>
+                <li className={`message ${getClassNames(message, chatClient)}`}>
+                  {message.attachments.length ? (
+                    <img
+                      src={message.attachments[0].thumb_url}
+                      alt={message.attachments[0].title}
+                    />
+                  ) : (
+                    message.text
+                  )}
+                </li>
+                <p className={isMe(message, chatClient)}>
+                  {getFormattedTime(message.created_at)}
+                </p>
+              </div>
               )
           )}
-          <div ref={messagesEndRef}></div>
+          <div ref={messagesEndRef} />
         </ul>
       )}
       <MessageInput view={view} channel={channel} chatClient={chatClient} />

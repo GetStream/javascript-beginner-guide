@@ -14,32 +14,30 @@ export default function UserList({ setChannel, setView }) {
 
   useEffect(() => {
     const getAllUsers = async () => {
-      const filter = { id: { $ne: chatClient.userID } };
-      // const filter = {
-      //   $and: [
-      //     { last_active: { $lt: "2021-05-07T20:51:54.347823Z" } },
-      //     { id: { $ne: chatClient.userID } },
-      //   ],
-      // };
+      // Query for users with id that is 'Not Equal' ($ne) to client id 'And' ($and)
+      //   a last_active value that is 'Greater Than' ($gt) a date that predates the app
+      const filter = {
+        $and: [
+          { id: { $ne: chatClient.userID } },
+          { last_active: { $gt: "2000-01-01T00:00:00.000000Z" } },
+        ],
+      };
 
       const sort = { last_active: -1 };
-      // const sort = [{ last_active: -1 }, { created_at: 1 }];
-      // const sort = [{ created_at: -1 }, { last_active: -1 }];
-      // const sort = { $eq: { last_active: -1 } };
-
       const options = { limit: 10 };
       let response;
+
       if (debouncedTerm === "") {
-        //
         response = await chatClient.queryUsers(filter, sort, options);
+        // search all users with id that match $autocomplete query
       } else {
-        //
         response = await chatClient.queryUsers({
           id: { $autocomplete: debouncedTerm },
         });
       }
-      setUsers(response.users);
-      // if (!response.length) setRenderGetMore(false);
+
+      if (!response.users.length) setRenderLoadMore(false);
+      else setUsers(response.users);
       setLoading(false);
     };
     getAllUsers();
@@ -57,31 +55,26 @@ export default function UserList({ setChannel, setView }) {
   }, [searchTerm]);
 
   const handleGetMoreUsersClick = async () => {
-    const filter = { id: { $ne: chatClient.userID } };
-    // const filter = {
-    //   $and: [
-    //     { last_active: { $lt: "2021-05-07T20:51:54.347823Z" } },
-    //     { id: { $ne: chatClient.userID } },
-    //   ],
-    // };
+    const filter = {
+      $and: [
+        { id: { $ne: chatClient.userID } },
+        { last_active: { $gt: "2000-01-01T00:00:00.000000Z" } },
+      ],
+    };
 
     const sort = { last_active: -1 };
-    // const sort = [{ last_active: -1 }, { created_at: 1 }];
-    // const sort = [{ created_at: -1 }, { last_active: -1 }];
-    // const sort = { $or: [{ last_active: -1 }, { created_at: 1 }] };
-    // const sort = { "$and": [ { "last_active": { "$ne": '' } }, { "last_active": -1 } ] };
-
     // offset can be used for pagination by skipping the first <offset> (10, then 20...) users
     //   and then return the next 10 users
     const options = { offset, limit: 10 };
+
     const response = await chatClient.queryUsers(filter, sort, options);
     setOffset(offset + 10);
     const len = response.users.length;
+
     if (len === 10) setUsers([...users, ...response.users]);
     if (users[len - 1]?.id !== response.users[len - 1]?.id)
       setUsers([...users, ...response.users]);
-    else console.log(response, users);
-    // setRenderLoadMore(false);
+    else setRenderLoadMore(false);
   };
 
   return (
