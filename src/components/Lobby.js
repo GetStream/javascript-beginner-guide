@@ -35,7 +35,6 @@ export default function Lobby() {
 
     return () => {
       setLoading(false);
-      console.log("clean up - lobby");
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
