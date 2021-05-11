@@ -1,14 +1,14 @@
 import { useState, useEffect, useContext } from "react";
+import { ChatClientContext } from "../ChatClientContext";
 import { List } from "react-content-loader";
 import UserOrChannel from "./UserOrChannel";
-import { ChatClientContext } from "../ChatClientContext";
 
 export default function UserList({ setChannel, setView }) {
+  const chatClient = useContext(ChatClientContext);
   const [channelList, setChannelList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [offset, setOffset] = useState(10);
   const [renderGetMore, setRenderGetMore] = useState(true);
-  const chatClient = useContext(ChatClientContext);
 
   useEffect(() => {
     const getChannels = async () => {
@@ -39,6 +39,7 @@ export default function UserList({ setChannel, setView }) {
       else setChannelList(response);
       setLoading(false);
     };
+
     getChannels();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -48,7 +49,7 @@ export default function UserList({ setChannel, setView }) {
       type: "messaging",
       members: { $in: [chatClient.userID] },
     };
-    
+
     const sort = { last_message_at: -1 };
     // Offset can be used for pagination by skipping the first <offset> (10, then 20...) users
     //   and then return the next 10 users

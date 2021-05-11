@@ -1,9 +1,10 @@
-import { getOtherMember } from "../utils/getOtherMember";
-import { ChatClientContext } from "../ChatClientContext";
 import { useContext } from "react";
+import { ChatClientContext } from "../ChatClientContext";
+import { getOtherMember } from "../utils/getOtherMember";
 
 export default function Header({ channel, messages }) {
   const chatClient = useContext(ChatClientContext);
+
   const to = getOtherMember(channel, chatClient);
 
   const headerText =

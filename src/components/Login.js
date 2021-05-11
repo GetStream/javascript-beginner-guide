@@ -1,11 +1,12 @@
 import { useState, useContext } from "react";
-import axios from "axios";
 import { ChatClientContext } from "../ChatClientContext";
+import axios from "axios";
 
 export default function Login({ setView }) {
-  const [userID, setUserID] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
   const chatClient = useContext(ChatClientContext);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [userID, setUserID] = useState("");
+  
   const handleUserIDSubmit = async (e) => {
     e.preventDefault();
     // Trigger a call to server which calls createToken(userID)

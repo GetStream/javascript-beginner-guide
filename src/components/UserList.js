@@ -1,21 +1,22 @@
 import { useState, useEffect, useContext } from "react";
+import { ChatClientContext } from "../ChatClientContext";
 import { List } from "react-content-loader";
 import UserOrChannel from "./UserOrChannel";
-import { ChatClientContext } from "../ChatClientContext";
 
 export default function UserList({ setChannel, setView }) {
+  const chatClient = useContext(ChatClientContext);
   const [debouncedTerm, setDebouncedTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [offset, setOffset] = useState(10);
   const [renderLoadMore, setRenderLoadMore] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [users, setUsers] = useState([]);
-  const chatClient = useContext(ChatClientContext);
 
   useEffect(() => {
     const getAllUsers = async () => {
-      // Query for users with id that is 'Not Equal' ($ne) to client id 'And' ($and)
-      //   a last_active value that is 'Greater Than' ($gt) a date that predates the app
+      /** Query for users with id that is 'Not Equal' ($ne) to client id 'And' ($and) a
+            last_active value that is 'Greater Than' ($gt) a date that predates the app
+            so the users that have not been active yet are not returned  */
       const filter = {
         $and: [
           { id: { $ne: chatClient.userID } },
@@ -40,6 +41,7 @@ export default function UserList({ setChannel, setView }) {
       else setUsers(response.users);
       setLoading(false);
     };
+
     getAllUsers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedTerm]);

@@ -1,6 +1,5 @@
 import React, { useState, createContext } from "react";
 import { StreamChat } from "stream-chat";
-require("dotenv").config({ path: "../.env" });
 
 // The key (and secret) exist in the Dashboard
 // Dashboard - https://getstream.io/accounts/login/
@@ -11,7 +10,7 @@ export const ChatClientContext = createContext();
 export const ChatClientProvider = (props) => {
   // Instantiate client on client-side with app key
   //   https://getstream.io/chat/docs/javascript/?language=javascript
-  const [chatClient, setChatClient] = useState(StreamChat.getInstance(appKey));
+  const [chatClient] = useState(StreamChat.getInstance(appKey));
   return (
     <ChatClientContext.Provider value={chatClient}>
       {props.children}

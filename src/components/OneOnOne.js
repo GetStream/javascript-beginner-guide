@@ -1,13 +1,13 @@
 import { useState, useEffect, useRef, useContext } from "react";
+import { ChatClientContext } from "../ChatClientContext";
 import { List } from "react-content-loader";
 import { getFormattedTime } from "../utils/getFormattedTime";
 import { getClassNames } from "../utils/getClassNames";
 import { isMe } from "../utils/isMe";
 import Header from "./Header";
 import MessageInput from "./MessageInput";
-import { ChatClientContext } from "../ChatClientContext";
 
-export default function Channel({ view, channel }) {
+export default function OneOnOne({ channel }) {
   const chatClient = useContext(ChatClientContext);
 
   const [messages, setMessages] = useState([]);
@@ -23,10 +23,14 @@ export default function Channel({ view, channel }) {
     setLoading(false);
     setTimeout(() => {
       scrollToBottom();
-      // console.log("hi");
     }, 500);
+
+    return () => {
+      setLoading(false);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   // Listen to channel events for new messages in channel state
   //   https://getstream.io/chat/docs/javascript/event_listening/?language=javascript
   channel.on("message.new", () => {
@@ -57,22 +61,16 @@ export default function Channel({ view, channel }) {
                       message.text
                     )}
                   </li>
-                  <p
-                    className={
-                      message.user.id === chatClient.userID
-                        ? "me-dm-time"
-                        : "not-me-dm-time"
-                    }
-                  >
+                  <p className={isMe(message, chatClient)}>
                     {getFormattedTime(message.created_at)}
                   </p>
                 </div>
               )
           )}
-          <div ref={messagesEndRef}></div>
+          <div ref={messagesEndRef} />
         </ul>
       )}
-      <MessageInput view={view} channel={channel} chatClient={chatClient} />
+      <MessageInput channel={channel} />
     </>
   );
 }
