@@ -154,7 +154,9 @@ p {
   flex-direction: column;
   border-bottom: 1px solid rgba(1, 95, 255, 0.5);
   padding: 0.2rem 1rem;
+  height: 3.rem;
   cursor: pointer;
+  justify-content: center;
 }
 
 .User:hover {
@@ -169,8 +171,8 @@ p {
 }
 
 .avatar {
-  min-width: 2rem;
-  min-height: 2rem;
+  min-width: 2.2rem;
+  min-height: 2.2rem;
   border-radius: 2rem;
   margin-right: 1rem;
   display: flex;
@@ -178,10 +180,14 @@ p {
   justify-content: center;
 }
 
+.online {
+  border: 2px solid #339941;
+}
+
 .user_id {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   align-items: flex-start;
   width: 100%;
   font-weight: 600;
@@ -243,8 +249,6 @@ p {
   margin: 0.3rem;
   font-size: 0.9rem;
   word-break: break-word;
-  /* width: fit-content; */
-
   clear: both;
 }
 
@@ -261,11 +265,6 @@ p {
 input:focus {
   outline: none;
 }
-
-/* .one-on-one-message-box {
-  display: flex;
-  flex-direction: column;
-} */
 
 .lobby-user {
   font-size: 1rem;
@@ -337,10 +336,6 @@ img {
   font-size: 0.8rem;
   clear: both;
   float: left;
-}
-
-.navigation {
-  background-color: #282c3438;
 }
 
 .lobby-logout-users {

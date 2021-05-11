@@ -50,7 +50,7 @@ export default function User({
     name = otherMember;
   }
 
-  let info = "No messages yet";
+  let info;
   if (userOrChannel.last_active) {
     info = `Last active ${timeSince(new Date(userOrChannel.last_active))}`;
   } else if (userOrChannel.created_at) {
@@ -59,7 +59,7 @@ export default function User({
     info = `Last message: ${userOrChannel.state.messages[
       userOrChannel.state.messages.length - 1
     ].text.slice(0, 30)}...`;
-  }
+  } else info = "No messages yet";
 
   return (
     <li className="User" onClick={() => handleUserClick(name)}>

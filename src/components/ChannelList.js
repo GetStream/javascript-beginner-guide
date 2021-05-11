@@ -32,9 +32,9 @@ export default function UserList({ chatClient, setChannel, setView }) {
       const options = { limit: 10 };
 
       const response = await chatClient.queryChannels(filter, sort, options);
-      setChannelList(response);
-
       if (!response.length) setRenderGetMore(false);
+      else setChannelList(response);
+
       setLoading(false);
     };
     getChannels();
