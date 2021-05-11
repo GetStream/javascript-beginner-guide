@@ -276,6 +276,7 @@ input:focus {
   clear: both;
 }
 
+
 .lobby {
   background-color: #909093;
   border-radius: 0.9rem;
@@ -306,8 +307,7 @@ input:focus {
 .not-me-text-message {
   background-color: #909093;
   border-bottom-left-radius: 0;
-  clear: both;
-  float: left;
+  width: fit-content;
 }
 
 img {

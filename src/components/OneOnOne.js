@@ -41,23 +41,21 @@ export default function Channel({ chatClient, view, channel }) {
           {messages.map(
             (message) =>
               message.type !== "deleted" && (
-                <div key={message.id} className="one-on-one-message-box ">
-                  <li
-                    className={`message ${getClassNames(message, chatClient)}`}
-                  >
-                    {message.attachments.length ? (
-                      <img
-                        src={message.attachments[0].thumb_url}
-                        alt={message.attachments[0].title}
-                      />
-                    ) : (
-                      message.text
-                    )}
-                  </li>
-                  <p className={`${isMe(message, chatClient)}-dm-time`}>
-                    {getFormattedTime(message.created_at)}
-                  </p>
-                </div>
+                <div key={message.id}>
+                <li className={`message ${getClassNames(message, chatClient)}`}>
+                  {message.attachments.length ? (
+                    <img
+                      src={message.attachments[0].thumb_url}
+                      alt={message.attachments[0].title}
+                    />
+                  ) : (
+                    message.text
+                  )}
+                </li>
+                <p className={message.user.id === chatClient.userID ? "me-dm-time" : "not-me-dm-time"}>
+                  {getFormattedTime(message.created_at)}
+                </p>
+              </div>
               )
           )}
           <div ref={messagesEndRef}></div>
