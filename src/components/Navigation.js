@@ -1,4 +1,9 @@
-export default function Navigation({ chatClient, setView, view }) {
+import { ChatClientContext } from "../ChatClientContext";
+import { useContext } from "react";
+
+export default function Navigation({ setView, view }) {
+  const chatClient = useContext(ChatClientContext);
+
   const handleViewClick = async (room) => {
     setView(room);
     room === "login" && (await chatClient.disconnectUser());
