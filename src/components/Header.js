@@ -1,6 +1,9 @@
 import { getOtherMember } from "../utils/getOtherMember";
+import { ChatClientContext } from "../ChatClientContext";
+import { useContext } from "react";
 
-export default function Header({ channel, chatClient, messages }) {
+export default function Header({ channel, messages }) {
+  const chatClient = useContext(ChatClientContext);
   const to = getOtherMember(channel, chatClient);
 
   const headerText =
@@ -17,9 +20,7 @@ export default function Header({ channel, chatClient, messages }) {
   return (
     <div className="channel-header">
       <h1 className="to">{`To: ${to}`}</h1>
-      <h2 className="extra-channel-data">
-        {headerText}
-      </h2>
+      <h2 className="extra-channel-data">{headerText}</h2>
     </div>
   );
 }

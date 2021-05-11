@@ -266,6 +266,16 @@ input:focus {
   outline: none;
 }
 
+.lobby-user {
+  font-size: 1rem;
+  margin-right: 0.2rem;
+}
+
+.lobby-time {
+  font-size: 0.8rem;
+  clear: both;
+}
+
 .lobby {
   background-color: #909093;
   border-radius: 0.9rem;
@@ -336,11 +346,6 @@ img {
   clear: both;
   float: left;
 }
-
-/* .ref {
-  width: 100%;
-  height: 1px;
-} */
 
 .lobby-logout-users {
   cursor: pointer;

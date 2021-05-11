@@ -1,12 +1,14 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { List } from "react-content-loader";
 import { getFormattedTime } from "../utils/getFormattedTime";
 import { getClassNames } from "../utils/getClassNames";
-import { isMe } from "../utils/isMe";
 import Header from "./Header";
 import MessageInput from "./MessageInput";
+import { ChatClientContext } from "../ChatClientContext";
 
-export default function Channel({ chatClient, view, channel }) {
+export default function Channel({ view, channel }) {
+  const chatClient = useContext(ChatClientContext);
+
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const messagesEndRef = useRef(null);

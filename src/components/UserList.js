@@ -1,14 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { List } from "react-content-loader";
 import UserOrChannel from "./UserOrChannel";
+import { ChatClientContext } from "../ChatClientContext";
 
-export default function UserList({ chatClient, setChannel, setView }) {
+export default function UserList({ setChannel, setView }) {
   const [debouncedTerm, setDebouncedTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [offset, setOffset] = useState(10);
   const [renderLoadMore, setRenderLoadMore] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [users, setUsers] = useState([]);
+  const chatClient = useContext(ChatClientContext);
 
   useEffect(() => {
     const getAllUsers = async () => {
@@ -97,7 +99,6 @@ export default function UserList({ chatClient, setChannel, setView }) {
               users.map((user) => (
                 <UserOrChannel
                   key={user.created_at}
-                  chatClient={chatClient}
                   user={user}
                   setView={setView}
                   setChannel={setChannel}

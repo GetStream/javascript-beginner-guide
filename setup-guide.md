@@ -210,7 +210,7 @@ Refer to [this page](https://getstream.io/chat/docs/node/query_users/?language=j
 
 > Stream Chat has many query methods such as `queryUsers()`, `queryMembers()`, and `queryChannels()`. Learn more about query syntax [here](https://getstream.io/chat/docs/react/query_syntax/?language=js)
 
-1. Query all users with a limit of 10 and sort them by the most recently active.
+1. Query all users, not including my userID, with a limit of 10 and sort them by the most recently active.
 
 ```javascript
 const getUsers = async () => {
@@ -223,6 +223,14 @@ const getUsers = async () => {
 
 [Example In Repo](https://github.com/zacheryconverse/basic-chat/blob/main/src/components/UserList.js#L10)
 
+
+Another option is to implement the 'autocomplete' search feature, which will return partial matches. 
+```javascript
+await chatClient.queryUsers({
+          id: { $autocomplete: debouncedTerm },
+        });
+```
+More info on autocomplete [in the docs](https://getstream.io/chat/docs/node/query_users/?language=javascript#querying-using-the-$autocomplete-operator)
 ## Get or Create a 1-On-1 Channel
 
 1. Instantiate a channel by passing the 'messaging' channel type to `client.channel()` as well as an array of members. Then call `channel.watch()`.
