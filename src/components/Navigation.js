@@ -1,5 +1,5 @@
-import { ChatClientContext } from "../ChatClientContext";
 import { useContext } from "react";
+import { ChatClientContext } from "../ChatClientContext";
 
 export default function Navigation({ setView, view }) {
   const chatClient = useContext(ChatClientContext);
