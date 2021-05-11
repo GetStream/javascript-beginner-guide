@@ -1,14 +1,17 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { List } from "react-content-loader";
 import { getFormattedTime } from "../utils/getFormattedTime";
 import { isImage } from "../utils/isImage";
 import MessageInput from "./MessageInput";
 import Header from "./Header";
+import { ChatClientContext } from "../ChatClientContext";
 
-export default function Lobby({ chatClient }) {
+export default function Lobby() {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const messagesEndRef = useRef(null);
+  const chatClient = useContext(ChatClientContext);
+
   // chatClient.channel() instantiates a channel - channel type is the only mandatory argument
   // If no id is passed, the id will be generated for you using the channel type and members- does not call API
   const channel = chatClient.channel("livestream", "lobby");
@@ -70,7 +73,7 @@ export default function Lobby({ chatClient }) {
           <div ref={messagesEndRef} />
         </ul>
       )}
-      <MessageInput channel={channel} chatClient={chatClient} />
+      <MessageInput channel={channel} />
     </>
   );
 }
