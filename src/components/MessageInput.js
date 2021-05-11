@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { getOtherMember } from "../utils/getOtherMember";
+import { ChatClientContext } from "../ChatClientContext";
 
-export default function MessageInput({ channel, chatClient }) {
+export default function MessageInput({ channel }) {
   const [message, setMessage] = useState("");
+  const chatClient = useContext(ChatClientContext);
 
   const handleSubmitMessage = async (e) => {
     e.preventDefault();

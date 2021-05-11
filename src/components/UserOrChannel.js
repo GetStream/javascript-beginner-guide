@@ -1,14 +1,11 @@
 import Avatar from "./Avatar";
 import { getOtherMember } from "../utils/getOtherMember";
 import { timeSince } from "../utils/timeSince";
+import { ChatClientContext } from "../ChatClientContext";
+import { useContext } from "react";
 
-export default function User({
-  chatClient,
-  user,
-  channel,
-  setView,
-  setChannel,
-}) {
+export default function User({ user, channel, setView, setChannel }) {
+  const chatClient = useContext(ChatClientContext);
   const handleUserClick = async (userID) => {
     let channel;
     // chatClient.channel() instantiates a channel - channel type is the only mandatory argument
