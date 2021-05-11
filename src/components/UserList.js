@@ -36,8 +36,8 @@ export default function UserList({ chatClient, setChannel, setView }) {
           id: { $autocomplete: debouncedTerm },
         });
       }
-      setUsers(response.users);
-      // if (!response.length) setRenderGetMore(false);
+      if (!response.users.length) {setRenderLoadMore(false); console.log(response);}
+      else {setUsers(response.users); setRenderLoadMore(true);}
       setLoading(false);
     };
     getAllUsers();
@@ -78,8 +78,7 @@ export default function UserList({ chatClient, setChannel, setView }) {
     if (len === 10) setUsers([...users, ...response.users]);
     if (users[len - 1]?.id !== response.users[len - 1]?.id)
       setUsers([...users, ...response.users]);
-    else console.log(response, users);
-    // setRenderLoadMore(false);
+    else setRenderLoadMore(false);
   };
 
   return (
