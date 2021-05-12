@@ -20,7 +20,8 @@ Concepts covered in this guide:
 - Connect/disconnect user
 - Create channels
 - Send messages to a channel
-- Add users to chat app
+- Add members to channels
+- Add users to app
 - Listen for events
 
 ## Set Up Environment
@@ -74,7 +75,7 @@ const chatClient = StreamChat.getInstance(YOUR_APP_KEY);
 
 [Example In Repo](https://github.com/zacheryconverse/basic-chat/blob/b6c73c96278cc739def1a6a745f9fbcaf42f4032/src/App.js#L18)
 
-2. In a separate file, instantiate a server-side client instance. This will be used to generate tokens, and upsert users.
+2. In a separate file, instantiate a server-side client instance. This will be used to generate tokens, upsert users, and any method that is required to be called server-side.
 
 ```javascript
 const serverClient = StreamChat.getInstance(YOUR_APP_KEY, YOUR_APP_SECRET);
@@ -121,13 +122,14 @@ const upsertMany = async () => {
 ```
 
 `upsertUsers()` requires `id` as a field. Custom fields may be additionally included. More info [here](https://getstream.io/chat/docs/node/update_users/?language=javascript) on user creation.
+
 [Example In Repo](https://github.com/zacheryconverse/basic-chat/blob/3f857ac4785f08d5bb7e8ff41bb225776e5b808c/server/methods.js#L13)
 
 <img width="1357" alt="Chat Explorer" src="https://user-images.githubusercontent.com/32964891/117172627-366a6800-ad89-11eb-91f2-e958bc57bb0f.png">
 
 > Use the Chat Explorer in your dashboard to see a list of users
 
-> It is also possible to add users to an app with `connectUser()` - but this will affect monthly MAUs. `upsertUser()` is necessary to add members in bulk to your app without connecting them (and increasing your bill).
+> It is also possible to add users to an app with `connectUser()` - but this will affect monthly MAUs. `upsertUser()` is necessary to add members in bulk to your app without connecting them (and increasing your bill - if on a paid plan).
 
 ## Server Side - Generate Token
 
@@ -135,35 +137,35 @@ In order to connect a user on the client side, a token needs to be generated on 
 
 In `server/index.js`:
 ```javascript
-serverClient.createToken('Cody')
+const token = serverClient.createToken('Cody')
 ```
 
-In production environments it is common to set an expiry date for the token, which can be passed as the second argument as seen below. 
+In production environments it is common to set an expiry date for the token, which can be passed as the second argument as seen below.
 ```javascript
-  const token = serverClient.createToken(userID, Math.floor(Date.now() / 1000) + (60 * 15));
+  const token = serverClient.createToken('Cody', Math.floor(Date.now() / 1000) + (60 * 45));
 ```
-This will set the token to expire in 15 minutes from the current time.
+This will set the token to expire in 45 minutes from the current time.
 More info on best practices for token creation can be found in [this](https://getstream.zendesk.com/hc/en-us/articles/360060576774-Token-Creation-Best-Practices) article.
 
-> Because the `serverClient` includes an app secret, it combines the given user id with the secret to generate a user specific token
+> Because the `serverClient` includes an app secret, the server is able to combine the given user id with the secret to generate a user specific token
 
 
 ## Connect User
 
 Pass the server-side generated token to the client-side in a response and include it in `connectUser()` along with a user id:
 ```javascript
-chatClient.connectUser({ id: 'Cody' }, user_specific_token)
+await chatClient.connectUser({ id: 'Cody' }, user_specific_token)
 ```
 
 Or, if the token is set to expire, pass an async function that returns the response from your token request as the second argument of `connectUser()`
 ```javascript
-chatClient.connectUser( 
-    { id: 'Cody' }, 
-    async () => { 
-        // make a request to your own backend to get the token 
-        const response = await httpBackend.post("/chat-token/", 'Cody'); 
-        return response.token; 
-    } 
+await chatClient.connectUser(
+    { id: 'Cody' },
+    async () => {
+        // make a request to your own backend to get the token - token lives on response.data
+        const response = await httpBackend.post("/chat-token/", 'Cody');
+        return response.data;
+    }
 );
 ```
 
@@ -187,12 +189,13 @@ await channel.watch();
 
 Instantiate a 'livestream' channel with `channel()`.
 Subscribe to events on a channel, such as when a new message is received (`message.new`), by calling `channel.watch()`, which also creates a new channel if it doesn't already exist.
+
 [Example In Repo](https://github.com/zacheryconverse/basic-chat/blob/3f857ac4785f08d5bb7e8ff41bb225776e5b808c/src/components/Lobby.js#L12)
 
 2. Send a message to channel:
 
 ```javascript
-channel.sendMessage({ text: 'Hello' })
+await channel.sendMessage({ text: 'Hello' })
 ```
 [Example In Repo](https://github.com/zacheryconverse/basic-chat/blob/main/src/components/MessageInput.js#L13)
 
@@ -204,13 +207,15 @@ await chatClient.disconnectUser()
 ```
 Then call `chatClient.connectUser()` again with a different user id.
 
-`queryUsers()` will return an object with an array of users in the app. Filter users by `id` and/or by custom fields. Sort the users by `last_active` or by `created_at` date. The options `limit` and `offset` may be used to implement pagination. `queryUsers()` also allows the client to subscribe to presence change events.
+### Query Users
+
+`queryUsers()` will return an object with an array of users in the app.\ Filter users by `id` and/or by custom fields. Sort the users by `last_active` or by `created_at` date.\ The options `limit` and `offset` may be used to implement pagination.\ `queryUsers()` also allows the client to subscribe to presence change events.
 
 Refer to [this page](https://getstream.io/chat/docs/node/query_users/?language=javascript) in the docs for more info on `queryUsers()`.
 
 > Stream Chat has many query methods such as `queryUsers()`, `queryMembers()`, and `queryChannels()`. Learn more about query syntax [here](https://getstream.io/chat/docs/react/query_syntax/?language=js)
 
-1. Query all users, with a filter that excludes an id that is 'not equal' ($ne) to cliend id 'and' ($and) a last_active value that is 'Greater Than' ($gt) a date that predates the app, with a limit of 10 and sorting them by the most recently active.
+1. Query all users, with a filter that excludes an id that is 'not equal' ($ne) to your client id 'and' ($and) a last_active value that is 'Greater Than' ($gt) a date that predates the app, with a limit of 10 and sorting them by the most recently active.
 
 ```javascript
 const getUsers = async () => {
@@ -219,7 +224,7 @@ const getUsers = async () => {
           { id: { $ne: chatClient.userID } },
           { last_active: { $gt: "2000-01-01T00:00:00.000000Z" } },
         ],
-      };;
+      };
   const sort = { last_active: -1 };
   const options = { limit: 10 };
   return await chatClient.queryUsers(filter, sort, options)
@@ -229,10 +234,10 @@ const getUsers = async () => {
 [Example In Repo](https://github.com/zacheryconverse/basic-chat/blob/main/src/components/UserList.js#L10)
 
 
-Another option is to implement the 'autocomplete' search feature, which will return partial matches. 
+Another option is to implement the 'autocomplete' search feature, which will return partial matches.
 ```javascript
 await chatClient.queryUsers({
-          id: { $autocomplete: debouncedTerm },
+          id: { $autocomplete: text },
         });
 ```
 More info on autocomplete [in the docs](https://getstream.io/chat/docs/node/query_users/?language=javascript#querying-using-the-$autocomplete-operator)
@@ -317,7 +322,7 @@ The next thing you might want to learn about is channel types and their associat
 
 The difference between channel types is their default user permissions. For a complete list of default permissions, refer to [this page](https://getstream.io/chat/docs/node/channel_permission_policies/?language=javascript) in the docs.
 
-All of these user permissions are fully customizable; you may access these permissions in your dashboard by navigating to your App, then on Chat > Overview, then selecting the relavent channel type you'd like to customize permissions for. 
+All of these user permissions are fully customizable; you may access these permissions in your dashboard by navigating to your App, then on Chat > Overview, then selecting the relavent channel type you'd like to customize permissions for.
 
 ## Pagination
 
@@ -337,8 +342,8 @@ await channel.addReaction('messageID', {
 
 A user may also add threaded responses to any with the message ID.
 ```javascript
-channel.sendMessage({ 
-    text: 'Hey, I am replying to a message!', 
+channel.sendMessage({
+    text: 'Hey, I am replying to a message!',
     parent_id: messageID
 })
 ```

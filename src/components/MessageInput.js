@@ -12,7 +12,7 @@ export default function MessageInput({ channel }) {
       // There are many possible fields to include with channel.sendMessage()
       // We will simply send a text field
       //   https://getstream.io/chat/docs/javascript/send_message/?language=javascript
-      channel
+      await channel
         .sendMessage({ text: message })
         .then(() => setMessage(""))
         .catch((err) => console.error(err));

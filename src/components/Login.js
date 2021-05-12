@@ -6,15 +6,15 @@ export default function Login({ setView }) {
   const chatClient = useContext(ChatClientContext);
   const [errorMessage, setErrorMessage] = useState("");
   const [userID, setUserID] = useState("");
-  
+
   const handleUserIDSubmit = async (e) => {
     e.preventDefault();
     // Trigger a call to server which calls createToken(userID)
     try {
       // Token exists on result.data
       //   https://getstream.io/chat/docs/javascript/init_and_users/?language=javascript
+      //   make a request to your own backend to get the token
       await chatClient.connectUser({ id: userID }, async () => {
-        // make a request to your own backend to get the token
         const response = await axios.post("http://localhost:8080/token/", {
           userID,
         });
@@ -24,7 +24,7 @@ export default function Login({ setView }) {
     } catch (err) {
       console.error(err);
       // Call chatClient.disconnect() before trying to connect as a different user
-      chatClient.disconnectUser();
+      await chatClient.disconnectUser();
       setErrorMessage(
         "user_details.id is not a valid user id. a-z, 0-9, @, _ and - are allowed."
       );
