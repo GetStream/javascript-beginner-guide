@@ -9,9 +9,8 @@ import MessageInput from "./MessageInput";
 
 export default function OneOnOne({ channel }) {
   const chatClient = useContext(ChatClientContext);
-
-  const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [messages, setMessages] = useState([]);
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -67,7 +66,7 @@ export default function OneOnOne({ channel }) {
                 </div>
               )
           )}
-          <div ref={messagesEndRef} />
+          <div className="ref" ref={messagesEndRef} />
         </ul>
       )}
       <MessageInput channel={channel} />
