@@ -23,7 +23,7 @@ To try out this example chat app, follow these steps:
 
 1. Clone repo and install dependencies - Run:
 ```
-git clone https://github.com/zacheryconverse/basic-chat.git
+git clone https://github.com/GetStream/javascript-beginner-guide.git
 npm install
 ```
 
