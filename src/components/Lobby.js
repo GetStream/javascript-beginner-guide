@@ -74,7 +74,7 @@ export default function Lobby() {
                 </div>
               )
           )}
-          <div ref={messagesEndRef} />
+          <div className='ref' ref={messagesEndRef} />
         </ul>
       )}
       <MessageInput channel={channel} />
