@@ -3,6 +3,7 @@
 The following guide provides steps on how to quickly build chat leveraging Stream's Chat API and to showcase Stream Chat basic concepts, use, and best practices.
 
 Additional information may be found in the following:
+
 - [Official Documentation](https://getstream.io/chat/docs/?language=javascript)
 - [Knowledge Base](https://getstream.zendesk.com/hc/en-us/)
 - [Stream Blog](https://getstream.io/blog/topic/tutorials/chat/)
@@ -21,7 +22,7 @@ Concepts covered in this guide:
 - Create channels
 - Send messages to a channel
 - Add members to channels
-- Add users to chat app
+- Add users to app
 - Listen for events
 
 ## Set Up Environment
@@ -48,14 +49,14 @@ const StreamChat = require("stream-chat").StreamChat;
 6. Add your app key to the root .env file you created:
 
 ```javascript
-REACT_APP_KEY=your_app_key;
+REACT_APP_KEY = your_app_key;
 ```
 
 7. Add your app key and secret to the .env file you created in the server folder:
 
 ```javascript
-REACT_APP_KEY=your_app_key;
-REACT_APP_SECRET=your_app_secret;
+REACT_APP_KEY = your_app_key;
+REACT_APP_SECRET = your_app_secret;
 ```
 
 > Your key and secret are sensitive information that should not be public.
@@ -128,24 +129,30 @@ const upsertMany = async () => {
 
 > Use the Chat Explorer in your dashboard to see a list of users
 
-> It is also possible to add users to an app with connectUser() - but this will affect monthly MAUs. upsertUser() is necessary to add members in bulk to your app without connecting them (and increasing your bill - if on a paid plan).
+> It is also possible to add users to an app with `connectUser()` - but this will affect monthly MAUs. `upsertUser()` is necessary to add members in bulk to your app without connecting them (and increasing your bill - if on a paid plan).
 
 ## Server Side - Generate Token
 
 In order to connect a user on the client side, a token needs to be generated on the server side with `createToken()`.
 
 In `server/index.js`:
+
 ```javascript
-const token = serverClient.createToken('Cody')
+const token = serverClient.createToken("Cody");
 ```
 
-In production environments it is common to set an expiry date for the token, which can be passed as the second argument as seen below. 
+In production environments it is common to set an expiry date for the token, which can be passed as the second argument as seen below.
+
 ```javascript
-  const token = serverClient.createToken('Cody', Math.floor(Date.now() / 1000) + (60 * 45));
+const token = serverClient.createToken(
+  "Cody",
+  Math.floor(Date.now() / 1000) + 60 * 45
+);
 ```
+
 This will set the token to expire in 45 minutes from the current time.
-[Example in Repo](https://github.com/GetStream/javascript-beginner-guide/blob/main/server/index.js#L24)
 
+[Example in Repo](https://github.com/GetStream/javascript-beginner-guide/blob/main/server/index.js#L24)
 
 More info on best practices for token creation can be found in [this](https://getstream.zendesk.com/hc/en-us/articles/360060576774-Token-Creation-Best-Practices) article.
 
@@ -154,24 +161,24 @@ More info on best practices for token creation can be found in [this](https://ge
 ## Connect User
 
 Pass the server-side generated token to the client-side in a response and include it in `connectUser()` along with a user id:
+
 ```javascript
-await chatClient.connectUser({ id: 'Cody' }, user_specific_token)
+await chatClient.connectUser({ id: "Cody" }, user_specific_token);
 ```
 
 Or, if the token is set to expire, pass an async function that returns the response from your token request as the second argument of `connectUser()`
+
 ```javascript
-await chatClient.connectUser(
-    { id: 'Cody' },
-    async () => {
-        // make a request to your own backend to get the token - token lives on response.data
-        const response = await httpBackend.post("/chat-token/", 'Cody');
-        return response.data;
-    }
-);
+await chatClient.connectUser({ id: "Cody" }, async () => {
+  // make a request to your own backend to get the token - token lives on response.data
+  const response = await httpBackend.post("/chat-token/", "Cody");
+  return response.data;
+});
 ```
 
 [Example In Repo](https://github.com/GetStream/javascript-beginner-guide/blob/main/src/components/Login.js#L16)
 [More info in the Docs](https://getstream.io/chat/docs/node/tokens_and_authentication/?language=javascript#token-expiration)
+
 > Every token is specific to a user
 
 > Calling `connectUser()` with a user that has not been added to the app will automatically upsert the user for you.
@@ -180,7 +187,7 @@ await chatClient.connectUser(
 
 In this guide two channel types are used: 'livestream' and 'messaging'. More information on channel types may be found later on in this guide.
 
-Create a 'livestream' channel, and give it an id of 'lobby'.
+Instantiate a 'livestream' channel with `channel()` and give it an id of 'lobby'.
 
 1. Create and watch a channel:
 
@@ -189,8 +196,6 @@ const channel = chatClient.channel("livestream", "lobby");
 await channel.watch();
 ```
 
-Instantiate a 'livestream' channel with `channel()`.
-
 Subscribe to events on a channel, such as when a new message is received (`message.new`), by calling `channel.watch()`, which also creates a new channel if it doesn't already exist.
 
 [Example In Repo](https://github.com/GetStream/javascript-beginner-guide/blob/main/src/components/Lobby.js#L17)
@@ -198,18 +203,36 @@ Subscribe to events on a channel, such as when a new message is received (`messa
 2. Send a message to channel:
 
 ```javascript
-await channel.sendMessage({ text: 'Hello' })
+await channel.sendMessage({ text: "Hello" });
 ```
+
 [Example In Repo](https://github.com/GetStream/javascript-beginner-guide/blob/main/src/components/MessageInput.js#L16)
+
+## Listening for Events
+
+If a client is watching a channel, they are subscribed to the channel and can listen for updates to the channel. For a complete list of events, refer to [this page](https://getstream.io/chat/docs/react/event_object/?language=js) in the docs.
+Listen for new message events by calling `on` on a channel instance.
+
+```javascript
+channel.on("message.new", (event) => {
+  console.log(event.message);
+});
+```
+
+[Example in Repo](https://github.com/GetStream/javascript-beginner-guide/blob/main/src/components/OneOnOne.js#L35)
 
 ## Get List of Users
 
 The users that were added by `upsertUsers()` earlier will be queried. If users have not been added to the app, the client will need to [disconnect](https://github.com/GetStream/javascript-beginner-guide/blob/main/src/components/Login.js#L27) by calling:
+
 ```javascript
-await chatClient.disconnectUser()
+await chatClient.disconnectUser();
 ```
+
 Then call `chatClient.connectUser()` again with a different user id.
+
 ### Query Users
+
 `queryUsers()` will return an object with an array of users in the app.
 
 Filter users by `id` and/or by custom fields. Sort the users by `last_active` or by `created_at` date.
@@ -217,7 +240,6 @@ Filter users by `id` and/or by custom fields. Sort the users by `last_active` or
 The options `limit` and `offset` may be used to implement pagination.
 
 `queryUsers()` also allows the client to subscribe to presence change events.
-
 
 Refer to [this page](https://getstream.io/chat/docs/node/query_users/?language=javascript) in the docs for more info on `queryUsers()`.
 
@@ -241,15 +263,17 @@ const getUsers = async () => {
 
 [Example In Repo](https://github.com/GetStream/javascript-beginner-guide/blob/main/src/components/UserList.js#L16)
 
+Another option is to implement the 'autocomplete' search feature, which will return partial matches.
 
-Another option is to implement the 'autocomplete' search feature, which will return partial matches. 
 ```javascript
 await chatClient.queryUsers({
-          id: { $autocomplete: text },
-        });
+  id: { $autocomplete: text },
+});
 ```
+
 [Example in Repo](https://github.com/GetStream/javascript-beginner-guide/blob/main/src/components/UserList.js#L36)
 More info on autocomplete [in the docs](https://getstream.io/chat/docs/node/query_users/?language=javascript#querying-using-the-$autocomplete-operator)
+
 ## Get or Create a 1-On-1 Channel
 
 1. Instantiate a channel by passing the 'messaging' channel type to `client.channel()` as well as an array of members. Then call `channel.watch()`.
@@ -258,7 +282,7 @@ To start a chat with Suki...
 
 ```javascript
 const channel = chatClient.channel("messaging", {
-  members: [chatClient.userId, "Suki"],
+  members: [chatClient.userID, "Suki"],
 });
 
 await channel.watch();
@@ -268,7 +292,7 @@ Optionally, add custom fields to a channel such as this 'name' field:
 
 ```javascript
 const channel = chatClient.channel("messaging", {
-  members: [chatClient.userId, "Suki"],
+  members: [chatClient.userID, "Suki"],
   name: `This is a 'Messaging' Channel Type. ${chatClient.userID} & Suki have role 'channel_member' which has read & write permissions by default`,
 });
 ```
@@ -295,33 +319,18 @@ await channel.sendMessage({ text: "Hi Friend!" });
 
 ## Query Channels
 
-`queryChannels` can be used to get a list of channels. Like `queryUsers`, it takes 3 arguments: filter, sort, and options.
-Query your app for channels you are a member of, and sort them by the most recent message sent.
+`queryChannels()` will fetch a list of channels. Like `queryUsers()`, it can take 3 arguments: filter, sort, and options.
 
 The following query will return the first 10 'messaging' channel types that the client is a member of, sorted by the most recent message.
 
 ```javascript
-  const filter = { type: "messaging", members: { $in: [chatClient.userId] } };
-  const sort = { last_message_at: -1 };
-  const options = { limit: 10 }
-  const result = await chatClient.queryChannels(filter, sort, limit);
+const filter = { type: "messaging", members: { $in: [chatClient.userID] } };
+const sort = { last_message_at: -1 };
+const options = { limit: 10 };
+const result = await chatClient.queryChannels(filter, sort, limit);
 ```
 
 More info on querying channels in [the docs](https://getstream.io/chat/docs/node/query_channels/?language=javascript).
-
-
-
-## Listening for Events
-
-If a client is watching a channel, they are subscribed to the channel and can listen for updates to the channel. For a complete list of events, refer to [this page](https://getstream.io/chat/docs/react/event_object/?language=js) in the docs.
-Listen for new message events by calling `on` on a channel instance.
-
-```javascript
-channel.on("message.new", (event) => {
-  console.log(event.message);
-});
-```
-[Example in Repo](https://github.com/GetStream/javascript-beginner-guide/blob/main/src/components/OneOnOne.js#L35)
 
 ## Channel Types & User Permissions
 
@@ -333,27 +342,32 @@ All user permissions are customizable. You may access these permissions in your 
 
 ## Pagination
 
-A best practice for many query methods like `queryUsers` or `queryChannels` is to take advantage of [pagination logic](https://getstream.io/chat/docs/node/channel_pagination/?language=javascript). Since querying is a relatively heavy API request, it is recommended to take advantage of `limit` and `offset` parameters when querying users, channels, or messages. The `limit` parameter sets the amount of items to be returned, and the `offset` parameter determines the starting index of the query.
-[Example in Repo](https://github.com/GetStream/javascript-beginner-guide/blob/main/src/components/UserList.js#L70).
+A best practice for many query methods like `queryUsers()` and `queryChannels()` is to take advantage of [pagination logic](https://getstream.io/chat/docs/node/channel_pagination/?language=javascript). Because querying users and channels is a relatively heavy API request, it is recommended to use `limit` and `offset` parameters when querying users, channels, or messages. The `limit` parameter sets the amount of items to be returned, and the `offset` parameter determines the starting point of the query.
+[Example In Repo](https://github.com/GetStream/javascript-beginner-guide/blob/main/src/components/UserList.js#L70).
 
 ## Adding Reactions
 
 StreamChat allows users to add custom reactions to a message. All you need is the message ID.
+
 ```javascript
-await channel.addReaction('messageID', {
-  type: 'like'
-})
+await channel.addReaction("messageID", {
+  type: "like",
+});
 ```
+
 [Adding Reactions in the Docs](https://getstream.io/chat/docs/node/send_reaction/?language=javascript)
+
 ## Threaded Messages
 
 A user may also add threaded responses to any message with the message ID.
+
 ```javascript
-channel.sendMessage({ 
-    text: 'Hey, I am replying to a message!', 
-    parent_id: messageID
-})
+channel.sendMessage({
+  text: "Hey, I am replying to a message!",
+  parent_id: "messageID",
+});
 ```
+
 [Adding Threaded Replies in the Docs](https://getstream.io/chat/docs/node/threads/?language=javascript)
 
 > Threaded replies and reactions can be enabled or disabled in your dashboard under Chat Overview > Channel Types
