@@ -4,7 +4,7 @@ require("dotenv").config({ path: "server/.env" });
 const appKey = process.env.REACT_APP_KEY;
 const secret = process.env.REACT_APP_SECRET;
 // ensure your appKey and secret are not resolving to undefined
-console.log("key: ", appKey, "secret: ", secret);
+console.log("KEY: ", appKey, "SECRET: ", secret);
 
 const serverClient = StreamChat.getInstance(appKey, secret);
 const userID = "Zachery";
@@ -49,47 +49,38 @@ const getChannels = async () => {
     // members: { $eq: [userID, "Cody"] },
     // members: { $in: [userID] },
   };
-  await serverClient.connectUser({ id: userID })
-  const response = await serverClient
+
+  return await serverClient
     .queryChannels(filter)
-    .then(() => console.log(response));
+    .catch((err) => console.log(err));
 };
 
 // getChannels()
 //   .then((res) => console.log(res))
-//   .catch((err) => console.log(err));
 
 const createChannel = async () => {
   const channel = serverClient.channel("livestream", "lobby");
-  await channel.create();
-  return await channel.create();
+  return await channel.create()
+    .catch((err) => console.log(err));
 };
 
 // createChannel()
 //   .then((res) => console.log(res))
-//   .catch((err) => console.log(err));
 
-const deleteMessage = async (messageId) => {
-  return await serverClient.deleteMessage(messageId, true);
-
-  // deleteMessage("c75a421e-ad25-40a5-b457-96a3bf4")
-  //   .then((res) => console.log(res))
-  //   .catch((err) => console.log(err));
+const deleteMessage = async (messageID) => {
+  return await serverClient.deleteMessage(messageID, true)
+    .catch((err) => console.log(err));
 };
 
 // deleteMessage('some_message_id')
 // .then((res) => console.log(res))
-// .catch((err) => console.log(err));
 
 const deleteChannel = async (channelID) => {
-  // await serverClient
-  //   .connectUser({ id: userID }, token)
-  //   .catch((err) => console.log(err));
   const channel = serverClient.channel("messaging", channelID);
-  await channel.watch().catch((err) => console.log(err));
-  return await channel.delete().catch((err) => console.log(err));
+  // await channel.watch().catch((err) => console.log(err));
+  return await channel.delete()
+    .catch((err) => console.log(err));
 };
 
 // deleteChannel("some_channel_id")
-// .then((res) => console.log(res))
-// .catch((err) => console.log(err));
+//   .then((res) => console.log(res))
