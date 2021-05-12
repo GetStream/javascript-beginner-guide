@@ -347,9 +347,10 @@ img {
   float: left;
 }
 
-/* .ref {
-  position: absolute;
-} */
+.ref {
+  display: flex;
+  clear: both;
+}
 
 .lobby-logout-users {
   cursor: pointer;
