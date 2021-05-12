@@ -209,7 +209,13 @@ Then call `chatClient.connectUser()` again with a different user id.
 
 ### Query Users
 
-`queryUsers()` will return an object with an array of users in the app.\ Filter users by `id` and/or by custom fields. Sort the users by `last_active` or by `created_at` date.\ The options `limit` and `offset` may be used to implement pagination.\ `queryUsers()` also allows the client to subscribe to presence change events.
+`queryUsers()` will return an object with an array of users in the app.
+
+Filter users by `id` and/or by custom fields. Sort the users by `last_active` or by `created_at` date.
+
+The options `limit` and `offset` may be used to implement pagination.
+
+`queryUsers()` also allows the client to subscribe to presence change events.
 
 Refer to [this page](https://getstream.io/chat/docs/node/query_users/?language=javascript) in the docs for more info on `queryUsers()`.
 
@@ -249,7 +255,7 @@ To start a chat with Suki...
 
 ```javascript
 const channel = chatClient.channel("messaging", {
-  members: [chatClient.user.id, "Suki"],
+  members: [chatClient.userID, "Suki"],
 });
 
 await channel.watch();
@@ -259,8 +265,8 @@ Optionally, add custom fields to a channel such as this 'name' field:
 
 ```javascript
 const channel = chatClient.channel("messaging", {
-  members: [chatClient.user.id, "Suki"],
-  name: `This is a 'Messaging' Channel Type. ${client.userID} & Suki have role 'channel_member' which has read & write permissions by default`,
+  members: [chatClient.userId, "Suki"],
+  name: `This is a 'Messaging' Channel Type. ${chatClient.userID} & Suki have role 'channel_member' which has read & write permissions by default`,
 });
 ```
 
@@ -270,7 +276,7 @@ const channel = chatClient.channel("messaging", {
 
 > A channel may also be called by providing the channel id as the second argument of `.channel()`
 
-> To restrict channel creation to your server, use  `channel.create()`, which will not listen for events. Whereas, `channel.watch()` is suggested for client-side use.
+> `channel.create()` will not listen for events when creating a channel server-side. Whereas, `channel.watch()` is suggested for client-side use.
 
 > More info on watching channels [here](https://getstream.io/chat/docs/node/watch_channel/?language=javascript)
 
@@ -281,18 +287,17 @@ const channel = chatClient.channel("messaging", {
 To send a message to a channel, call `channel.sendMessage()` passing in a 'text' field.
 
 ```javascript
-channel.sendMessage({ text: "Hi Friend!" });
+await channel.sendMessage({ text: "Hi Friend!" });
 ```
 
 ## Query Channels
 
-`queryChannels` can be used to get a list of channels. Like `queryUsers`, it takes 3 arguments: filter, sort, and options.
-Query your app for channels you are a member of, and sort them by the most recent message sent.
+`queryChannels()` will fetch a list of channels. Like `queryUsers()`, it can take 3 arguments: filter, sort, and options.
 
-The following query will get all 'messaging' channel types that you are a member of, sort by the most recent message, and return the first 10 results.
+The following query will return the first 10 'messaging' channel types that the client is a member of, sorted by the most recent message.
 
 ```javascript
-  const filter = { type: "messaging", members: { $in: [chatClient.user.id] } };
+  const filter = { type: "messaging", members: { $in: [chatClient.userId] } };
   const sort = { last_message_at: -1 };
   const options = { limit: 10 }
   const result = await chatClient.queryChannels(filter, sort, limit);
@@ -304,9 +309,8 @@ More info on querying channels in [the docs](https://getstream.io/chat/docs/node
 
 ## Listening for Events
 
-When a message is sent, you'll likely want this to render instantly in your app. If you're watching a channel, you are subscribed to the channel and can listen for its events. For a complete list of events, refer to [this page](https://getstream.io/chat/docs/react/event_object/?language=js) in the docs.
-In this case, we want to listen for `message.new` and so we can trigger a re-render of our message list when a new message is sent.
-Listening for an event is as simple as running the `on` method on your channel instance. For example,
+If a client is watching a channel, they are subscribed to the channel and can listen for updates to the channel. For a complete list of events, refer to [this page](https://getstream.io/chat/docs/react/event_object/?language=js) in the docs.
+Listen for new message events by calling `on` on a channel instance.
 
 ```javascript
 channel.on("message.new", (event) => {
@@ -317,17 +321,16 @@ channel.on("message.new", (event) => {
 
 ## Channel Types & User Permissions
 
-At this point, we have covered the basics of what you will need to get up-and-running with a simple chat app.
-The next thing you might want to learn about is channel types and their associated user permissions. So far, we've been working with the 'messaging' and 'livestream' channel types. Other channel types include 'team' and 'commerce'. You may also create your own channel types.
+The 'messaging' and 'livestream' channel types have been covered in this guide. Other default channel types include 'team' and 'commerce'. You may also create your own channel types.
 
 The difference between channel types is their default user permissions. For a complete list of default permissions, refer to [this page](https://getstream.io/chat/docs/node/channel_permission_policies/?language=javascript) in the docs.
 
-All of these user permissions are fully customizable; you may access these permissions in your dashboard by navigating to your App, then on Chat > Overview, then selecting the relavent channel type you'd like to customize permissions for.
+All user permissions are customizable. You may access these permissions in your dashboard by navigating to your App, then Chat > Overview, and select the relevant channel type you would like to customize.
 
 ## Pagination
 
-A best practice for many query methods like `queryUsers` or `queryChannels` is to take advantage of [pagination logic](https://getstream.io/chat/docs/node/channel_pagination/?language=javascript). Since querying is a relatively heavy API request, it is recommended to take advantage of `limit` and `offset` parameters when querying users, channels, or messages. The `limit` parameter sets the amount of items to be returned, and the `offset` parameter determines the starting index of the query.
-[Here](https://github.com/zacheryconverse/basic-chat/blob/main/src/components/UserList.js#L27) is a section of the repo that takes advantage of pagination logic.
+A best practice for many query methods like `queryUsers()` and `queryChannels()` is to take advantage of [pagination logic](https://getstream.io/chat/docs/node/channel_pagination/?language=javascript). Because querying users and channels is a relatively heavy API request, it is recommended to use `limit` and `offset` parameters when querying users, channels, or messages. The `limit` parameter sets the amount of items to be returned, and the `offset` parameter determines the starting point of the query.
+[Example In Repo](https://github.com/zacheryconverse/basic-chat/blob/main/src/components/UserList.js#L27)
 
 ## Adding Reactions
 
@@ -340,7 +343,7 @@ await channel.addReaction('messageID', {
 [Adding Reactions in the Docs](https://getstream.io/chat/docs/node/send_reaction/?language=javascript)
 ## Threaded Messages
 
-A user may also add threaded responses to any with the message ID.
+A user may also add threaded responses to any message with the message ID.
 ```javascript
 channel.sendMessage({
     text: 'Hey, I am replying to a message!',
