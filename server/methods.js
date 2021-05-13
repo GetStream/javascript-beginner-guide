@@ -4,7 +4,11 @@ require("dotenv").config({ path: "server/.env" });
 const appKey = process.env.REACT_APP_KEY;
 const secret = process.env.REACT_APP_SECRET;
 // ensure your appKey and secret are not resolving to undefined
-console.log("KEY: ", appKey, "SECRET: ", secret);
+if (!appKey || !secret) {
+  throw new Error(
+    "Expected STREAM_APP_KEY, STREAM_APP_SECRET env variables in a .env file (which is in .gitignore)"
+  );
+}
 
 const serverClient = StreamChat.getInstance(appKey, secret);
 const userID = "Zachery";

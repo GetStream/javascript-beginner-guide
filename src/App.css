@@ -349,6 +349,7 @@ img {
 .ref {
   display: flex;
   clear: both;
+  height: 1px;
 }
 
 .lobby-logout-users {

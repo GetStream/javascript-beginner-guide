@@ -1,12 +1,12 @@
 import { useState } from "react";
-import Login from "./components/Login";
-import UserList from "./components/UserList";
-import ChannelList from "./components/ChannelList";
-import OneOnOne from "./components/OneOnOne";
-import Lobby from "./components/Lobby";
-import Navigation from "./components/Navigation";
-import "./App.css";
 import { ChatClientProvider } from "./ChatClientContext";
+import ChannelList from "./components/ChannelList";
+import Lobby from "./components/Lobby";
+import Login from "./components/Login";
+import Navigation from "./components/Navigation";
+import OneOnOne from "./components/OneOnOne";
+import UserList from "./components/UserList";
+import "./App.css";
 
 export default function App() {
   const [view, setView] = useState("login");
