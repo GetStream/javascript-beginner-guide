@@ -66,7 +66,9 @@ REACT_APP_SECRET = your_app_secret;
 
 ## Instantiate StreamChat
 
-Two instances of StreamChat are required - one on the client-side and one on the server-side. A number of methods require the server-side client, such as generating user tokens and updating user roles/permissions. [Here](https://getstream.zendesk.com/hc/en-us/articles/360061669873-How-do-the-Chat-Client-Server-Stream-API-communicate-with-each-other-) is an article with more info on how the client and server sides interact.
+Two instances of StreamChat are required - one on the client-side and one on the server-side. A number of methods require the server-side client, such as generating user tokens and updating user roles/permissions. 
+
+[Here](https://getstream.zendesk.com/hc/en-us/articles/360061669873-How-do-the-Chat-Client-Server-Stream-API-communicate-with-each-other-) is an article with more info on how the client and server sides interact.
 
 1. Instantiate a client-side client instance. This can be used to connect/disconnect users, retrieve user info, and more.
 
@@ -223,12 +225,12 @@ channel.on("message.new", (event) => {
 
 ## Get List of Users
 
-The users that were added by `upsertUsers()` earlier will be queried. If users have not been added to the app, the client will need to [disconnect](https://github.com/GetStream/javascript-beginner-guide/blob/main/src/components/Login.js#L27) by calling:
+The users that were added by `upsertUsers()` earlier will be queried. If users have not been added to the app, the client will need to disconnect by calling:
 
 ```javascript
 await chatClient.disconnectUser();
 ```
-
+[Example in Repo](https://github.com/GetStream/javascript-beginner-guide/blob/main/src/components/Login.js#L27)
 Then call `chatClient.connectUser()` again with a different user id.
 
 ### Query Users
