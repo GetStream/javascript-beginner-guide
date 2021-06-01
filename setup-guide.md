@@ -59,7 +59,7 @@ REACT_APP_KEY = your_app_key;
 REACT_APP_SECRET = your_app_secret;
 ```
 
-> Your key and secret are sensitive information that should not be public.
+> Your secret is sensitive information that should not be public.
 > For more info on working with .env files, check out [this article](https://medium.com/the-node-js-collection/making-your-node-js-work-everywhere-with-environment-variables-2da8cdf6e786).
 
 ![Dashboard App](https://user-images.githubusercontent.com/32964891/117043503-8c2c0b00-acca-11eb-9991-5dd10b5ebc1f.png)
