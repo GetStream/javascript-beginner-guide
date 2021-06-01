@@ -1,6 +1,6 @@
-# Stream Chat Essentials: Set-Up Guide
+# Stream Chat Basic Guide
 
-The following guide provides steps on how to quickly build chat leveraging Stream's Chat API and to showcase Stream Chat basic concepts, use, and best practices.
+The following guide provides steps on how to quickly build chat leveraging Stream's Chat API and showcases Stream Chat basic concepts, use, and best practices.
 
 Additional information may be found in the following:
 
