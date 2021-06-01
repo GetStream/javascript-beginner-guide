@@ -247,7 +247,7 @@ Refer to [this page](https://getstream.io/chat/docs/node/query_users/?language=j
 
 > Stream Chat has many query methods such as `queryUsers()`, `queryMembers()`, and `queryChannels()`. Learn more about query syntax [here](https://getstream.io/chat/docs/react/query_syntax/?language=js)
 
-1. Query all users, with a filter that excludes an id that is 'not equal' ($ne) to your client id 'and' ($and) a last_active value that is 'Greater Than' ($gt) a date that predates the app, with a limit of 10 and sorting them by the most recently active.
+1. Query all users, with a filter that excludes the client id 'not equal' ($ne) 'and' ($and) a last_active value that is 'Greater Than' ($gt) a date that predates the app, with a limit of 10 and sorting them by the most recently active.
 
 ```javascript
 const getUsers = async () => {
