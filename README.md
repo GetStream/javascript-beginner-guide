@@ -6,7 +6,7 @@
 
 **Quick Links**
 
-- Follow along in this complementary [Guide](https://github.com/zacheryconverse/basic-chat/blob/main/setup-guide.md)
+- Follow along in this step-by-step [Guide](https://github.com/GetStream/javascript-beginner-guide/blob/main/setup-guide.md)
 - [Register](https://getstream.io/chat/trial/) to get an API key for Stream Chat
 - [JS Chat API docs](https://getstream.io/chat/docs/js/)
 - [Knowledge Base Articles](https://getstream.zendesk.com/hc/en-us/)
