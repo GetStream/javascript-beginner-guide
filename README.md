@@ -21,6 +21,8 @@
 
 To try out this example chat app, follow these steps:
 
+Requires Node.js 18 or later.
+
 1. Clone repo and install dependencies - Run:
 ```
 git clone https://github.com/GetStream/javascript-beginner-guide.git

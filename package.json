@@ -14,8 +14,8 @@
     "react": "^17.0.2",
     "react-content-loader": "^6.0.3",
     "react-dom": "^17.0.2",
-    "react-scripts": "4.0.3",
-    "stream-chat": "^3.7.0",
+    "react-scripts": "5.0.1",
+    "stream-chat": "^9.54.0",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
